@@ -1,8 +1,7 @@
-from flask import render_template
+from flask import render_template, Blueprint
 
-from . import app
+routes_blueprint = Blueprint('routes', __name__)
 
-
-@app.route("/")
+@routes_blueprint.route("/")
 def hello_world():
-    return render_template('index.html')
+    return render_template("index.html")
