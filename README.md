@@ -18,9 +18,9 @@ http://127.0.0.1:8000/
 # Important commands for development
 
 - **Formulating** your code: 
-```bash 
-docker exec -it app python3 -m black .
-```
+   ```bash 
+   docker exec -it app python3 -m black .
+   ```
 
 ---
 
