@@ -1,0 +1,14 @@
+services:
+  lieferspatz:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "app"
+    volumes:
+      - .:/app
+    environment:
+      FLASK_APP: "app:app"
+      FLASK_DEBUG: "true"
+    restart: on-failure
+    ports:
+      - "8000:8000"
