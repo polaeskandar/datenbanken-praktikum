@@ -1,0 +1,5 @@
+.navbar .image-container {
+    display: flex;
+    place-items: center;
+    gap: 5px;
+}
