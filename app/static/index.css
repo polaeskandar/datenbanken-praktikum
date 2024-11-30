@@ -1,0 +1,6 @@
+@import "components/navbar.css";
+
+/** GLOBALS **/
+.flash-box .alert {
+    border-radius: 0;
+}
