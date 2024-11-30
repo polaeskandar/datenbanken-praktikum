@@ -6,7 +6,7 @@
       <meta name="viewport"
             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <title>Lieferspatz - {% block title %}{% endblock %}</title>
+      <title>Lieferspatz - {{ page_title }}</title>
       <link rel="stylesheet" href="{{ url_for('static', filename='vendor/fontawesome.css') }}">
       <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap.css') }}">
       <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
@@ -15,6 +15,16 @@
     {% endblock %}
   </head>
   <body>
+    <div class="flash-box">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} mb-0" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endwith %}
+    </div>
+
     <header id="header">
       {% block header_content %}
         {% for component in components['header'] %} {{ component|safe }} {% endfor %}
