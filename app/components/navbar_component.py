@@ -18,10 +18,3 @@ def navbar_component():
     }
 
     return render_template("components/navbar.html", attributes=attributes)
-
-
-def validate_forms(forms: list[FlaskForm]):
-    for form in forms:
-        if not form.validate():
-            for error in form.errors.values():
-                flash(error[0], category="danger")
