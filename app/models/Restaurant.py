@@ -19,3 +19,14 @@ class Restaurant(db.Model):
     menu = db.relationship(
         "Menu", back_populates="restaurant", cascade="all, delete-orphan", uselist=False
     )
+    opening_hours = db.relationship(
+        "OpeningHour",
+        back_populates="restaurant",
+        lazy="dynamic",
+        cascade="all, delete-orphan",
+    )
+    postal_codes = db.relationship(
+        "PostalCodeRestaurant",
+        back_populates="restaurants",
+        cascade="all, delete-orphan",
+    )

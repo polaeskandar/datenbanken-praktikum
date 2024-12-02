@@ -1,12 +1,7 @@
-from enum import Enum
 from flask_login import UserMixin
 
 from app import db, login_manager
-
-
-class AccountType(Enum):
-    CUSTOMER = "Customer"
-    RESTAURANT = "Restaurant"
+from app.enum.AccountType import AccountType
 
 
 class Account(db.Model, UserMixin):
@@ -14,10 +9,15 @@ class Account(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     address = db.Column(db.String(255), nullable=True)
-    postal_code = db.Column(db.String(20), nullable=True)
     balance = db.Column(db.Float, nullable=False, default=100.0)
+    postal_code_id = db.Column(
+        db.Integer, db.ForeignKey("postal_code.id"), nullable=True
+    )
 
     # Relationships
+    postal_code = db.relationship(
+        "PostalCode", back_populates="accounts", uselist=False
+    )
     customer = db.relationship("Customer", back_populates="account", uselist=False)
     restaurant = db.relationship("Restaurant", back_populates="account", uselist=False)
 
