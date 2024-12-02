@@ -4,7 +4,6 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 
 from app.routes import routes_blueprint
-import app.models as models
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///restaurant.db"
@@ -14,6 +13,8 @@ app.register_blueprint(routes_blueprint)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+
+from app.models import *
 
 with app.app_context():
     db.create_all()
