@@ -1,13 +1,7 @@
-from enum import Enum
 from datetime import datetime, UTC
 
 from app import db
-
-
-class OrderStatus(Enum):
-    PENDING = "Pending"
-    COMPLETED = "Completed"
-    CANCELLED = "Cancelled"
+from app.enum.OrderStatus import OrderStatus
 
 
 class Order(db.Model):
@@ -23,3 +17,4 @@ class Order(db.Model):
     # Relationships
     customer = db.relationship("Customer", back_populates="orders", uselist=False)
     restaurant = db.relationship("Restaurant", back_populates="orders", uselist=False)
+    items = db.relationship("OrderMenuItem", back_populates="orders")

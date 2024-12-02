@@ -4,3 +4,6 @@ from .Restaurant import Restaurant
 from .Order import Order
 from .Menu import Menu
 from .MenuItem import MenuItem
+from .OpeningHour import OpeningHour
+from .PostalCode import PostalCode
+from .PostalCodeRestaurant import PostalCodeRestaurant
