@@ -12,3 +12,4 @@ class MenuItem(db.Model):
     # Relationships
     menu = db.relationship("Menu", back_populates="items", uselist=False)
     orders = db.relationship("OrderMenuItem", back_populates="items")
+    carts = db.relationship("CartItem", back_populates="item")

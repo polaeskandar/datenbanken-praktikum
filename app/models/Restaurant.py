@@ -30,3 +30,9 @@ class Restaurant(db.Model):
         back_populates="restaurants",
         cascade="all, delete-orphan",
     )
+    carts = db.relationship(
+        "Cart",
+        back_populates="restaurant",
+        lazy="dynamic",
+        cascade="all, delete-orphan",
+    )

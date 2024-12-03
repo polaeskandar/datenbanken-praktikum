@@ -8,7 +8,7 @@ class OpeningHour(db.Model):
     opening_time = db.Column(db.String(10), nullable=False)
     closing_time = db.Column(db.String(10), nullable=False)
     restaurant_id = db.Column(
-        db.Integer, db.ForeignKey("restaurant.id"), unique=True, nullable=False
+        db.Integer, db.ForeignKey("restaurant.id"), nullable=False
     )
 
     # Relationships

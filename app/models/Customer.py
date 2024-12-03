@@ -12,3 +12,6 @@ class Customer(db.Model):
     orders = db.relationship(
         "Order", back_populates="customer", lazy="dynamic", cascade="all, delete-orphan"
     )
+    carts = db.relationship(
+        "Cart", back_populates="customer", lazy="dynamic", cascade="all, delete-orphan"
+    )
