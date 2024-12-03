@@ -1,5 +1,4 @@
 from flask import render_template, url_for, request, flash
-from flask_wtf import FlaskForm
 
 from app.form.component.navbar.RestaurantsFilterForm import RestaurantsFilterForm
 
