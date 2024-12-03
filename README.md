@@ -2,7 +2,7 @@
 
 Follow these steps to boot up the application:
 
-1. **Install Docker**  
+1. **Install Docker & SQLite**  
    Download and install Docker on your system: [Docker - Homepage](https://www.docker.com/).
    Download and install SQLite on your system: [SQLite - Homepage](https://www.sqlite.org/).
 
