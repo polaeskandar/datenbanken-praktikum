@@ -43,6 +43,6 @@ Follow these steps to boot up the application:
 
 This project was created by:
 
-- **Mohamed Jawad**
+- **Mohamad Ali Jawad**
 - **Chuan Tian**
 - **Pola Eskandar**
