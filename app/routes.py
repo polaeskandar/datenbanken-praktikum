@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint
 
 from app.components.navbar_component import navbar_component
+from app.components.footer_component import footer_component
 
 routes_blueprint = Blueprint("routes", __name__)
 
@@ -12,7 +13,9 @@ def index():
             navbar_component(),
         ],
         "main": [],
-        "footer": [],
+        "footer": [
+            footer_component(),
+        ],
     }
 
     return render_template(
