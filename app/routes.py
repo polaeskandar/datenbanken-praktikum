@@ -1,4 +1,5 @@
-from flask import render_template, Blueprint, Response
+from flask import render_template, Blueprint, Response, redirect, url_for
+from flask_login import logout_user
 
 from app.components.navbar_component import navbar_component
 from app.components.footer_component import footer_component
@@ -60,8 +61,9 @@ def login():
     return render_template(
         "layout.html",
         components=components,
-        page_title="Authentication",
+        page_title="Login",
     )
+
 
 @routes_blueprint.route("/auth/become-a-partner", methods=["GET", "POST"])
 def register_restaurant():
@@ -74,5 +76,12 @@ def register_restaurant():
     return render_template(
         "layout.html",
         components=components,
-        page_title="Authentication",
+        page_title="Become a Partner",
     )
+
+
+@routes_blueprint.route("/auth/logout", methods=["GET"])
+def logout() -> Response:
+    logout_user()
+
+    return redirect(url_for("routes.index"))

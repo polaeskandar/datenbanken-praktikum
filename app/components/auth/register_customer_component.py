@@ -10,17 +10,19 @@ from app.models.Customer import Customer
 def register_customer_component() -> Response | str:
     register_customer_form = RegisterCustomerForm()
 
-    if not register_customer_form.validate_on_submit():
-        for error in register_customer_form.errors.values():
-            flash(error[0], category="danger")
+    if register_customer_form.validate_on_submit():
+        return create_customer(register_customer_form)
 
-        attributes = {
-            'register_customer_form': register_customer_form,
-        }
+    for error in register_customer_form.errors.values():
+        flash(error[0], category="danger")
 
-        return render_template('components/auth/register_customer.html', attributes=attributes)
+    attributes = {
+        "register_customer_form": register_customer_form,
+    }
 
-    return create_customer(register_customer_form)
+    return render_template(
+        "components/auth/register_customer.html", attributes=attributes
+    )
 
 
 def create_customer(register_customer_form: RegisterCustomerForm) -> Response:
@@ -40,11 +42,8 @@ def create_customer(register_customer_form: RegisterCustomerForm) -> Response:
         db.session.add(customer)
         db.session.commit()
 
-        db.session.refresh(account)
-        login_user(account)
+    flash(
+        "User created successfully! Proceed to login to continue.", category="success"
+    )
 
-    flash("User created successfully.", category="success")
     return redirect(url_for("routes.index"))
-
-
-

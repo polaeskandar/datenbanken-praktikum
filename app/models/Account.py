@@ -34,10 +34,11 @@ class Account(db.Model, UserMixin):
 
     @hashed_password.setter
     def hashed_password(self, plain_password):
-        self.password = bcrypt.generate_password_hash(plain_password).decode('utf-8')
+        self.password = bcrypt.generate_password_hash(plain_password).decode("utf-8")
 
     def verify_password(self, plain_password):
         return bcrypt.check_password_hash(self.hashed_password, plain_password)
+
 
 @login_manager.user_loader
 def load_account(account_id) -> Account:
