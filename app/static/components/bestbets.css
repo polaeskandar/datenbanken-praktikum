@@ -1,0 +1,26 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    margin: 20px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .highlight {
+    color: #0066cc; /
+    text-decoration: none;
+  }
+  
+  .subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+  }
+  
