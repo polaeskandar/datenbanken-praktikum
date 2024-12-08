@@ -16,6 +16,10 @@ class RegisterCustomerForm(FlaskForm):
 
     email = StringField("Email address", validators=[DataRequired(), Email()])
 
+    address = StringField("Address", validators=[DataRequired()])
+
+    postal_code = StringField("Postal code", validators=[DataRequired()])
+
     password = PasswordField(
         "Password", validators=[DataRequired(), Length(min=8, max=255)]
     )
