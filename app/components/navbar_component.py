@@ -12,8 +12,8 @@ def navbar_component() -> str:
 
     attributes = {
         "logo": url_for("static", filename="images/logo.png"),
-        "index_route": url_for("routes.index"),
-        "login_route": url_for("routes.login"),
+        "index_route": url_for("index.index"),
+        "login_route": url_for("auth.login"),
         "restaurants_filter_form": restaurants_filter_form,
         "dropdown_label": get_dropdown_label(),
         "dropdown_items": get_dropdown_items(),
@@ -49,12 +49,12 @@ def get_dropdown_items() -> list[dict[str:str]]:
         return [
             {
                 "icon": "fa-solid fa-user me-2",
-                "link": url_for("routes.index"),
+                "link": url_for("index.index"),
                 "text": "View Profile",
             },
             {
                 "icon": "fa-solid fa-right-from-bracket me-2",
-                "link": url_for("routes.logout"),
+                "link": url_for("auth.logout"),
                 "text": "Logout",
             },
         ]

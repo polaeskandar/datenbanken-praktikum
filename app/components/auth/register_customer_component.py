@@ -21,7 +21,8 @@ def register_customer_component() -> Response | str:
     }
 
     return render_template(
-        "components/auth/register_customer.html", attributes=attributes
+        "components/auth/register_customer.html",
+        attributes=attributes,
     )
 
 
@@ -41,9 +42,10 @@ def create_customer(register_customer_form: RegisterCustomerForm) -> Response:
         db.session.add(account)
         db.session.add(customer)
         db.session.commit()
+        login_user(account)
 
     flash(
-        "User created successfully! Proceed to login to continue.", category="success"
+        "User created successfully!", category="success"
     )
 
-    return redirect(url_for("routes.index"))
+    return redirect(url_for("index.index"))
