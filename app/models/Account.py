@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 
-from app import db, login_manager
+from app import db, login_manager, bcrypt
 from app.enum.AccountType import AccountType
 
 
@@ -27,6 +27,17 @@ class Account(db.Model, UserMixin):
         if self.restaurant:
             return AccountType.RESTAURANT
         raise Exception("Invalid account type, both customer and restaurant are None.")
+
+    @property
+    def hashed_password(self):
+        return self.password
+
+    @hashed_password.setter
+    def hashed_password(self, plain_password):
+        self.password = bcrypt.generate_password_hash(plain_password).decode("utf-8")
+
+    def verify_password(self, plain_password):
+        return bcrypt.check_password_hash(self.hashed_password, plain_password)
 
 
 @login_manager.user_loader

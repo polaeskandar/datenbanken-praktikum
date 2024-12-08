@@ -1,0 +1,60 @@
+<div class="card mt-auto mb-auto">
+  <form class="card-body" method="POST" enctype=multipart/form-data>
+    {{ attributes.create_restaurant_form.hidden_tag() }}
+
+    <h1 class="fs-3 text-center mt-4 mb-5">Register Your Restaurant - Become a Partner Today!</h1>
+
+    <div class="row">
+      <div class="col-9">
+        <div class="mb-3">
+          {{ attributes.create_restaurant_form.name.label(class="form-label", for="name") }}
+          {{ attributes.create_restaurant_form.name(id="name", class="form-control") }}
+        </div>
+        <div class="row mb-3">
+          <div class="col-6">
+            {{ attributes.create_restaurant_form.address.label(class="form-label", for="address") }}
+            {{ attributes.create_restaurant_form.address(id="address", class="form-control") }}
+          </div>
+          <div class="col-6">
+            {{ attributes.create_restaurant_form.postal_code.label(class="form-label", for="postal_code") }}
+            {{ attributes.create_restaurant_form.postal_code(id="postal_code", class="form-control") }}
+          </div>
+        </div>
+        <div class="mb-3">
+          {{ attributes.create_restaurant_form.email.label(class="form-label", for="email") }}
+          {{ attributes.create_restaurant_form.email(id="email", class="form-control") }}
+        </div>
+        <div class="mb-3">
+          {{ attributes.create_restaurant_form.password.label(class="form-label", for="password") }}
+          {{ attributes.create_restaurant_form.password(id="password", class="form-control") }}
+        </div>
+        <div class="mb-3">
+          {{ attributes.create_restaurant_form.password_confirm.label(class="form-label", for="password_confirm") }}
+          {{ attributes.create_restaurant_form.password_confirm(id="password_confirm", class="form-control") }}
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="mb-3">
+          {{ attributes.create_restaurant_form.image.label(class="form-label", for="image") }}
+          {{ attributes.create_restaurant_form.image(id="image", class="form-control") }}
+        </div>
+        <div class="mb-3">
+          {{ attributes.create_restaurant_form.description.label(class="form-label", for="description") }}
+          {{ attributes.create_restaurant_form.description(id="description", class="form-control") }}
+        </div>
+      </div>
+    </div>
+
+    <div class="d-grid mb-3">
+      <button type="submit" class="btn btn-dark">Create account!</button>
+    </div>
+
+    <hr class="mb-3">
+
+    <div class="d-flex flex-column align-items-start gap-1 mb-3">
+      <a class="d-flex align-items-center gap-2 text-decoration-none" href="{{ attributes.login_route }}"><i class="fa-solid fa-right-to-bracket"></i>Already have an account? Login into your account here!</a>
+      <a class="d-flex align-items-center gap-2 text-decoration-none" href="{{ attributes.register_customer_route }}"><i class="fa-solid fa-user"></i>Become a customer</a>
+    </div>
+  </form>
+</div>
