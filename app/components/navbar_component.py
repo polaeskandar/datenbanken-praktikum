@@ -14,6 +14,8 @@ def navbar_component() -> str:
         "logo": url_for("static", filename="images/logo.png"),
         "index_route": url_for("index.index"),
         "login_route": url_for("auth.login"),
+        "register_route": url_for("auth.register"),
+        "register_restaurant_route": url_for("auth.register_restaurant"),
         "restaurants_filter_form": restaurants_filter_form,
         "dropdown_label": get_dropdown_label(),
         "dropdown_items": get_dropdown_items(),

@@ -9,13 +9,17 @@ class RegisterCustomerForm(FlaskForm):
     first_name = StringField(
         "First name", validators=[DataRequired(), Length(min=3, max=255)]
     )
+
     last_name = StringField(
         "Last name", validators=[DataRequired(), Length(min=3, max=255)]
     )
+
     email = StringField("Email address", validators=[DataRequired(), Email()])
+
     password = PasswordField(
         "Password", validators=[DataRequired(), Length(min=8, max=255)]
     )
+
     password_confirm = PasswordField(
         "Password Confirm",
         validators=[

@@ -1,20 +1,27 @@
-from flask import Blueprint, Response, redirect, url_for
+from flask import Blueprint, Response, redirect, url_for, flash
 from flask_login import logout_user
 
+from app.components.auth.login_component import login_component
 from app.components.auth.register_customer_component import register_customer_component
+from app.components.footer_component import footer_component
+from app.components.navbar_component import navbar_component
 from app.routes import render_page
 
 auth_routes = Blueprint("auth", __name__)
 
 
 @auth_routes.route("/register", methods=["GET", "POST"])
-def register_customer_view():
+def register():
     components = {
-        "header": [],
+        "header": [
+            navbar_component(),
+        ],
         "main": [
             register_customer_component(),
         ],
-        "footer": [],
+        "footer": [
+            footer_component(),
+        ],
     }
 
     return render_page("layout.html", "Register", components)
@@ -24,9 +31,13 @@ def register_customer_view():
 @auth_routes.route("/login", methods=["GET", "POST"])
 def login():
     components = {
-        "header": [],
-        "main": [],
-        "footer": [],
+        "header": [
+            navbar_component(),
+        ],
+        "main": [login_component()],
+        "footer": [
+            footer_component(),
+        ],
     }
 
     return render_page("layout.html", "Login", components)
@@ -35,9 +46,13 @@ def login():
 @auth_routes.route("/become-a-partner", methods=["GET", "POST"])
 def register_restaurant():
     components = {
-        "header": [],
+        "header": [
+            navbar_component(),
+        ],
         "main": [],
-        "footer": [],
+        "footer": [
+            footer_component(),
+        ],
     }
 
     return render_page("layout.html", "Become a Partner", components)
@@ -46,5 +61,6 @@ def register_restaurant():
 @auth_routes.route("/logout", methods=["GET"])
 def logout() -> Response:
     logout_user()
+    flash("You have been logged out.", "dark")
 
     return redirect(url_for("index.index"))

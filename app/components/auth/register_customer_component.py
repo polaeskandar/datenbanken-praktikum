@@ -44,8 +44,6 @@ def create_customer(register_customer_form: RegisterCustomerForm) -> Response:
         db.session.commit()
         login_user(account)
 
-    flash(
-        "User created successfully!", category="success"
-    )
+    flash("User created successfully!", category="success")
 
     return redirect(url_for("index.index"))
