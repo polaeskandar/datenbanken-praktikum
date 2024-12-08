@@ -64,6 +64,11 @@ def get_dropdown_items() -> list[dict[str:str]]:
     if current_user.get_account_type() == AccountType.RESTAURANT:
         return [
             {
+                "icon": "fa-solid fa-sliders me-2",
+                "link": url_for("admin.index"),
+                "text": "Dashboard",
+            },
+            {
                 "icon": "fa-solid fa-right-from-bracket me-2",
                 "link": url_for("auth.logout"),
                 "text": "Logout",
