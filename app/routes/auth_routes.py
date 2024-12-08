@@ -1,6 +1,7 @@
 from flask import Blueprint, Response, redirect, url_for, flash
 from flask_login import logout_user
 
+from app.components.auth.create_restaurant_component import create_restaurant_component
 from app.components.auth.login_component import login_component
 from app.components.auth.register_customer_component import register_customer_component
 from app.components.footer_component import footer_component
@@ -49,7 +50,9 @@ def register_restaurant():
         "header": [
             navbar_component(),
         ],
-        "main": [],
+        "main": [
+            create_restaurant_component(),
+        ],
         "footer": [
             footer_component(),
         ],

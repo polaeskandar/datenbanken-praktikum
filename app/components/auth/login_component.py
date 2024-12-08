@@ -16,6 +16,8 @@ def login_component() -> Response | str:
 
     attributes = {
         "login_form": login_form,
+        "register_route": url_for("auth.register"),
+        "register_restaurant_route": url_for("auth.register_restaurant"),
     }
 
     return render_template(

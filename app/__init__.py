@@ -6,6 +6,7 @@ from flask_login import LoginManager
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///restaurant.db"
 app.config["SECRET_KEY"] = "543fc4a0c583435ade2e1ac8365bd132"
+app.config["UPLOAD_DIRECTORY"] = "app/static/uploads/images"
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
