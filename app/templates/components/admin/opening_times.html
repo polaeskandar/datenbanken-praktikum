@@ -1,0 +1,25 @@
+<h1>Configure Opening Hours</h1>
+
+<form class="card mt-3" method="POST">
+  <div class="card-body">
+    {{ attributes.opening_hours_form.hidden_tag() }}
+
+    <div class="row mb-3">
+      <div class="col-2">Day of week</div>
+      <div class="col-5">Opening Hour</div>
+      <div class="col-5">Closing Hour</div>
+    </div>
+
+    {% for day_form in attributes.opening_hours_form.days %}
+      <div class="row mb-3">
+        <div class="col-2">{{ attributes.days[loop.index - 1] }}</div>
+        <div class="col-5">{{ day_form.opening_hour }}</div>
+        <div class="col-5">{{ day_form.closing_hour }}</div>
+      </div>
+    {% endfor %}
+
+    <div class="d-grid">
+      <button class="btn btn-dark"><i class="fa-solid fa-floppy-disk me-2"></i>Save</button>
+    </div>
+  </div>
+</form>

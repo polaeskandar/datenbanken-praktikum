@@ -1,9 +1,11 @@
 <h2 class="fs-3 class my-4">{{ current_user.restaurant.name }}</h2>
 
 <ul class="list-group list-group-flush">
-  <li class="list-group-item"><a href="#" class="text-decoration-none link-body-emphasis"><i class="fa-solid fa-receipt me-2"></i>Orders</a></li>
-  <li class="list-group-item"><a href="#" class="text-decoration-none link-body-emphasis"><i class="fa-solid fa-utensils me-2"></i>Menu</a></li>
-  <li class="list-group-item"><a href="#" class="text-decoration-none link-body-emphasis"><i class="fa-solid fa-clock me-2"></i>Opening Hours</a></li>
-  <li class="list-group-item"><a href="#" class="text-decoration-none link-body-emphasis"><i class="fa-solid fa-truck me-2"></i>Delivery Radius</a></li>
-  <li class="list-group-item"><a href="#" class="text-decoration-none link-body-emphasis"><i class="fa-solid fa-gears me-2"></i>Settings</a></li>
+  {% for link in attributes.links %}
+    <li class="list-group-item">
+      <a href="{{ link.href }}" class="text-decoration-none link-body-emphasis">
+        <i class="{{ link.icon }}"></i>{{ link.text }}
+      </a>
+    </li>
+  {% endfor %}
 </ul>

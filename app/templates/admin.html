@@ -36,7 +36,7 @@
           {% for component in components['aside'] %} {{ component|safe }} {% endfor %}
         {% endblock %}
       </aside>
-      <main id="content" class="d-flex flex-column container min-vh-100">
+      <main id="content" class="d-flex flex-column container min-vh-100 p-5">
         {% block main_content %}
           {% for component in components['main'] %} {{ component|safe }} {% endfor %}
         {% endblock %}
