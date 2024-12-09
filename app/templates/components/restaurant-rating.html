@@ -3,33 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant List</title>
-    <link rel="stylesheet" href="restaurant-rating.css">
+    <title>Restaurant Listing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .header {
+            margin: 20px 0;
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .header a {
+            color: blue;
+            text-decoration: none;
+        }
+        .search-sort {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-sort input {
+            padding: 8px;
+            font-size: 16px;
+        }
+        .search-sort select {
+            padding: 8px;
+            font-size: 16px;
+        }
+        .featured-image {
+            width: 100%;
+            height: 300px;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .restaurant-list {
+            list-style: none;
+            padding: 0;
+        }
+        .restaurant-item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            cursor: pointer;
+        }
+        .restaurant-item img {
+            width: 80px;
+            height: 80px;
+            background-color: #ddd;
+            margin-right: 20px;
+        }
+        .restaurant-info {
+            flex: 1;
+        }
+        .restaurant-title {
+            font-size: 18px;
+            margin: 0;
+        }
+        .restaurant-category {
+            font-size: 14px;
+            color: #666;
+        }
+        .ratings {
+            display: flex;
+            align-items: center;
+        }
+        .ratings span {
+            color: gold;
+            margin-right: 5px;
+        }
+    </style>
 </head>
 <body>
-    <ul class="restaurant-list">
-        <li class="restaurant-card">
-            <div class="restaurant-image"></div>
-            <div class="restaurant-info">
-                <h3 class="restaurant-title">Restaurant Title</h3>
-                <p class="restaurant-category">Pizza</p>
+    <div class="container">
+        <div class="header">
+            <h1>Best bets for <a href="#">Pizza</a></h1>
+            <p>7 restaurants</p>
+        </div>
+
+        <div class="search-sort">
+            <div>
+                <input type="text" value="Pizza" disabled>
             </div>
-            <div class="restaurant-rating">
-                <div class="stars">★★★★★</div>
-                <p class="rating-count">123 ratings</p>
+            <div>
+                <select>
+                    <option value="default">Sort</option>
+                </select>
             </div>
-        </li>
-        <li class="restaurant-card">
-            <div class="restaurant-image"></div>
-            <div class="restaurant-info">
-                <h3 class="restaurant-title">Restaurant Title</h3>
-                <p class="restaurant-category">Pizza</p>
-            </div>
-            <div class="restaurant-rating">
-                <div class="stars">★★★★★</div>
-                <p class="rating-count">123 ratings</p>
-            </div>
-        </li>
-    </ul>
+        </div>
+
+        <div class="featured-image">
+            <p>Featured Image Placeholder</p>
+        </div>
+
+        <ul class="restaurant-list">
+            <li class="restaurant-item">
+                <img src="#" alt="Restaurant Thumbnail">
+                <div class="restaurant-info">
+                    <p class="restaurant-title">Restaurant Title</p>
+                    <p class="restaurant-category">Pizza</p>
+                </div>
+                <div class="ratings">
+                    <span>★★★★★</span>
+                    <p>123 ratings</p>
+                </div>
+            </li>
+            <li class="restaurant-item">
+                <img src="#" alt="Restaurant Thumbnail">
+                <div class="restaurant-info">
+                    <p class="restaurant-title">Restaurant Title</p>
+                    <p class="restaurant-category">Pizza</p>
+                </div>
+                <div class="ratings">
+                    <span>★★★★★</span>
+                    <p>123 ratings</p>
+                </div>
+            </li>
+            <li class="restaurant-item">
+                <img src="#" alt="Restaurant Thumbnail">
+                <div class="restaurant-info">
+                    <p class="restaurant-title">Restaurant Title</p>
+                    <p class="restaurant-category">Pizza</p>
+                </div>
+                <div class="ratings">
+                    <span>★★★★★</span>
+                    <p>123 ratings</p>
+                </div>
+            </li>
+            <li class="restaurant-item">
+                <img src="#" alt="Restaurant Thumbnail">
+                <div class="restaurant-info">
+                    <p class="restaurant-title">Restaurant Title</p>
+                    <p class="restaurant-category">Pizza</p>
+                </div>
+                <div class="ratings">
+                    <span>★★★★★</span>
+                    <p>123 ratings</p>
+                </div>
+            </li>
+            <li class="restaurant-item">
+                <img src="#" alt="Restaurant Thumbnail">
+                <div class="restaurant-info">
+                    <p class="restaurant-title">Restaurant Title</p>
+                    <p class="restaurant-category">Pizza</p>
+                </div>
+                <div class="ratings">
+                    <span>★★★★★</span>
+                    <p>123 ratings</p>
+                </div>
+            </li>
+            <li class="restaurant-item">
+                <img src="#" alt="Restaurant Thumbnail">
+                <div class="restaurant-info">
+                    <p class="restaurant-title">Restaurant Title</p>
+                    <p class="restaurant-category">Pizza</p>
+                </div>
+                <div class="ratings">
+                    <span>★★★★★</span>
+                    <p>123 ratings</p>
+                </div>
+            </li>
+            <li class="restaurant-item">
+                <img src="#" alt="Restaurant Thumbnail">
+                <div class="restaurant-info">
+                    <p class="restaurant-title">Restaurant Title</p>
+                    <p class="restaurant-category">Pizza</p>
+                </div>
+                <div class="ratings">
+                    <span>★★★★★</span>
+                    <p>123 ratings</p>
+                </div>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>
