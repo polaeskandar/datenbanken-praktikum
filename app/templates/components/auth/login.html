@@ -1,0 +1,27 @@
+<div class="card mt-auto mb-auto">
+  <form class="card-body" method="POST">
+    {{ attributes.login_form.hidden_tag() }}
+
+    <h1 class="fs-3 text-center mt-4 mb-5">Login to Your Existing Account!</h1>
+
+    <div class="mb-3">
+      {{ attributes.login_form.email.label(class="form-label", for="email") }}
+      {{ attributes.login_form.email(id="email", class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ attributes.login_form.password.label(class="form-label", for="password") }}
+      {{ attributes.login_form.password(id="password", class="form-control") }}
+    </div>
+
+    <div class="d-grid mb-3">
+      <button type="submit" class="btn btn-dark">Login</button>
+    </div>
+
+    <hr class="mb-3">
+
+    <div class="d-flex flex-column align-items-start gap-1 mb-3">
+      <a class="d-flex align-items-center gap-2 text-decoration-none" href="{{ attributes.register_route }}"><i class="fa-solid fa-user-plus"></i>Don't have an account? create one here!</a>
+      <a class="d-flex align-items-center gap-2 text-decoration-none" href="{{ attributes.register_restaurant_route }}"><i class="fa-solid fa-handshake"></i>Become a partner</a>
+    </div>
+  </form>
+</div>

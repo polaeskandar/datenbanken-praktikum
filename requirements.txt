@@ -4,3 +4,4 @@ flask_bcrypt~=1.0.1
 flask_login~=0.6.3
 flask_wtf~=1.2.2
 black~=24.10.0
+email-validator~=2.2.0

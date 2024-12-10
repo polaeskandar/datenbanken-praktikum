@@ -1,0 +1,54 @@
+<div class="card mt-auto mb-auto">
+  <form class="card-body" method="POST">
+    {{ attributes.register_customer_form.hidden_tag() }}
+
+    <h1 class="fs-3 text-center mt-4 mb-5">Create a New Account!</h1>
+
+    <div class="row mb-3">
+      <div class="col-6">
+        {{ attributes.register_customer_form.first_name.label(class="form-label", for="first_name") }}
+        {{ attributes.register_customer_form.first_name(id="first_name", class="form-control") }}
+      </div>
+      <div class="col-6">
+        {{ attributes.register_customer_form.last_name.label(class="form-label", for="last_name") }}
+        {{ attributes.register_customer_form.last_name(id="last_name", class="form-control") }}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      {{ attributes.register_customer_form.email.label(class="form-label", for="email") }}
+      {{ attributes.register_customer_form.email(id="email", class="form-control") }}
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-6">
+        {{ attributes.register_customer_form.address.label(class="form-label", for="address") }}
+        {{ attributes.register_customer_form.address(id="address", class="form-control") }}
+      </div>
+      <div class="col-6">
+        {{ attributes.register_customer_form.postal_code.label(class="form-label", for="postal_code") }}
+        {{ attributes.register_customer_form.postal_code(id="postal_code", class="form-control") }}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      {{ attributes.register_customer_form.password.label(class="form-label", for="password") }}
+      {{ attributes.register_customer_form.password(id="password", class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ attributes.register_customer_form.password_confirm.label(class="form-label", for="password_confirm") }}
+      {{ attributes.register_customer_form.password_confirm(id="password_confirm", class="form-control") }}
+    </div>
+
+    <div class="d-grid mb-3">
+      <button type="submit" class="btn btn-dark">Create account!</button>
+    </div>
+
+    <hr class="mb-3">
+
+    <div class="d-flex flex-column align-items-start gap-1 mb-3">
+      <a class="d-flex align-items-center gap-2 text-decoration-none" href="{{ attributes.login_route }}"><i class="fa-solid fa-right-to-bracket"></i>Already have an account? Login into your account here!</a>
+      <a class="d-flex align-items-center gap-2 text-decoration-none" href="{{ attributes.register_restaurant_route }}"><i class="fa-solid fa-handshake"></i>Become a partner</a>
+    </div>
+  </form>
+</div>
