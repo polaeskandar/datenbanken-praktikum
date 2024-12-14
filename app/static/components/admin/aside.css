@@ -1,0 +1,13 @@
+aside.list-group .list-group-item {
+    border-radius: 6px;
+    color: black;
+}
+
+aside.list-group .list-group-item.active {
+    background: #1a1d20;
+    color: #fff;
+}
+
+aside.list-group .list-group-item a {
+    color: inherit;
+}
