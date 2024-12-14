@@ -22,5 +22,5 @@ class DayHoursForm(Form):
 
 
 # Main form
-class OpeningHoursForm(FlaskForm):
-    days = FieldList(FormField(DayHoursForm), min_entries=2)
+class SetOpeningHoursForm(FlaskForm):
+    days = FieldList(FormField(DayHoursForm), min_entries=7)

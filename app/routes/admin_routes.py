@@ -2,7 +2,7 @@ from flask import Blueprint, Response
 
 from app.components.admin.aside_menu_component import aside_menu_component
 from app.components.admin.set_delivery_radius_component import delivery_radius_component
-from app.components.admin.opening_times_component import opening_times_component
+from app.components.admin.set_opening_hours_component import set_opening_hours_component
 from app.components.footer_component import footer_component
 from app.components.navbar_component import navbar_component
 from app.routes import render_page
@@ -38,7 +38,7 @@ def opening_hours() -> Response:
             aside_menu_component(),
         ],
         "main": [
-            opening_times_component(),
+            set_opening_hours_component(),
         ],
         "footer": [
             footer_component(),
