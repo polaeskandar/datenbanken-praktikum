@@ -29,7 +29,7 @@ def get_links() -> list[dict[str, str]]:
         {
             "icon": "fa-solid fa-truck me-2",
             "text": "Delivery Radius",
-            "href": "#",
+            "href": url_for("admin.delivery_radius"),
         },
         {
             "icon": "fa-solid fa-gears me-2",

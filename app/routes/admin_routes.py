@@ -1,6 +1,7 @@
 from flask import Blueprint, Response
 
 from app.components.admin.aside_menu_component import aside_menu_component
+from app.components.admin.set_delivery_radius_component import delivery_radius_component
 from app.components.admin.opening_times_component import opening_times_component
 from app.components.footer_component import footer_component
 from app.components.navbar_component import navbar_component
@@ -45,3 +46,23 @@ def opening_hours() -> Response:
     }
 
     return render_page("admin.html", "Opening Hours", components)
+
+
+@admin_routes.route("/delivery_radius", methods=["GET", "POST"])
+def delivery_radius() -> Response:
+    components = {
+        "header": [
+            navbar_component(),
+        ],
+        "aside": [
+            aside_menu_component(),
+        ],
+        "main": [
+            delivery_radius_component(),
+        ],
+        "footer": [
+            footer_component(),
+        ],
+    }
+
+    return render_page("admin.html", "Delivery Radius", components)
