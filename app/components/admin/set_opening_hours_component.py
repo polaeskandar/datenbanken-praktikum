@@ -10,8 +10,10 @@ def set_opening_hours_component():
 
     if opening_hours_form.validate_on_submit():
         # raise Exception(len(opening_hours_form.days.entries))
-        return redirect(url_for('admin.opening_hours'))
+        return redirect(url_for("admin.opening_hours"))
 
     attributes = {"days": days, "opening_hours_form": opening_hours_form}
 
-    return render_template("components/admin/set_opening_hours.html", attributes=attributes)
+    return render_template(
+        "components/admin/set_opening_hours.html", attributes=attributes
+    )
