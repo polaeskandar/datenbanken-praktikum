@@ -1,6 +1,7 @@
 from flask import Blueprint, Response
 
 from app.components.admin.aside_menu_component import aside_menu_component
+from app.components.admin.get_delivery_radius_component import get_delivery_radius_component
 from app.components.admin.set_delivery_radius_component import delivery_radius_component
 from app.components.admin.set_opening_hours_component import set_opening_hours_component
 from app.components.footer_component import footer_component
@@ -59,6 +60,7 @@ def delivery_radius() -> Response:
         ],
         "main": [
             delivery_radius_component(),
+            get_delivery_radius_component(),
         ],
         "footer": [
             footer_component(),
