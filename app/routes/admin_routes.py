@@ -9,7 +9,7 @@ from app.components.admin.menu_page_navigation_component import (
     menu_page_navigation_component,
 )
 from app.components.admin.orders_table_component import orders_table_component
-from app.components.admin.set_delivery_radius_component import delivery_radius_component
+from app.components.admin.set_delivery_radius_component import set_delivery_radius_component
 from app.components.admin.set_opening_hours_component import set_opening_hours_component
 from app.components.footer_component import footer_component
 from app.components.navbar_component import navbar_component
@@ -69,7 +69,7 @@ def delivery_radius() -> Response:
             aside_menu_component(),
         ],
         "main": [
-            delivery_radius_component(),
+            set_delivery_radius_component(),
             get_delivery_radius_component(),
         ],
         "footer": [

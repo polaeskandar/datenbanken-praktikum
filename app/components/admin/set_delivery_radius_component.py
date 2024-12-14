@@ -4,7 +4,7 @@ from app.form.component.admin.SetDeliveryRadiusForm import SetDeliveryRadiusForm
 from app.models.PostalCode import PostalCode
 
 
-def delivery_radius_component():
+def set_delivery_radius_component():
     postal_codes = PostalCode.query.all()
     choices = [(str(postal.id), postal.postal_code) for postal in postal_codes]
 
