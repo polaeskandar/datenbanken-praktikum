@@ -20,3 +20,4 @@ def render_page(
 
 from app.routes import index_routes
 from app.routes import auth_routes
+from app.routes import admin_routes

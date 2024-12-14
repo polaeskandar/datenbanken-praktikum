@@ -1,0 +1,19 @@
+<h1>Configure Delivery Scopes</h1>
+
+<form class="card mt-3" method="POST">
+  {{ attributes.set_delivery_radius_form.hidden_tag() }}
+
+  <div class="row card-body">
+    <div class="col-6">
+      {{ attributes.set_delivery_radius_form.postal_code(class="form-select") }}
+    </div>
+    <div class="col-5">
+      {{ attributes.set_delivery_radius_form.distance(class="form-control", placeholder="Enter the distance in kilometers...") }}
+    </div>
+    <div class="col-1">
+      <div class="d-grid">
+        <button class="btn btn-dark"><i class="fa-solid fa-plus me-2"></i>Add</button>
+      </div>
+    </div>
+  </div>
+</form>
