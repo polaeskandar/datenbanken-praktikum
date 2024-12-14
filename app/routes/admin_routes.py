@@ -1,6 +1,7 @@
 from flask import Blueprint, Response
 
 from app.components.admin.aside_menu_component import aside_menu_component
+from app.components.admin.edit_settings_component import edit_settings_component
 from app.components.admin.get_delivery_radius_component import (
     get_delivery_radius_component,
 )
@@ -70,3 +71,23 @@ def delivery_radius() -> Response:
     }
 
     return render_page("admin.html", "Delivery Radius", components)
+
+
+@admin_routes.route("/settings", methods=["GET", "POST"])
+def settings() -> Response:
+    components = {
+        "header": [
+            navbar_component(),
+        ],
+        "aside": [
+            aside_menu_component(),
+        ],
+        "main": [
+            edit_settings_component(),
+        ],
+        "footer": [
+            footer_component(),
+        ],
+    }
+
+    return render_page("admin.html", "Settings", components)

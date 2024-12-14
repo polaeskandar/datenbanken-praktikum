@@ -34,6 +34,6 @@ def get_links() -> list[dict[str, str]]:
         {
             "icon": "fa-solid fa-gears me-2",
             "text": "Settings",
-            "href": "#",
+            "href": url_for("admin.settings"),
         },
     ]
