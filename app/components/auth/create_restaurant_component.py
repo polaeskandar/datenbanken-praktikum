@@ -10,6 +10,7 @@ from app.form.component.auth.CreateRestaurantForm import CreateRestaurantForm
 from app.models.Account import Account
 from app.models.Restaurant import Restaurant
 from app.models.PostalCode import PostalCode
+from app.models.Menu import Menu
 
 
 def create_restaurant_component():
@@ -62,8 +63,13 @@ def create_restaurant(register_restaurant_form: CreateRestaurantForm) -> Respons
             image=image_path,
         )
 
+        menu = Menu(
+            restaurant=restaurant,
+        )
+
         db.session.add(account)
         db.session.add(restaurant)
+        db.session.add(menu)
         db.session.commit()
 
         login_user(account)
