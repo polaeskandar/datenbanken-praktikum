@@ -22,11 +22,17 @@ def edit_menu_item_component(item_id: int) -> str | Response:
         description=menu_item.description,
     )
 
+    menu_item_form.item_id = menu_item.id
+
     if menu_item_form.validate_on_submit():
         return update_item(menu_item_form, menu_item)
 
+    for error in menu_item_form.errors.values():
+        flash(error[0], category="danger")
+
     attributes = {
         "menu_item_form": menu_item_form,
+        "item_name": menu_item.name,
     }
 
     return render_template(

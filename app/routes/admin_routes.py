@@ -1,5 +1,7 @@
-from flask import Blueprint, Response
+from flask import Blueprint, Response, abort, flash, redirect, url_for
+from flask_login import current_user
 
+from app import app, db
 from app.components.admin.add_menu_item_component import add_menu_item_component
 from app.components.admin.aside_menu_component import aside_menu_component
 from app.components.admin.edit_menu_item_component import edit_menu_item_component
@@ -19,6 +21,7 @@ from app.components.admin.set_opening_hours_component import set_opening_hours_c
 from app.components.footer_component import footer_component
 from app.components.navbar_component import navbar_component
 from app.routes import render_page
+from app.models.MenuItem import MenuItem
 
 admin_routes = Blueprint("admin", __name__)
 
@@ -105,6 +108,22 @@ def edit_menu_item(item_id: int) -> Response:
     }
 
     return render_page("admin.html", "Menu - Add Item", components)
+
+@admin_routes.route("/menu/<int:item_id>/delete", methods=["GET"])
+def delete_menu_item(item_id : int) -> Response:
+    with app.app_context():
+        menu_item = MenuItem.query.get_or_404(item_id)
+
+        if menu_item.menu.restaurant != current_user.restaurant:
+            abort(403)
+
+        db.session.delete(menu_item)
+        db.session.commit()
+
+    flash("Menu item deleted successfully.", "success")
+
+    return redirect(url_for('admin.menu_overview'))
+
 
 
 @admin_routes.route("/opening-hours", methods=["GET", "POST"])

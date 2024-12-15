@@ -58,7 +58,7 @@ def upload_image(menu_item_form) -> str:
     image = request.files[menu_item_form.image.name]
 
     if image.filename == "":
-        raise Exception("Filename was empty.")
+        raise Exception("Image for an Item should be uploaded.")
 
     upload_directory = app.config["UPLOAD_DIRECTORY"]
 
