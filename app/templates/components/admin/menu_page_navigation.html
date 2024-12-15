@@ -1,0 +1,9 @@
+<ul class="nav nav-pills mb-3">
+  {% for link in attributes.links %}
+    <li class="nav-item">
+      <a class="nav-link {{ 'active' if link.is_active }}" href="{{ link.href }}">
+        <i class="{{ link.icon }}"></i>{{ link.text }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>

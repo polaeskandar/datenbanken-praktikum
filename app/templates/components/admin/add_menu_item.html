@@ -1,0 +1,26 @@
+<div class="card">
+  <form method="POST" class="card-body" enctype="multipart/form-data">
+    {{ attributes.menu_item_form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ attributes.menu_item_form.image.label(class="form-label", for="image") }}
+      {{ attributes.menu_item_form.image(id="image", class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ attributes.menu_item_form.item_name.label(class="form-label", for="item_name") }}
+      {{ attributes.menu_item_form.item_name(id="item_name", class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ attributes.menu_item_form.price.label(class="form-label", for="price") }}
+      {{ attributes.menu_item_form.price(id="price", class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ attributes.menu_item_form.description.label(class="form-label", for="description") }}
+      {{ attributes.menu_item_form.description(id="description", class="form-control") }}
+    </div>
+
+    <div class="d-grid">
+      <button class="btn btn-dark"><i class="fa-solid fa-floppy-disk me-2"></i>Save</button>
+    </div>
+  </form>
+</div>

@@ -24,8 +24,12 @@ def get_links() -> list[dict[str, str]]:
         {
             "icon": "fa-solid fa-utensils me-2",
             "text": "Menu",
-            "href": "#",
-            "is_active": False,
+            "href": url_for("admin.menu_overview"),
+            "is_active": request.path
+            in [
+                url_for("admin.menu_overview"),
+                url_for("admin.add_menu_item"),
+            ],
         },
         {
             "icon": "fa-solid fa-clock me-2",
