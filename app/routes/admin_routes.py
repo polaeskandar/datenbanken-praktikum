@@ -2,6 +2,7 @@ from flask import Blueprint, Response
 
 from app.components.admin.add_menu_item_component import add_menu_item_component
 from app.components.admin.aside_menu_component import aside_menu_component
+from app.components.admin.edit_menu_item_component import edit_menu_item_component
 from app.components.admin.edit_settings_component import edit_settings_component
 from app.components.admin.get_delivery_radius_component import (
     get_delivery_radius_component,
@@ -76,6 +77,27 @@ def add_menu_item() -> Response:
         "main": [
             menu_page_navigation_component(),
             add_menu_item_component(),
+        ],
+        "footer": [
+            footer_component(),
+        ],
+    }
+
+    return render_page("admin.html", "Menu - Add Item", components)
+
+
+@admin_routes.route("/menu/<int:item_id>/edit", methods=["GET", "POST"])
+def edit_menu_item(item_id: int) -> Response:
+    components = {
+        "header": [
+            navbar_component(),
+        ],
+        "aside": [
+            aside_menu_component(),
+        ],
+        "main": [
+            menu_page_navigation_component(),
+            edit_menu_item_component(item_id),
         ],
         "footer": [
             footer_component(),
