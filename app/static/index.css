@@ -1,5 +1,6 @@
 @import "components/navbar.css";
 @import "components/footer.css";
+@import "components/order_history.css";
 
 /** GLOBALS **/
 .flash-box .alert {
