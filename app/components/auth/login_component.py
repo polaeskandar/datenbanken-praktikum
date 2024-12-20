@@ -9,10 +9,7 @@ def login_component() -> Response | str:
     login_form = LoginForm()
 
     if login_form.validate_on_submit():
-        try:
-            return handle_login(login_form)
-        except Exception as e:
-            flash(f"An error occurred: {str(e)}", category="danger")
+        return handle_login(login_form)
 
     for error in login_form.errors.values():
         flash(error[0], category="danger")

@@ -15,10 +15,7 @@ def create_restaurant_component() -> str | Response:
     create_restaurant_form = CreateRestaurantForm()
 
     if create_restaurant_form.validate_on_submit():
-        try:
-            return handle_restaurant_creation(create_restaurant_form)
-        except Exception as e:
-            flash(f"An error occurred: {str(e)}", category="danger")
+        handle_restaurant_creation(create_restaurant_form)
 
     for error in create_restaurant_form.errors.values():
         flash(error[0], category="danger")
@@ -74,7 +71,7 @@ def handle_restaurant_creation(
         except Exception as e:
             db.session.rollback()
 
-            raise Exception(f"Failed to create restaurant: {str(e)}")
+            raise e
 
 
 def create_account(form: CreateRestaurantForm, postal_code: PostalCode) -> Account:

@@ -13,10 +13,7 @@ def register_customer_component() -> Response | str:
     register_customer_form = RegisterCustomerForm()
 
     if register_customer_form.validate_on_submit():
-        try:
-            return handle_customer_creation(register_customer_form)
-        except Exception as e:
-            flash(f"An error occurred: {str(e)}", category="danger")
+        return handle_customer_creation(register_customer_form)
 
     for error in register_customer_form.errors.values():
         flash(error[0], category="danger")
@@ -59,7 +56,7 @@ def handle_customer_creation(register_customer_form: RegisterCustomerForm) -> Re
         except Exception as e:
             db.session.rollback()
 
-            raise Exception(f"Failed to register customer: {str(e)}")
+            raise e
 
 
 def create_account(form: RegisterCustomerForm, postal_code: PostalCode) -> Account:

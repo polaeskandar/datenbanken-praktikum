@@ -21,7 +21,7 @@ def navbar_component() -> str:
         "dropdown_items": get_dropdown_items(),
     }
 
-    return render_template("components/navbar.html", attributes=attributes)
+    return render_template("components/layout/navbar.html", attributes=attributes)
 
 
 def validate_form(restaurants_filter_form) -> None:

@@ -24,10 +24,7 @@ def edit_menu_item_component(item_id: int) -> str | Response:
     )
 
     if menu_item_form.validate_on_submit():
-        try:
-            return handle_menu_item_update(menu_item_form, menu_item)
-        except Exception as e:
-            flash(f"An error occurred while updating the item: {str(e)}", "danger")
+        return handle_menu_item_update(menu_item_form, menu_item)
 
     for error in menu_item_form.errors.values():
         flash(error[0], category="danger")
@@ -64,7 +61,7 @@ def handle_menu_item_update(
         except Exception as e:
             db.session.rollback()
 
-            raise Exception(f"Failed to update menu item: {str(e)}")
+            raise e
 
     return redirect(url_for("admin.menu_overview"))
 

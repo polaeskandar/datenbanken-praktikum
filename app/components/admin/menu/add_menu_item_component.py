@@ -11,10 +11,7 @@ def add_menu_item_component() -> str | Response:
     menu_item_form = MenuItemForm(item_id=None)
 
     if menu_item_form.validate_on_submit():
-        try:
-            return handle_menu_item_creation(menu_item_form)
-        except Exception as e:
-            flash(f"An error occurred while creating the menu item: {str(e)}", "danger")
+        return handle_menu_item_creation(menu_item_form)
 
     for error in menu_item_form.errors.values():
         flash(error[0], category="danger")
@@ -49,10 +46,11 @@ def handle_menu_item_creation(menu_item_form: MenuItemForm) -> Response:
 
             db.session.add(menu_item)
             db.session.commit()
+
             flash("Item created successfully.", "success")
         except Exception as e:
             db.session.rollback()
 
-            raise Exception(f"Failed to create menu item: {str(e)}")
+            raise e
 
     return redirect(url_for("admin.menu_overview"))
