@@ -1,10 +1,10 @@
-from flask import render_template, url_for, redirect
+from flask import render_template, url_for, redirect, Response
 
 from app.form.component.admin.SetDeliveryRadiusForm import SetDeliveryRadiusForm
 from app.models.PostalCode import PostalCode
 
 
-def set_delivery_radius_component():
+def set_delivery_radius_component() -> str | Response:
     postal_codes = PostalCode.query.all()
     choices = [(str(postal.id), postal.postal_code) for postal in postal_codes]
 

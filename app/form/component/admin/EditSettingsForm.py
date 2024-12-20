@@ -1,11 +1,20 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileAllowed, FileField
 from wtforms.fields.choices import SelectField
 from wtforms.fields.simple import StringField, TextAreaField
 from wtforms.validators import DataRequired, Length
 
+from app.form.component.FileAttachedForm import FileAttachedForm
 
-class EditSettingsForm(FlaskForm):
+
+class EditSettingsForm(FileAttachedForm):
+    def __init__(self, *args, **kwargs):
+        super(EditSettingsForm, self).__init__(
+            *args,
+            label="Restaurant's Image",
+            allowed_extensions=["jpg", "png"],
+            **kwargs
+        )
+
     restaurant_name = StringField(
         "Restaurant's name", validators=[DataRequired(), Length(min=3, max=255)]
     )
@@ -21,5 +30,3 @@ class EditSettingsForm(FlaskForm):
         validators=[DataRequired()],
         render_kw={"rows": 10},
     )
-
-    image = FileField("Image", validators=[FileAllowed(["jpg", "png"])])

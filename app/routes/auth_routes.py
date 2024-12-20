@@ -4,8 +4,8 @@ from flask_login import logout_user
 from app.components.auth.create_restaurant_component import create_restaurant_component
 from app.components.auth.login_component import login_component
 from app.components.auth.register_customer_component import register_customer_component
-from app.components.footer_component import footer_component
-from app.components.navbar_component import navbar_component
+from app.components.layout.footer_component import footer_component
+from app.components.layout.navbar_component import navbar_component
 from app.routes import render_page
 
 auth_routes = Blueprint("auth", __name__)

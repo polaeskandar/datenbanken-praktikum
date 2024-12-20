@@ -2,15 +2,15 @@ from flask import Blueprint, Response, abort, flash, redirect, url_for
 from flask_login import current_user
 
 from app import app, db
-from app.components.admin.add_menu_item_component import add_menu_item_component
+from app.components.admin.menu.add_menu_item_component import add_menu_item_component
 from app.components.admin.aside_menu_component import aside_menu_component
-from app.components.admin.edit_menu_item_component import edit_menu_item_component
+from app.components.admin.menu.edit_menu_item_component import edit_menu_item_component
 from app.components.admin.edit_settings_component import edit_settings_component
 from app.components.admin.get_delivery_radius_component import (
     get_delivery_radius_component,
 )
-from app.components.admin.menu_overview_component import menu_overview_component
-from app.components.admin.menu_page_navigation_component import (
+from app.components.admin.menu.menu_overview_component import menu_overview_component
+from app.components.admin.menu.menu_page_navigation_component import (
     menu_page_navigation_component,
 )
 from app.components.admin.orders_table_component import orders_table_component
@@ -18,8 +18,8 @@ from app.components.admin.set_delivery_radius_component import (
     set_delivery_radius_component,
 )
 from app.components.admin.set_opening_hours_component import set_opening_hours_component
-from app.components.footer_component import footer_component
-from app.components.navbar_component import navbar_component
+from app.components.layout.footer_component import footer_component
+from app.components.layout.navbar_component import navbar_component
 from app.routes import render_page
 from app.models.MenuItem import MenuItem
 
@@ -109,8 +109,9 @@ def edit_menu_item(item_id: int) -> Response:
 
     return render_page("admin.html", "Menu - Add Item", components)
 
+
 @admin_routes.route("/menu/<int:item_id>/delete", methods=["GET"])
-def delete_menu_item(item_id : int) -> Response:
+def delete_menu_item(item_id: int) -> Response:
     with app.app_context():
         menu_item = MenuItem.query.get_or_404(item_id)
 
@@ -122,8 +123,7 @@ def delete_menu_item(item_id : int) -> Response:
 
     flash("Menu item deleted successfully.", "success")
 
-    return redirect(url_for('admin.menu_overview'))
-
+    return redirect(url_for("admin.menu_overview"))
 
 
 @admin_routes.route("/opening-hours", methods=["GET", "POST"])

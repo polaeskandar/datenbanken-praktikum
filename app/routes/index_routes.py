@@ -1,8 +1,8 @@
-from flask import render_template, Blueprint, redirect, url_for
+from flask import Blueprint, redirect, url_for
 from flask_login import current_user
 
-from app.components.navbar_component import navbar_component
-from app.components.footer_component import footer_component
+from app.components.layout.navbar_component import navbar_component
+from app.components.layout.footer_component import footer_component
 from app.routes import render_page
 
 index_routes = Blueprint("index", __name__)

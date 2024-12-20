@@ -9,7 +9,10 @@ def login_component() -> Response | str:
     login_form = LoginForm()
 
     if login_form.validate_on_submit():
-        return login(login_form)
+        try:
+            return handle_login(login_form)
+        except Exception as e:
+            flash(f"An error occurred: {str(e)}", category="danger")
 
     for error in login_form.errors.values():
         flash(error[0], category="danger")
@@ -26,15 +29,17 @@ def login_component() -> Response | str:
     )
 
 
-def login(login_form) -> Response:
+def handle_login(login_form: LoginForm) -> Response:
     account = Account.query.filter_by(email=login_form.email.data).first()
 
-    if account.verify_password(login_form.password.data):
+    # Check if account exists and password is correct
+    if account and account.verify_password(login_form.password.data):
         login_user(account)
-        flash(f"Welcome back! {login_form.email.data}", category="success")
+        flash(f"Welcome back, {account.email}!", category="success")
 
         return redirect(url_for("index.index"))
 
+    # Invalid credentials
     flash("Invalid email or password.", category="danger")
 
     return redirect(url_for("auth.login"))
