@@ -1,5 +1,8 @@
 @import "components/navbar.css";
 @import "components/footer.css";
+@import "components/admin/dashboard.css";
+@import "components/admin/aside.css";
+@import "components/admin/menu_page_navigation.css";
 
 /** GLOBALS **/
 .flash-box .alert {

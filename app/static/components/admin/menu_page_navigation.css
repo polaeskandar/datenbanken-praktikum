@@ -1,0 +1,12 @@
+ul.nav-pills .nav-link {
+    color: black;
+}
+
+ul.nav-pills .nav-link.active {
+    background: #1a1d20;
+    color: #fff;
+}
+
+ul.nav-pills .nav-item a {
+    color: inherit;
+}

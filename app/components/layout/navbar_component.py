@@ -21,7 +21,7 @@ def navbar_component() -> str:
         "dropdown_items": get_dropdown_items(),
     }
 
-    return render_template("components/navbar.html", attributes=attributes)
+    return render_template("components/layout/navbar.html", attributes=attributes)
 
 
 def validate_form(restaurants_filter_form) -> None:
@@ -63,6 +63,11 @@ def get_dropdown_items() -> list[dict[str:str]]:
 
     if current_user.get_account_type() == AccountType.RESTAURANT:
         return [
+            {
+                "icon": "fa-solid fa-sliders me-2",
+                "link": url_for("admin.index"),
+                "text": "Dashboard",
+            },
             {
                 "icon": "fa-solid fa-right-from-bracket me-2",
                 "link": url_for("auth.logout"),

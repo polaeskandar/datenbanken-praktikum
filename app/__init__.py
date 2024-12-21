@@ -12,12 +12,17 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 
+login_manager.login_view = "auth.login"
+login_manager.login_message_category = "dark"
+
 # IMPORTING ROUTES
 from app.routes.index_routes import index_routes
 from app.routes.auth_routes import auth_routes
+from app.routes.admin_routes import admin_routes
 
 app.register_blueprint(index_routes, url_prefix="/")
 app.register_blueprint(auth_routes, url_prefix="/auth")
+app.register_blueprint(admin_routes, url_prefix="/admin")
 
 # IMPORTING MODELS
 from app.models import *

@@ -1,0 +1,11 @@
+<h2 class="fs-3 class my-4">{{ current_user.restaurant.name }}</h2>
+
+<ul class="list-group list-group-flush">
+  {% for link in attributes.links %}
+    <li class="list-group-item {{ 'active' if link.is_active }}">
+      <a href="{{ link.href }}" class="d-block text-decoration-none">
+        <i class="{{ link.icon }}"></i>{{ link.text }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
