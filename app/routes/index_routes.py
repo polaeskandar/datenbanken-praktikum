@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, url_for
-from flask_login import current_user
+from flask_login import login_required, current_user
 
 from app.components.layout.navbar_component import navbar_component
 from app.components.layout.footer_component import footer_component
@@ -10,9 +10,10 @@ index_routes = Blueprint("index", __name__)
 
 
 @index_routes.route("/", methods=["GET", "POST"])
+@login_required
 def index():
-    if not current_user.is_authenticated:
-        return redirect(url_for("auth.login"))
+    if current_user.is_restaurant():
+        return redirect(url_for("admin.index"))
 
     components = build_components([])
 

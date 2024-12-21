@@ -1,5 +1,5 @@
 from flask import Blueprint, Response, redirect, url_for, flash, request
-from flask_login import logout_user
+from flask_login import logout_user, login_required
 
 from app.components.auth.create_restaurant_component import create_restaurant_component
 from app.components.auth.login_component import login_component
@@ -16,7 +16,7 @@ auth_routes = Blueprint("auth", __name__)
 def register():
     components = build_components([register_customer_component])
 
-    return render_page("layout.html", components["page_title"], components)
+    return render_page("layout.html", "Register", components)
 
 
 @auth_routes.route("/", methods=["GET", "POST"])
@@ -35,11 +35,12 @@ def register_restaurant():
 
 
 @auth_routes.route("/logout", methods=["GET"])
+@login_required
 def logout() -> Response:
     logout_user()
     flash("You have been logged out.", "dark")
 
-    return redirect(url_for("index.index"))
+    return redirect(url_for("auth.login"))
 
 
 def build_components(main_components: list) -> dict:

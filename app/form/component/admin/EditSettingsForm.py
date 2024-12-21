@@ -1,4 +1,3 @@
-from flask_wtf import FlaskForm
 from wtforms.fields.choices import SelectField
 from wtforms.fields.simple import StringField, TextAreaField
 from wtforms.validators import DataRequired, Length

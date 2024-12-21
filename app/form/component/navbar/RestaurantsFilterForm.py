@@ -25,7 +25,7 @@ class RestaurantsFilterForm(FlaskForm):
             Optional(),
         ],
         render_kw={
-            "class": "form-control",
+            "class": "search-input form-control flex-grow-1",
             "placeholder": "Search... e.g. Pizza, Burgers",
         },
     )
