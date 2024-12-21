@@ -6,13 +6,14 @@ from app.form.component.auth.RegisterCustomerForm import RegisterCustomerForm
 from app.models.Account import Account
 from app.models.Customer import Customer
 from app.models.PostalCode import PostalCode
+from app.services.postal_code_service import get_or_create_postal_code
 
 
 def register_customer_component() -> Response | str:
     register_customer_form = RegisterCustomerForm()
 
     if register_customer_form.validate_on_submit():
-        return create_customer(register_customer_form)
+        return handle_customer_creation(register_customer_form)
 
     for error in register_customer_form.errors.values():
         flash(error[0], category="danger")
@@ -29,38 +30,47 @@ def register_customer_component() -> Response | str:
     )
 
 
-# TODO SOLVE POTENTIAL RACE CONDITION, WHILE CREATING POSTAL CODES
-def create_customer(register_customer_form: RegisterCustomerForm) -> Response:
+def handle_customer_creation(register_customer_form: RegisterCustomerForm) -> Response:
     with app.app_context():
-        postal_code = PostalCode.query.filter_by(
-            postal_code=register_customer_form.postal_code.data
-        ).first()
-
-        if postal_code is None:
-            postal_code = PostalCode(
-                postal_code=register_customer_form.postal_code.data,
+        try:
+            # Ensure the postal code exists or create it
+            postal_code = get_or_create_postal_code(
+                register_customer_form.postal_code.data
             )
 
-            db.session.add(postal_code)
+            # Create the account
+            account = create_account(register_customer_form, postal_code)
 
-        account = Account(
-            email=register_customer_form.email.data,
-            hashed_password=register_customer_form.password.data,
-            address=register_customer_form.address.data,
-            postal_code=postal_code,
-        )
+            # Create the customer
+            customer = create_customer_entity(register_customer_form, account)
 
-        customer = Customer(
-            first_name=register_customer_form.first_name.data,
-            last_name=register_customer_form.last_name.data,
-            account=account,
-        )
+            # Save all entities to the database
+            db.session.add_all([account, customer])
+            db.session.commit()
 
-        db.session.add(account)
-        db.session.add(customer)
-        db.session.commit()
+            # Log the user in and redirect
+            login_user(account)
+            flash("User created successfully!", category="success")
 
-        login_user(account)
-        flash("User created successfully!", category="success")
+            return redirect(url_for("index.index"))
+        except Exception as e:
+            db.session.rollback()
 
-    return redirect(url_for("index.index"))
+            raise e
+
+
+def create_account(form: RegisterCustomerForm, postal_code: PostalCode) -> Account:
+    return Account(
+        email=form.email.data,
+        hashed_password=form.password.data,
+        address=form.address.data,
+        postal_code=postal_code,
+    )
+
+
+def create_customer_entity(form: RegisterCustomerForm, account: Account) -> Customer:
+    return Customer(
+        first_name=form.first_name.data,
+        last_name=form.last_name.data,
+        account=account,
+    )

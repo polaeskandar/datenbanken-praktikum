@@ -1,9 +1,9 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, Response
 
 from app.form.component.admin.EditSettingsForm import EditSettingsForm
 
 
-def edit_settings_component():
+def edit_settings_component() -> str | Response:
     edit_settings_form = EditSettingsForm()
 
     if edit_settings_form.validate_on_submit():

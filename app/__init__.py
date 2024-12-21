@@ -12,6 +12,9 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 
+login_manager.login_view = "auth.login"
+login_manager.login_message_category = "dark"
+
 # IMPORTING ROUTES
 from app.routes.index_routes import index_routes
 from app.routes.auth_routes import auth_routes
