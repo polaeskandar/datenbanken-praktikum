@@ -1,4 +1,4 @@
-from flask import flash, redirect, request
+from flask import flash, redirect, request, Response
 from werkzeug.exceptions import BadRequest
 
 from app.components.layout.error_component import error_component

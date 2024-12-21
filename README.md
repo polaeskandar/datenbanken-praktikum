@@ -44,5 +44,4 @@ Follow these steps to boot up the application:
 This project was created by:
 
 - **Mohamad Ali Jawad**
-- **Chuan Tian**
 - **Pola Eskandar**
