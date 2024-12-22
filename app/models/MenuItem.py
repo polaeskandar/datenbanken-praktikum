@@ -11,9 +11,7 @@ class MenuItem(db.Model):
     description = db.Column(db.Text, nullable=False)
     menu_id = db.Column(db.Integer, db.ForeignKey("menu.id"), nullable=False)
 
-    __table_args__ = (
-        UniqueConstraint('name', 'menu_id', name='uix_name_menu'),
-    )
+    __table_args__ = (UniqueConstraint("name", "menu_id", name="uix_name_menu"),)
 
     # Relationships
     menu = db.relationship("Menu", back_populates="items", uselist=False)

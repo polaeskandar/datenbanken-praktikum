@@ -1,12 +1,19 @@
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileAllowed
 from wtforms.fields.simple import StringField, PasswordField, TextAreaField, FileField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 
+from app.form.component.FileAttachedForm import FileAttachedForm
 from app.models.Account import Account
 
 
-class CreateRestaurantForm(FlaskForm):
+class CreateRestaurantForm(FileAttachedForm):
+    def __init__(self, *args, **kwargs):
+        super(CreateRestaurantForm, self).__init__(
+            *args,
+            label="Restaurant's Image",
+            allowed_extensions=["jpg", "png"],
+            **kwargs
+        )
+
     name = StringField(
         "Restaurant name", validators=[DataRequired(), Length(min=3, max=255)]
     )
@@ -14,8 +21,6 @@ class CreateRestaurantForm(FlaskForm):
     address = StringField("Address", validators=[DataRequired()])
 
     postal_code = StringField("Postal code", validators=[DataRequired()])
-
-    image = FileField("Image", validators=[FileAllowed(["jpg", "png"])])
 
     description = TextAreaField("Description", validators=[DataRequired()])
 
