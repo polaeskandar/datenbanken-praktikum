@@ -19,9 +19,9 @@
                 <li class="d-flex gap-2 align-items-end px-4 py-3">
                   <div class="w-100">
                     <label for="postal_code" class="form-label">
-                      {{ attributes.restaurants_filter_form.postal_code.label.text }}
+                      {{ attributes.restaurants_filter_form.postal_codes.label.text }}
                     </label>
-                    {{ attributes.restaurants_filter_form.postal_code }}
+                    {{ attributes.restaurants_filter_form.postal_codes }}
                   </div>
                 </li>
               </ul>
@@ -29,7 +29,7 @@
             {% if current_user.is_customer() %}
               <li class="nav-item w-100">
                 <div class="d-flex align-items-center gap-2 w-100 mx-md-2 my-md-0 mx-0 my-2">
-                  {{ attributes.restaurants_filter_form.search_term }}
+                  {{ attributes.restaurants_filter_form.search_terms }}
                   <button class="btn btn-dark" type="submit">
                     <i class="fa-solid fa-magnifying-glass me-2"></i>Search
                   </button>

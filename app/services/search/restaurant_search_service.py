@@ -12,17 +12,17 @@ class RestaurantSearchService:
 
     def fetch_restaurants(self):
         query = Restaurant.query
-        search_conditions = self._get_search_terms_conditions()
+        search_conditions = self.get_search_terms_conditions()
 
         if len(search_conditions) > 0:
             query = query.filter(or_(*search_conditions))
 
-        query = self._apply_postal_codes_filter(query)
+        query = self.apply_postal_codes_filter(query)
 
         return query.all()
 
-    def _get_search_terms_conditions(self) -> list[str]:
-        restaurant_names_list = self._get_restaurant_names_as_list()
+    def get_search_terms_conditions(self) -> list[str]:
+        restaurant_names_list = self.get_restaurant_names_as_list()
 
         if restaurant_names_list is None or len(restaurant_names_list) == 0:
             return []
@@ -36,8 +36,8 @@ class RestaurantSearchService:
 
         return conditions
 
-    def _apply_postal_codes_filter(self, query):
-        postal_codes_list = self._get_postal_codes_as_list()
+    def apply_postal_codes_filter(self, query):
+        postal_codes_list = self.get_postal_codes_as_list()
 
         if postal_codes_list is None or len(postal_codes_list) == 0:
             return query
@@ -50,7 +50,7 @@ class RestaurantSearchService:
 
         return query
 
-    def _get_restaurant_names_as_list(self) -> list[str] | None:
+    def get_restaurant_names_as_list(self) -> list[str] | None:
         if self.context.restaurant_names is None:
             return None
 
@@ -58,12 +58,12 @@ class RestaurantSearchService:
             item
             for item in [
                 name.strip().lower() or None
-                for name in self.context.restaurant_names.split(",")
+                for name in list(set(self.context.restaurant_names.split(",")))
             ]
             if item is not None
         ]
 
-    def _get_postal_codes_as_list(self) -> list[str] | None:
+    def get_postal_codes_as_list(self) -> list[str] | None:
         if self.context.postal_codes is None:
             return None
 
@@ -71,7 +71,7 @@ class RestaurantSearchService:
             item
             for item in [
                 postal_code.strip().lower() or None
-                for postal_code in self.context.postal_codes.split(",")
+                for postal_code in list(set(self.context.postal_codes.split(",")))
             ]
             if item is not None
         ]

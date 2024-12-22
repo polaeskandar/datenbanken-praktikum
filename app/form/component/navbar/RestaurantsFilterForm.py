@@ -7,7 +7,7 @@ class RestaurantsFilterForm(FlaskForm):
     class Meta:
         csrf = False
 
-    postal_code = StringField(
+    postal_codes = StringField(
         "Postal code",
         validators=[
             Optional(),
@@ -19,7 +19,7 @@ class RestaurantsFilterForm(FlaskForm):
         render_kw={"class": "form-control", "placeholder": "e.g. 47249, 47057, ..."},
     )
 
-    search_term = StringField(
+    search_terms = StringField(
         "Search Restaurants",
         validators=[
             Optional(),
