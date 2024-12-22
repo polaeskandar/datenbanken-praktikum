@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 
 from app.components.layout.navbar_component import navbar_component
 from app.components.layout.footer_component import footer_component
+from app.components.search.restaurants_list_component import restaurants_list_component
 from app.components.search.search_header_component import search_header_component
 from app.components.search.search_heading_carousel import search_heading_carousel
 from app.routes import render_page
@@ -22,6 +23,7 @@ def index():
         [
             search_header_component,
             search_heading_carousel,
+            restaurants_list_component,
         ]
     )
 

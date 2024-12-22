@@ -5,6 +5,7 @@ from app.components.layout.error_component import error_component
 
 
 def safe_render_component(component_func: callable, *args, **kwargs) -> str | Response:
+    return component_func(*args, **kwargs)
     try:
         return component_func(*args, **kwargs)
     except BadRequest as e:
