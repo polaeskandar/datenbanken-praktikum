@@ -7,7 +7,6 @@ def set_opening_hours_component():
     opening_hours_form = SetOpeningHoursForm()
 
     if request.method == "POST" and opening_hours_form.validate_on_submit():
-        # Example logic: Save submitted opening hours to a database or process data
         opening_hours_data = []
         for day_entry in opening_hours_form.days.entries:
             day = day_entry.data.get("day")
@@ -19,7 +18,6 @@ def set_opening_hours_component():
                 "closing_time": closing_time
             })
 
-        # Simulate saving the data (replace this with actual database logic)
         print("Saved Opening Hours:", opening_hours_data)
 
         return redirect(url_for("admin.opening_hours"))
