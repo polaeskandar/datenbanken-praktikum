@@ -1,4 +1,5 @@
-from sqlalchemy import or_
+from flask_login import current_user
+from sqlalchemy import or_, func, cast, Integer
 
 from app.dto.RestaurantSearchContext import RestaurantSearchContext
 from app.models.Account import Account
@@ -14,17 +15,24 @@ class RestaurantSearchService:
         query = Restaurant.query
         search_conditions = self.get_search_terms_conditions()
 
-        if len(search_conditions) > 0:
+        # 1. Filter by search terms
+        if search_conditions:
             query = query.filter(or_(*search_conditions))
 
-        query = self.apply_postal_codes_filter(query)
+        # 2. Sort by proximity to the user's main postal code (if available)
+        query = self.apply_postal_code_sort(query)
+
+        # TODO 3. Sort by opening hours to be implemented
 
         return query.all()
 
-    def get_search_terms_conditions(self) -> list[str]:
+    # --------------------------------------------------------------
+    # Filtering by Name/Description
+    # --------------------------------------------------------------
+    def get_search_terms_conditions(self) -> list:
         restaurant_names_list = self.get_restaurant_names_as_list()
 
-        if restaurant_names_list is None or len(restaurant_names_list) == 0:
+        if len(restaurant_names_list) == 0:
             return []
 
         conditions = []
@@ -36,42 +44,61 @@ class RestaurantSearchService:
 
         return conditions
 
-    def apply_postal_codes_filter(self, query):
-        postal_codes_list = self.get_postal_codes_as_list()
+    # --------------------------------------------------------------
+    # Sorting by Proximity
+    # --------------------------------------------------------------
+    # Simple algorithm for sorting by the absoute difference
+    # between the postal code of the user and the postal code
+    # of the restaurants.
+    # --------------------------------------------------------------
+    def apply_postal_code_sort(self, query):
+        user_postal_code = current_user.postal_code.postal_code or None
 
-        if postal_codes_list is None or len(postal_codes_list) == 0:
+        if not user_postal_code:
+            return query
+
+        try:
+            user_postal_int = int(user_postal_code)
+        except ValueError:
+            # TODO fallback to string sort
             return query
 
         query = (
-            query.join(Restaurant.account)
-            .join(Account.postal_code)
-            .filter(PostalCode.postal_code.in_(postal_codes_list))
+            query.join(Restaurant.account, isouter=True)
+            .join(Account.postal_code, isouter=True)
+            .order_by(
+                # Sort by the absolute difference between the restaurant's postal_code and the user's
+                func.abs(cast(PostalCode.postal_code, Integer) - user_postal_int).asc()
+            )
         )
 
         return query
 
-    def get_restaurant_names_as_list(self) -> list[str] | None:
-        if self.context.restaurant_names is None:
-            return None
+    # --------------------------------------------------------------
+    # Parsing Comma-Separated Inputs
+    # unique terms -> set()
+    # strip, lower, remove empties.
+    # --------------------------------------------------------------
+    def get_restaurant_names_as_list(self) -> list[str]:
+        if not self.context.restaurant_names:
+            return []
 
-        return [
-            item
-            for item in [
-                name.strip().lower() or None
-                for name in list(set(self.context.restaurant_names.split(",")))
-            ]
-            if item is not None
-        ]
+        names = {
+            name.strip().lower()
+            for name in self.context.restaurant_names.split(",")
+            if name.strip()
+        }
 
-    def get_postal_codes_as_list(self) -> list[str] | None:
-        if self.context.postal_codes is None:
-            return None
+        return list(names)
 
-        return [
-            item
-            for item in [
-                postal_code.strip().lower() or None
-                for postal_code in list(set(self.context.postal_codes.split(",")))
-            ]
-            if item is not None
-        ]
+    def get_postal_codes_as_list(self) -> list[str]:
+        if not self.context.postal_codes:
+            return []
+
+        codes = {
+            code.strip().lower()
+            for code in self.context.postal_codes.split(",")
+            if code.strip()
+        }
+
+        return list(codes)
