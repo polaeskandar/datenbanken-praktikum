@@ -1,3 +1,7 @@
 .navbar ul.postal-code-dropdown {
     min-width: 30vw;
 }
+
+.navbar .search-input {
+    width: fit-content;
+}

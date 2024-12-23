@@ -1,7 +1,7 @@
 from flask import render_template, url_for, request
 
 
-def aside_menu_component():
+def aside_menu_component() -> str:
     attributes = {
         "links": get_links(),
     }

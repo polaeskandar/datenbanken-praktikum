@@ -26,12 +26,16 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item w-100">
-              <div class="d-flex align-items-center gap-2 w-100 mx-md-2 my-md-0 mx-0 my-2">
-                {{ attributes.restaurants_filter_form.search_term }}
-                <button class="btn btn-dark" type="submit">Search</button>
-              </div>
-            </li>
+            {% if current_user.is_customer() %}
+              <li class="nav-item w-100">
+                <div class="d-flex align-items-center gap-2 w-100 mx-md-2 my-md-0 mx-0 my-2">
+                  {{ attributes.restaurants_filter_form.search_term }}
+                  <button class="btn btn-dark" type="submit">
+                    <i class="fa-solid fa-magnifying-glass me-2"></i>Search
+                  </button>
+                </div>
+              </li>
+            {% endif %}
           </ul>
         </form>
       {% endif %}
@@ -59,7 +63,8 @@
             <a class="nav-link" href="{{ attributes.register_route }}"><i class="fa-solid fa-pen-to-square me-2"></i>Register</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ attributes.register_restaurant_route }}"><i class="fa-solid fa-handshake me-2"></i>Become a Partner Today!</a>
+            <a class="nav-link" href="{{ attributes.register_restaurant_route }}"><i
+                class="fa-solid fa-handshake me-2"></i>Become a Partner Today!</a>
           </li>
         {% endif %}
       </ul>

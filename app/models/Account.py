@@ -21,6 +21,12 @@ class Account(db.Model, UserMixin):
     customer = db.relationship("Customer", back_populates="account", uselist=False)
     restaurant = db.relationship("Restaurant", back_populates="account", uselist=False)
 
+    def is_customer(self):
+        return self.get_account_type() == AccountType.CUSTOMER
+
+    def is_restaurant(self):
+        return self.get_account_type() == AccountType.RESTAURANT
+
     def get_account_type(self) -> AccountType:
         if self.customer:
             return AccountType.CUSTOMER

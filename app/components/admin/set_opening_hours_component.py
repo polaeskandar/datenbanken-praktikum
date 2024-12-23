@@ -1,8 +1,9 @@
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for
+
 from app.enum.DayOfWeek import DayOfWeek
 from app.form.component.admin.SetOpeningHoursForm import SetOpeningHoursForm
 
-def set_opening_hours_component():
+def set_opening_hours_component() -> str | Response:
     days = [x.value.capitalize() for x in DayOfWeek]
     opening_hours_form = SetOpeningHoursForm()
 

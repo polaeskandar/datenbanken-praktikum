@@ -1,40 +1,10 @@
-from flask import Flask, render_template, url_for, redirect, flash
-from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import FlaskForm
-from wtforms import FloatField, SelectField, SubmitField
-from wtforms.validators import DataRequired, NumberRange
+from flask import render_template, url_for, redirect
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///example.db'
-app.config['SECRET_KEY'] = 'your_secret_key'
-db = SQLAlchemy(app)
+from app.form.component.admin.SetDeliveryRadiusForm import SetDeliveryRadiusForm
+from app.models.PostalCode import PostalCode
 
-class Restaurant(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    postal_codes = db.relationship("PostalCodeRestaurant", back_populates="restaurants")
-
-class PostalCode(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    postal_code = db.Column(db.String(20), nullable=False)
-    restaurants = db.relationship("PostalCodeRestaurant", back_populates="postal_codes")
-
-class PostalCodeRestaurant(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    distance = db.Column(db.Float, nullable=False, default=0.0)
-    restaurant_id = db.Column(db.Integer, db.ForeignKey("restaurant.id"), nullable=False)
-    postal_code_id = db.Column(db.Integer, db.ForeignKey("postal_code.id"), nullable=False)
-    restaurants = db.relationship("Restaurant", back_populates="postal_codes")
-    postal_codes = db.relationship("PostalCode", back_populates="restaurants")
-
-class SetDeliveryRadiusForm(FlaskForm):
-    restaurant_id = SelectField("Restaurant", choices=[], coerce=int, validators=[DataRequired()])
-    postal_code = SelectField("Postal Code", choices=[], coerce=int, validators=[DataRequired()])
-    distance = FloatField("Distance (km)", validators=[DataRequired(), NumberRange(min=0)])
-    submit = SubmitField("Set Delivery Radius")
 
 def set_delivery_radius_component():
-    restaurants = Restaurant.query.all()
     postal_codes = PostalCode.query.all()
 
     restaurant_choices = [(restaurant.id, restaurant.name) for restaurant in restaurants]
