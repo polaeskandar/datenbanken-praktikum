@@ -1,0 +1,45 @@
+<section class="d-flex flex-column align-items-stretch gap-3 my-5">
+  {% for restaurant in attributes.restaurants %}
+    <a href="#" class="card border-bottom text-decoration-none">
+      <div class="row g-0">
+        <div class="col-md-4">
+          {% if restaurant.image %}
+            <img
+                src="{{ url_for('static', filename="uploads/images/" + restaurant.image) }}"
+                class="img-fluid rounded-start"
+                alt="{{ restaurant.name }}"
+            />
+          {% else %}
+            <img
+                src="{{ url_for('static', filename="images/no-image.jpg") }}"
+                class="img-fluid rounded-start w-100"
+                alt="No image available"
+            />
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <div class="d-flex flex-column justify-content-start card-body h-100">
+            <h5 class="card-title">{{ restaurant.name }}</h5>
+            <p class="card-text">{{ restaurant.description }}</p>
+            <p class="card-text align-self-end mt-auto">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star-half"></i>
+              <small class="mt-auto text-body-secondary">4k Ratings</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    {% if not loop.last %}
+      <hr />
+    {% endif %}
+  {% else %}
+    <div class="alert alert-dark">
+      No restaurants were found for your search criteria.
+    </div>
+  {% endfor %}
+</section>

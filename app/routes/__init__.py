@@ -1,4 +1,6 @@
-from flask import Response, render_template
+from functools import wraps
+from flask import redirect, url_for, flash, Response, render_template
+from flask_login import current_user
 
 
 def render_page(
@@ -16,6 +18,19 @@ def render_page(
         components=components,
         page_title=page_title,
     )
+
+
+def logout_required(route_function: callable):
+    @wraps(route_function)
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated:
+            flash("You are already logged in.", "dark")
+
+            return redirect(url_for("index.index"))
+
+        return route_function(*args, **kwargs)
+
+    return decorated_function
 
 
 from app.routes import index_routes

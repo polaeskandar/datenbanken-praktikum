@@ -7,8 +7,8 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-controls">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbar-controls">
-      {% if not current_user.is_anonymous %}
+    <div class="collapse navbar-collapse {{ 'justify-content-between' if not current_user.is_anonymous and current_user.is_restaurant() }}" id="navbar-controls">
+      {% if not current_user.is_anonymous and current_user.is_customer() %}
         <form method="GET" class="w-100 me-2 mb-2 mb-lg-0">
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
@@ -19,25 +19,29 @@
                 <li class="d-flex gap-2 align-items-end px-4 py-3">
                   <div class="w-100">
                     <label for="postal_code" class="form-label">
-                      {{ attributes.restaurants_filter_form.postal_code.label.text }}
+                      {{ attributes.restaurants_filter_form.postal_codes.label.text }}
                     </label>
-                    {{ attributes.restaurants_filter_form.postal_code }}
+                    {{ attributes.restaurants_filter_form.postal_codes }}
                   </div>
                 </li>
               </ul>
             </li>
-            {% if current_user.is_customer() %}
               <li class="nav-item w-100">
                 <div class="d-flex align-items-center gap-2 w-100 mx-md-2 my-md-0 mx-0 my-2">
-                  {{ attributes.restaurants_filter_form.search_term }}
+                  {{ attributes.restaurants_filter_form.search_terms }}
                   <button class="btn btn-dark" type="submit">
                     <i class="fa-solid fa-magnifying-glass me-2"></i>Search
                   </button>
                 </div>
               </li>
-            {% endif %}
           </ul>
         </form>
+      {% elif not current_user.is_anonymous and current_user.is_restaurant() %}
+        <ul class="navbar-nav d-flex align-items-center gap-2 mx-0 mx-md-2 me-auto">
+            <li class="nav-item">
+              <i class="fa-solid fa-map-pin me-1"></i> {{ current_user.address }}, {{ current_user.postal_code.postal_code }}
+            </li>
+        </ul>
       {% endif %}
       <ul class="navbar-nav d-flex align-items-center gap-2 mx-0 mx-md-2">
         {% if not current_user.is_anonymous %}

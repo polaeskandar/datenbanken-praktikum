@@ -6,13 +6,14 @@ from app.components.auth.login_component import login_component
 from app.components.auth.register_customer_component import register_customer_component
 from app.components.layout.footer_component import footer_component
 from app.components.layout.navbar_component import navbar_component
-from app.routes import render_page
+from app.routes import render_page, logout_required
 from app.services.component_safe_renderer import safe_render_component
 
 auth_routes = Blueprint("auth", __name__)
 
 
 @auth_routes.route("/register", methods=["GET", "POST"])
+@logout_required
 def register():
     components = build_components([register_customer_component])
 
@@ -21,6 +22,7 @@ def register():
 
 @auth_routes.route("/", methods=["GET", "POST"])
 @auth_routes.route("/login", methods=["GET", "POST"])
+@logout_required
 def login():
     components = build_components([login_component])
 
@@ -28,6 +30,7 @@ def login():
 
 
 @auth_routes.route("/become-a-partner", methods=["GET", "POST"])
+@logout_required
 def register_restaurant():
     components = build_components([create_restaurant_component])
 

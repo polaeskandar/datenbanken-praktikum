@@ -8,12 +8,14 @@ Follow these steps to boot up the application:
 
 2. **Start the Project**  
    Run the following command in the project directory:
+
    ```bash
    cd datenbank-praktikum && docker-compose up -d --build
-   ``` 
+   ```
 
 3. **Import the sample data**
    Run the following command to run the SQL scripts in data.sql:
+
    ```bash
    sqlite3 instance/restaurant.db < data.sql
    ```
@@ -25,17 +27,32 @@ Follow these steps to boot up the application:
 # Important commands for development
 
 - **Formulating** your code:
-   ```bash 
-   docker exec -it app python3 -m black .
-   ```
+  ```bash
+  docker exec -it app python3 -m black .
+  ```
 
 ---
 
 # Learning Outlines
 
-- It is beneficial to introduce a new table that maps each account to either a restaurant or a customer. This ensures
-  that each account is uniquely associated with one entity, preventing any account from being used for multiple
-  purposes.
+- **Account Association:** Introducing a dedicated table to map each account to either
+  a restaurant or a customer is highly beneficial. This approach ensures each account
+  is uniquely tied to one entity, preventing accounts from serving multiple purposes
+  and avoiding conflicts.
+
+- **Sorting and Filtering:** Designing robust sorting and filtering mechanisms is
+  complex and must be approached with care to minimize errors. Implementing a caching
+  layer over the database can significantly optimize performance and support these
+  operations.
+
+- **Componentization:** Splitting the application into smaller, manageable components
+  and services is a challenging task that demands thoughtful decision-making over time.
+  Mistakes are inevitable, so regular refactoring sessions are essential to maintain
+  a clean and consistent codebase.
+
+- **Error Handling:** Building an efficient and effective error-handling system is
+  critical for application uptime. A well-designed system ensures that if one component
+  or page fails, other features and components continue functioning seamlessly.
 
 ---
 
@@ -43,5 +60,5 @@ Follow these steps to boot up the application:
 
 This project was created by:
 
-- **Mohamed Jawad**
+- **Mohamad Ali Jawad**
 - **Pola Eskandar**

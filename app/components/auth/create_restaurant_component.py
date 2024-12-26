@@ -15,7 +15,7 @@ def create_restaurant_component() -> str | Response:
     create_restaurant_form = CreateRestaurantForm()
 
     if create_restaurant_form.validate_on_submit():
-        handle_restaurant_creation(create_restaurant_form)
+        return handle_restaurant_creation(create_restaurant_form)
 
     for error in create_restaurant_form.errors.values():
         flash(error[0], category="danger")
@@ -67,7 +67,7 @@ def handle_restaurant_creation(
             login_user(account)
             flash("Restaurant registered successfully!", category="success")
 
-            return redirect(url_for("index.index"))
+            return redirect(url_for("admin.index"))
         except Exception as e:
             db.session.rollback()
 
