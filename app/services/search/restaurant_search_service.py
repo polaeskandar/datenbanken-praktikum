@@ -1,9 +1,10 @@
 from flask_login import current_user
-from sqlalchemy import or_, func, cast, Integer
+from flask_sqlalchemy.query import Query
+from sqlalchemy import or_, case
 
 from app.dto.RestaurantSearchContext import RestaurantSearchContext
-from app.models.Account import Account
 from app.models.PostalCode import PostalCode
+from app.models.PostalCodeRestaurant import PostalCodeRestaurant
 from app.models.Restaurant import Restaurant
 
 
@@ -47,28 +48,22 @@ class RestaurantSearchService:
     # --------------------------------------------------------------
     # Sorting by Proximity
     # --------------------------------------------------------------
-    # Simple algorithm for sorting by the absoute difference
+    # Simple algorithm for sorting by the absolute difference
     # between the postal code of the user and the postal code
     # of the restaurants.
     # --------------------------------------------------------------
-    def apply_postal_code_sort(self, query):
+    def apply_postal_code_sort(self, query: Query):
         user_postal_code = current_user.postal_code.postal_code or None
 
         if not user_postal_code:
             return query
 
-        try:
-            user_postal_int = int(user_postal_code)
-        except ValueError:
-            # TODO fallback to string sort
-            return query
-
         query = (
-            query.join(Restaurant.account, isouter=True)
-            .join(Account.postal_code, isouter=True)
+            query.join(PostalCodeRestaurant, isouter=True)
+            .join(PostalCode, isouter=True)
             .order_by(
-                # Sort by the absolute difference between the restaurant's postal_code and the user's
-                func.abs(cast(PostalCode.postal_code, Integer) - user_postal_int).asc()
+                case((PostalCode.postal_code == user_postal_code, 0), else_=1),
+                PostalCodeRestaurant.distance.asc(),
             )
         )
 

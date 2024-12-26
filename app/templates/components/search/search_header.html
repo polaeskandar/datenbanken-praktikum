@@ -18,38 +18,34 @@
       <select class="form-select" name="sort_by">
         <option>Sort Results By</option>
         <option value="alphabetically">Alphabetically</option>
+        <option value="distance">Distance (Nearest to me)</option>
         <option value="top_ordered">Top Ordered</option>
         <option value="rating">Rating</option>
+        <option value="newest">Newest</option>
       </select>
     </form>
   </div>
 </section>
 
 <script>
-  // Select the <select> element
-  const selectElement = document.querySelector('#search-header .sort-results-select-box select');
+    const selectElement = document.querySelector('#search-header .sort-results-select-box select');
 
-  if (!selectElement) {
-    throw new Error("Select element for sorting options is not found");
-  }
+    if (!selectElement) {
+        throw new Error("Select element for sorting options is not found");
+    }
 
-  // Set the initial value based on the current query parameter
-  const urlParams = new URLSearchParams(window.location.search);
-  const sortByValue = urlParams.get('sort_by');
+    const urlParams = new URLSearchParams(window.location.search);
+    const sortByValue = urlParams.get('sort_by');
 
-  if (sortByValue) {
-    selectElement.value = sortByValue;
-  }
+    if (sortByValue) {
+        selectElement.value = sortByValue;
+    }
 
-  // Handle the change event to update the URL and submit the form
-  selectElement.addEventListener('change', (e) => {
-    const newSortValue = e.target.value;
+    selectElement.addEventListener('change', (e) => {
+        const newSortValue = e.target.value;
+        const updatedParams = new URLSearchParams(window.location.search);
 
-    // Preserve all existing query parameters
-    const updatedParams = new URLSearchParams(window.location.search);
-    updatedParams.set('sort_by', newSortValue);
-
-    // Redirect to the updated URL
-    window.location.search = updatedParams.toString();
-  });
+        updatedParams.set('sort_by', newSortValue);
+        window.location.search = updatedParams.toString();
+    });
 </script>
