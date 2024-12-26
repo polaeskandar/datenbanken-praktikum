@@ -20,7 +20,7 @@ class RestaurantSearchService:
         if search_conditions:
             query = query.filter(or_(*search_conditions))
 
-        # 2. Sort by proximity to the user's main postal code (if available)
+        # 2. Sort by distance to user's district
         query = self.apply_postal_code_sort(query)
 
         # TODO 3. Sort by opening hours to be implemented
@@ -46,11 +46,11 @@ class RestaurantSearchService:
         return conditions
 
     # --------------------------------------------------------------
-    # Sorting by Proximity
+    # Sorting by Distance to User's District
     # --------------------------------------------------------------
-    # Simple algorithm for sorting by the absolute difference
-    # between the postal code of the user and the postal code
-    # of the restaurants.
+    # First sort by whether the postal_code matches (restaurants
+    # with a match come first), then by distance ascending if there
+    # is a distance.
     # --------------------------------------------------------------
     def apply_postal_code_sort(self, query: Query):
         user_postal_code = current_user.postal_code.postal_code or None
