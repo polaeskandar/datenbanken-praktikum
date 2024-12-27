@@ -5,6 +5,8 @@
 @import "css/components/admin/menu_page_navigation.css";
 @import "css/components/search/search_header.css";
 @import "css/components/restaurant/restaurant_page.css";
+@import "css/components/restaurant/cart.css";
+@import "css/components/restaurant/restaurant_header.css";
 
 /** GLOBALS **/
 .flash-box .alert {
