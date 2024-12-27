@@ -37,9 +37,7 @@ def handle_restaurant_creation(
 ) -> Response:
     try:
         # Ensure the postal code exists or create it
-        postal_code = get_or_create_postal_code(
-            create_restaurant_form.postal_code.data
-        )
+        postal_code = get_or_create_postal_code(create_restaurant_form.postal_code.data)
 
         # Create the account
         account = create_account(create_restaurant_form, postal_code)

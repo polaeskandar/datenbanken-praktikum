@@ -15,5 +15,7 @@ class MenuItem(db.Model):
 
     # Relationships
     menu = db.relationship("Menu", back_populates="items", uselist=False)
-    orders = db.relationship("OrderMenuItem", back_populates="items")
+    order_items = db.relationship(
+        "OrderItem", back_populates="item", lazy="dynamic", cascade="all, delete-orphan"
+    )
     carts = db.relationship("CartItem", back_populates="item")

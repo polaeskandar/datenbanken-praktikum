@@ -12,4 +12,6 @@ class Cart(db.Model):
     # Relationship
     customer = db.relationship("Customer", back_populates="carts", uselist=False)
     restaurant = db.relationship("Restaurant", back_populates="carts", uselist=False)
-    items = db.relationship("CartItem", back_populates="cart")
+    items = db.relationship(
+        "CartItem", back_populates="cart", cascade="all, delete-orphan"
+    )
