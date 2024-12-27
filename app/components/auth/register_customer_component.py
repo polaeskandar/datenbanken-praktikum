@@ -31,32 +31,31 @@ def register_customer_component() -> Response | str:
 
 
 def handle_customer_creation(register_customer_form: RegisterCustomerForm) -> Response:
-    with app.app_context():
-        try:
-            # Ensure the postal code exists or create it
-            postal_code = get_or_create_postal_code(
-                register_customer_form.postal_code.data
-            )
+    try:
+        # Ensure the postal code exists or create it
+        postal_code = get_or_create_postal_code(
+            register_customer_form.postal_code.data
+        )
 
-            # Create the account
-            account = create_account(register_customer_form, postal_code)
+        # Create the account
+        account = create_account(register_customer_form, postal_code)
 
-            # Create the customer
-            customer = create_customer_entity(register_customer_form, account)
+        # Create the customer
+        customer = create_customer_entity(register_customer_form, account)
 
-            # Save all entities to the database
-            db.session.add_all([account, customer])
-            db.session.commit()
+        # Save all entities to the database
+        db.session.add_all([account, customer])
+        db.session.commit()
 
-            # Log the user in and redirect
-            login_user(account)
-            flash("User created successfully!", category="success")
+        # Log the user in and redirect
+        login_user(account)
+        flash("User created successfully!", category="success")
 
-            return redirect(url_for("index.index"))
-        except Exception as e:
-            db.session.rollback()
+        return redirect(url_for("index.index"))
+    except Exception as e:
+        db.session.rollback()
 
-            raise e
+        raise e
 
 
 def create_account(form: RegisterCustomerForm, postal_code: PostalCode) -> Account:

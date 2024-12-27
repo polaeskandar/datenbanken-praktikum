@@ -27,30 +27,29 @@ def add_menu_item_component() -> str | Response:
 
 
 def handle_menu_item_creation(menu_item_form: MenuItemForm) -> Response:
-    with app.app_context():
-        try:
-            # Upload image and validate
-            image_path = upload_required_file(
-                form=menu_item_form,
-                err="An image for the item has to be provided.",
-            )
+    try:
+        # Upload image and validate
+        image_path = upload_required_file(
+            form=menu_item_form,
+            err="An image for the item has to be provided.",
+        )
 
-            # Create and save the menu item
-            menu_item = MenuItem(
-                name=menu_item_form.item_name.data,
-                description=menu_item_form.description.data,
-                price=menu_item_form.price.data,
-                image=image_path,
-                menu=current_user.restaurant.menu,
-            )
+        # Create and save the menu item
+        menu_item = MenuItem(
+            name=menu_item_form.item_name.data,
+            description=menu_item_form.description.data,
+            price=menu_item_form.price.data,
+            image=image_path,
+            menu=current_user.restaurant.menu,
+        )
 
-            db.session.add(menu_item)
-            db.session.commit()
+        db.session.add(menu_item)
+        db.session.commit()
 
-            flash("Item created successfully.", "success")
-        except Exception as e:
-            db.session.rollback()
+        flash("Item created successfully.", "success")
+    except Exception as e:
+        db.session.rollback()
 
-            raise e
+        raise e
 
     return redirect(url_for("admin.menu_overview"))
