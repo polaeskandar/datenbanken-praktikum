@@ -43,25 +43,24 @@ def edit_menu_item_component(item_id: int) -> str | Response:
 def handle_menu_item_update(
     menu_item_form: MenuItemForm, menu_item: MenuItem
 ) -> Response:
-    with app.app_context():
-        try:
-            # Update menu item fields
-            menu_item.name = menu_item_form.item_name.data
-            menu_item.price = menu_item_form.price.data
-            menu_item.description = menu_item_form.description.data
+    try:
+        # Update menu item fields
+        menu_item.name = menu_item_form.item_name.data
+        menu_item.price = menu_item_form.price.data
+        menu_item.description = menu_item_form.description.data
 
-            # Handle optional image upload
-            image_path = upload_file(menu_item_form)
-            if image_path:
-                menu_item.image = image_path
+        # Handle optional image upload
+        image_path = upload_file(menu_item_form)
+        if image_path:
+            menu_item.image = image_path
 
-            # Commit changes to the database
-            db.session.commit()
-            flash("Updated menu item successfully.", "success")
-        except Exception as e:
-            db.session.rollback()
+        # Commit changes to the database
+        db.session.commit()
+        flash("Updated menu item successfully.", "success")
+    except Exception as e:
+        db.session.rollback()
 
-            raise e
+        raise e
 
     return redirect(url_for("admin.menu_overview"))
 

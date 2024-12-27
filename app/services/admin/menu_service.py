@@ -7,13 +7,12 @@ from app.models.MenuItem import MenuItem
 
 
 def delete_item(item_id: int):
-    with app.app_context():
-        menu_item = MenuItem.query.get_or_404(item_id)
+    menu_item = MenuItem.query.get_or_404(item_id)
 
-        if menu_item.menu.restaurant != current_user.restaurant:
-            abort(403)
+    if menu_item.menu.restaurant != current_user.restaurant:
+        abort(403)
 
-        db.session.delete(menu_item)
-        db.session.commit()
+    db.session.delete(menu_item)
+    db.session.commit()
 
     flash("Menu item deleted successfully.", "success")

@@ -35,43 +35,42 @@ def create_restaurant_component() -> str | Response:
 def handle_restaurant_creation(
     create_restaurant_form: CreateRestaurantForm,
 ) -> Response:
-    with app.app_context():
-        try:
-            # Ensure the postal code exists or create it
-            postal_code = get_or_create_postal_code(
-                create_restaurant_form.postal_code.data
-            )
+    try:
+        # Ensure the postal code exists or create it
+        postal_code = get_or_create_postal_code(
+            create_restaurant_form.postal_code.data
+        )
 
-            # Create the account
-            account = create_account(create_restaurant_form, postal_code)
+        # Create the account
+        account = create_account(create_restaurant_form, postal_code)
 
-            # Handle optional image upload
-            image_path = upload_file(create_restaurant_form)
+        # Handle optional image upload
+        image_path = upload_file(create_restaurant_form)
 
-            # Create the restaurant
-            restaurant = Restaurant(
-                name=create_restaurant_form.name.data,
-                description=create_restaurant_form.description.data,
-                account=account,
-                image=image_path,
-            )
+        # Create the restaurant
+        restaurant = Restaurant(
+            name=create_restaurant_form.name.data,
+            description=create_restaurant_form.description.data,
+            account=account,
+            image=image_path,
+        )
 
-            # Create the associated menu
-            menu = Menu(restaurant=restaurant)
+        # Create the associated menu
+        menu = Menu(restaurant=restaurant)
 
-            # Save all entities to the database
-            db.session.add_all([account, restaurant, menu])
-            db.session.commit()
+        # Save all entities to the database
+        db.session.add_all([account, restaurant, menu])
+        db.session.commit()
 
-            # Log the user in and redirect
-            login_user(account)
-            flash("Restaurant registered successfully!", category="success")
+        # Log the user in and redirect
+        login_user(account)
+        flash("Restaurant registered successfully!", category="success")
 
-            return redirect(url_for("admin.index"))
-        except Exception as e:
-            db.session.rollback()
+        return redirect(url_for("admin.index"))
+    except Exception as e:
+        db.session.rollback()
 
-            raise e
+        raise e
 
 
 def create_account(form: CreateRestaurantForm, postal_code: PostalCode) -> Account:
