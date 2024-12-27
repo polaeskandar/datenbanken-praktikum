@@ -31,13 +31,13 @@
         {% for component in components['header'] %} {{ component|safe }} {% endfor %}
       {% endblock %}
     </header>
-    <section class="d-flex">
-      <aside id="aside" class="d-flex flex-column container min-vh-100">
+    <section class="d-flex justify-content-between">
+      <aside id="aside" class="d-flex flex-column container-fluid min-vh-100">
         {% block aside_content %}
           {% for component in components['aside'] %} {{ component|safe }} {% endfor %}
         {% endblock %}
       </aside>
-      <main id="content" class="d-flex flex-column container min-vh-100 p-5">
+      <main id="content" class="d-flex flex-column container-fluid min-vh-100 p-5">
         {% block main_content %}
           {% for component in components['main'] %} {{ component|safe }} {% endfor %}
         {% endblock %}
