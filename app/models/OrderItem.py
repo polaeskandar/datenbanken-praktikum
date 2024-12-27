@@ -8,5 +8,5 @@ class OrderItem(db.Model):
     menu_item_id = db.Column(db.Integer, db.ForeignKey("menu_item.id"))
 
     # Relationships
-    order = db.relationship("Order", back_populates="items")
+    order = db.relationship("Order", back_populates="order_items")
     item = db.relationship("MenuItem", back_populates="order_items", uselist=False)

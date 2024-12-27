@@ -18,7 +18,7 @@ class Order(db.Model):
     # Relationships
     customer = db.relationship("Customer", back_populates="orders", uselist=False)
     restaurant = db.relationship("Restaurant", back_populates="orders", uselist=False)
-    items = db.relationship(
+    order_items = db.relationship(
         "OrderItem",
         back_populates="order",
         lazy="dynamic",
