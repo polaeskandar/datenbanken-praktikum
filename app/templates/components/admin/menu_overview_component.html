@@ -5,7 +5,10 @@
         <img src="{{ url_for('static', filename='/uploads/images/' + item.image) }}" class="card-img-top"
              alt="{{ item.item_name }}">
         <div class="card-body">
-          <h5 class="card-title">{{ item.name }}</h5>
+          <div class="d-flex align-items-baseline justify-content-between text-center">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <small class="fs-5 text-success">{{ item.price }}€</small>
+          </div>
           <p class="card-text">{{ item.description }}</p>
           <a href="{{ url_for('admin.edit_menu_item', item_id=item.id) }}" class="btn btn-dark"><i
               class="fa-solid fa-pen-to-square me-2"></i>Edit Item</a>
