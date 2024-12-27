@@ -1,0 +1,91 @@
+<div class="row" data-masonry='{"percentPosition": true }'>
+  <div class="col-4 mb-3">
+    <div class="card">
+      <img src="{{ url_for('static', filename="images/search-heading-carousel-03.jpg") }}" class="card-img-top"
+           alt="Item Name">
+      <div class="card-body">
+        <h5 class="card-title">Burger Menu</h5>
+        <p class="card-text">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis deleniti deserunt enim est harum magnam
+          maiores quibusdam quisquam. Aperiam aspernatur id nisi officia omnis placeat porro quisquam rerum sint
+          voluptatibus.
+        </p>
+        <div class="d-flex align-items-center justify-content-end mt-4">
+          <span class="fs-3 text-success me-3">8,99€</span>
+          <a href="#" class="btn btn-dark">
+            <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 mb-3">
+    <div class="card">
+      <img src="{{ url_for('static', filename="images/search-heading-carousel-02.jpg") }}" class="card-img-top"
+           alt="Item Name">
+      <div class="card-body">
+        <h5 class="card-title">Burger Menu</h5>
+        <p class="card-text">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis deleniti deserunt enim est harum magnam
+          maiores quibusdam quisquam. Aperiam aspernatur id nisi officia omnis placeat porro quisquam rerum sint
+          voluptatibus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem in libero mollitia
+          officiis? Aut delectus doloremque eaque eius maiores minus molestiae molestias praesentium, quam tempore vel
+          veritatis? Alias aliquam aliquid autem beatae consectetur consequatur deserunt dicta ea earum est eum eveniet
+          fuga harum in ipsa laudantium minima modi natus necessitatibus neque nihil non nostrum odit perspiciatis
+          placeat ratione rem reprehenderit saepe sapiente sequi sint vitae voluptate, voluptatem! A accusantium
+          assumenda, deleniti dolores esse et ex exercitationem fugiat iste laborum magnam, maxime modi odit, omnis
+          optio perspiciatis quae quaerat quam quas reiciendis sint tenetur vitae voluptatem. Animi fugit perspiciatis
+          quas velit.
+        </p>
+        <div class="d-flex align-items-center justify-content-end mt-4">
+          <span class="fs-3 text-success me-3">8,99€</span>
+          <a href="#" class="btn btn-dark">
+            <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 mb-3">
+    <div class="card">
+      <img src="{{ url_for('static', filename="images/search-heading-carousel-01.jpg") }}" class="card-img-top"
+           alt="Item Name">
+      <div class="card-body">
+        <h5 class="card-title">Burger Menu</h5>
+        <p class="card-text">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis deleniti deserunt enim est harum magnam
+          maiores quibusdam quisquam.
+        </p>
+        <div class="d-flex align-items-center justify-content-end mt-4">
+          <span class="fs-3 text-success me-3">8,99€</span>
+          <a href="#" class="btn btn-dark">
+            <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {#  {% for item in attributes.menu_items %}
+    <div class="col-4 mb-3">
+      <div class="card">
+        <img src="{{ url_for('static', filename='/uploads/images/' + item.image) }}" class="card-img-top"
+             alt="{{ item.item_name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ item.name }}</h5>
+          <p class="card-text">{{ item.description }}</p>
+          <a href="{{ url_for('admin.edit_menu_item', item_id=item.id) }}" class="btn btn-dark"><i
+              class="fa-solid fa-pen-to-square me-2"></i>Edit Item</a>
+          <a href="{{ url_for('admin.delete_menu_item', item_id=item.id) }}" class="btn btn-danger"><i
+              class="fa-solid fa-trash me-2"></i>Delete Item</a>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-secondary">
+      No items were yet added to the menu add one
+      <a class="link-secondary" href="{{ url_for('admin.add_menu_item') }}">here</a>.
+    </div>
+  {% endfor %}#}
+</div>

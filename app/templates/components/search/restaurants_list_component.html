@@ -1,6 +1,6 @@
 <section class="d-flex flex-column align-items-stretch gap-3 my-5">
   {% for restaurant in attributes.restaurants %}
-    <a href="#" class="card border-bottom text-decoration-none">
+    <a href="{{ url_for('index.restaurant_page', restaurant_id=restaurant.id) }}" class="card border-bottom text-decoration-none">
       <div class="row g-0">
         <div class="col-md-4">
           {% if restaurant.image %}

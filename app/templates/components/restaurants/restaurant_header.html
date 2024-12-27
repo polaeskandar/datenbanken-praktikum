@@ -1,0 +1,29 @@
+<a class="my-3" href="{{ attributes.results_url }}">
+  <i class="fa-solid fa-chevron-left me-2"></i>Back to search results
+</a>
+
+<img src="{{ url_for('static', filename="images/search-heading-carousel-01.jpg") }}" class="d-block w-100 rounded"
+     alt="Search heading image 1"/>
+
+<section class="d-flex justify-content-between my-5">
+  <div class="d-flex gap-4">
+    <img class="rounded" src="{{ url_for('static', filename="images/search-heading-carousel-02.jpg") }}"
+         style="width: 15%" alt="Restaurant Image"/>
+    <div>
+      <h1 class="fs-4 mb-1">{{ attributes.restaurant_name }}</h1>
+      <p class="mb-0">
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-regular fa-star-half"></i>
+      </p>
+      <small class="text-body-secondary">4k Ratings</small>
+    </div>
+  </div>
+
+  <p class="text-muted">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad asperiores commodi eius est et eveniet facilis, illum
+    iste labore, molestias officiis placeat quia quis ratione saepe similique, totam ut veniam.
+  </p>
+</section>
