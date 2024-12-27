@@ -9,7 +9,7 @@
                 <h5 class="card-title">{{ item.name }}</h5>
                 <p class="card-text">{{ item.description }}</p>
                 <div class="d-flex align-items-center justify-content-end mt-4">
-                    <span class="fs-3 text-success me-3">{{ item.price }}€</span>
+                    <span class="fs-3 text-success me-3">{{ "%.2f" % item.price }}€</span>
                     <a href="{{ url_for('index.add_to_cart', restaurant_id=attributes.restaurant.id, item_id=item.id) }}" class="btn btn-dark">
                         <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart
                     </a>

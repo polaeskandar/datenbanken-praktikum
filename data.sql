@@ -13,28 +13,28 @@ VALUES
 
 INSERT INTO account (email, password, address, balance, postal_code_id)
 VALUES
-    ('john.doe@example.com', 'hashed_password1', '123 Elm Street', 100.0, 1),
-    ('jane.smith@example.com', 'hashed_password2', '456 Oak Avenue', 100.0, 2),
-    ('robert.brown@example.com', 'hashed_password3', '789 Pine Road', 100.0, 3),
-    ('emily.jones@example.com', 'hashed_password4', '321 Maple Lane', 100.0, 4),
-    ('william.davis@example.com', 'hashed_password5', '654 Birch Drive', 100.0, 5),
-    ('sophia.miller@example.com', 'hashed_password6', '987 Cedar Street', 100.0, 6),
-    ('james.wilson@example.com', 'hashed_password7', '111 Spruce Circle', 100.0, 7),
-    ('isabella.moore@example.com', 'hashed_password8', '222 Chestnut Way', 100.0, 8),
-    ('michael.taylor@example.com', 'hashed_password9', '333 Walnut Place', 100.0, 9),
-    ('olivia.anderson@example.com', 'hashed_password10', '444 Ash Court', 100.0, 10);
+    ('john.doe@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '123 Elm Street', 100.0, 1),
+    ('jane.smith@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '456 Oak Avenue', 100.0, 2),
+    ('robert.brown@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '789 Pine Road', 100.0, 3),
+    ('emily.jones@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '321 Maple Lane', 100.0, 4),
+    ('william.davis@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '654 Birch Drive', 100.0, 5),
+    ('sophia.miller@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '987 Cedar Street', 100.0, 6),
+    ('james.wilson@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '111 Spruce Circle', 100.0, 7),
+    ('isabella.moore@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '222 Chestnut Way', 100.0, 8),
+    ('michael.taylor@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '333 Walnut Place', 100.0, 9),
+    ('olivia.anderson@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '444 Ash Court', 100.0, 10);
 INSERT INTO account (email, password, address, balance, postal_code_id)
 VALUES
-    ('italian.bistro@example.com', 'hashed_password11', '1 Little Italy St', 100.0, 1),
-    ('golden.dragon@example.com', 'hashed_password12', '2 Chinatown Blvd', 100.0, 2),
-    ('sunrise.cafe@example.com', 'hashed_password13', '3 Morning Lane', 100.0, 3),
-    ('bbq.heaven@example.com', 'hashed_password14', '4 Smokehouse Dr', 100.0, 4),
-    ('sushi.master@example.com', 'hashed_password15', '5 Sakura Rd', 100.0, 5),
-    ('green.garden@example.com', 'hashed_password16', '6 Vegan Way', 100.0, 6),
-    ('burger.shack@example.com', 'hashed_password17', '7 Grill Avenue', 100.0, 7),
-    ('royal.tandoor@example.com', 'hashed_password18', '8 Spice Street', 100.0, 8),
-    ('pizza.palace@example.com', 'hashed_password19', '9 Mozzarella Ct', 100.0, 9),
-    ('french.corner@example.com', 'hashed_password20', '10 Parisian Rd', 100.0, 10);
+    ('italian.bistro@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '1 Little Italy St', 100.0, 1),
+    ('golden.dragon@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '2 Chinatown Blvd', 100.0, 2),
+    ('sunrise.cafe@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '3 Morning Lane', 100.0, 3),
+    ('bbq.heaven@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '4 Smokehouse Dr', 100.0, 4),
+    ('sushi.master@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '5 Sakura Rd', 100.0, 5),
+    ('green.garden@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '6 Vegan Way', 100.0, 6),
+    ('burger.shack@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '7 Grill Avenue', 100.0, 7),
+    ('royal.tandoor@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '8 Spice Street', 100.0, 8),
+    ('pizza.palace@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '9 Mozzarella Ct', 100.0, 9),
+    ('french.corner@example.com', '$2b$12$yk6KgMnkvQtlt61haV/DhuQ/3rYrAimrs45jL4eKcJZXMKCDOqntW', '10 Parisian Rd', 100.0, 10);
 INSERT INTO customer (first_name, last_name, account_id)
 VALUES
     ('John', 'Doe', 1),
@@ -164,7 +164,7 @@ VALUES
     ('Completed', 32.97, '2024-11-28 19:20:00', 4, 14),
     ('Pending', 10.50, '2024-11-30 17:00:00', 5, 15);
 
-INSERT INTO order_menu_item (order_id, menu_item_id)
+INSERT INTO order_item (order_id, menu_item_id)
 VALUES
     (1, 1),
     (1, 2),

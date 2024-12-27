@@ -33,9 +33,7 @@ def register_customer_component() -> Response | str:
 def handle_customer_creation(register_customer_form: RegisterCustomerForm) -> Response:
     try:
         # Ensure the postal code exists or create it
-        postal_code = get_or_create_postal_code(
-            register_customer_form.postal_code.data
-        )
+        postal_code = get_or_create_postal_code(register_customer_form.postal_code.data)
 
         # Create the account
         account = create_account(register_customer_form, postal_code)

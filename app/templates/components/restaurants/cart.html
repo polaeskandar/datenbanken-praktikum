@@ -9,7 +9,7 @@
                 <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
                     <div class="flex-1 d-flex flex-column">
                         <span class="fs-5 fw-semibold">{{ cart_item.item.name }}</span>
-                        <span class="text-success">{{ (cart_item.item.price * cart_item.quantity)|round(2) }}€</span>
+                        <span class="text-success">{{ "%.2f" % (cart_item.item.price * cart_item.quantity) }}€</span>
                     </div>
                     <div class="item-quantity input-group">
                         <div class="d-flex align-items-center justify-content-center px-3 bg-dark text-white rounded-start">{{ cart_item.quantity }}</div>
@@ -35,13 +35,15 @@
     </div>
 
     <div class="justify-self-end">
-        <p class="text-muted">Any wishes to your order? Add them here!</p>
-        <form>
-            <textarea class="form-control" rows="10"></textarea>
+        <form method="POST">
+            {{ attributes.place_order_form.hidden_tag() }}
+            {{ attributes.place_order_form.wishes_text.label(class="form-label", for="wishes_text") }}
+            {{ attributes.place_order_form.wishes_text(id="wishes_text", class="form-control") }}
+
             <div class="d-grid mt-3">
-                <div class="btn btn-dark">
+                <button type="submit" class="btn btn-dark">
                     <i class="fa-solid fa-credit-card me-2"></i>Place Order
-                </div>
+                </button>
             </div>
         </form>
     </div>

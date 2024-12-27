@@ -1,5 +1,6 @@
-from flask import Blueprint, Response, redirect, url_for
+from flask import Blueprint, Response, redirect, url_for, flash, request
 from flask_login import login_required
+from werkzeug.exceptions import HTTPException
 
 from app.components.admin.menu.add_menu_item_component import add_menu_item_component
 from app.components.admin.aside_menu_component import aside_menu_component
@@ -19,8 +20,10 @@ from app.components.admin.set_delivery_radius_component import (
 from app.components.admin.set_opening_hours_component import set_opening_hours_component
 from app.components.layout.footer_component import footer_component
 from app.components.layout.navbar_component import navbar_component
+from app.models.Order import Order
 from app.routes import render_page
 from app.services.admin.menu_service import delete_item
+from app.services.admin.order_service import update_status
 from app.services.component_safe_renderer import safe_render_component
 
 admin_routes = Blueprint("admin", __name__)
@@ -33,6 +36,19 @@ def index() -> Response:
     components = build_components([orders_table_component])
 
     return render_page("admin.html", "Admin", components)
+
+
+@admin_routes.route("/orders/<int:order_id>/update-status", methods=["POST"])
+@login_required
+def update_order_status(order_id: int) -> Response:
+    try:
+        order = Order.query.get_or_404(order_id)
+    except HTTPException:
+        flash("Order not found.", "danger")
+
+        return redirect(request.referrer or url_for("admin.index"))
+
+    return update_status(order)
 
 
 @admin_routes.route("/menu", methods=["GET", "POST"])
