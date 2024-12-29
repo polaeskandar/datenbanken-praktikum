@@ -1,14 +1,14 @@
 from flask import render_template
-from flask_login import current_user
 from sqlalchemy import case
 
+from app.models.Restaurant import Restaurant
 from app.enum.OrderStatus import OrderStatus
 from app.models.Order import Order
 
 
-def orders_table_component() -> str:
+def orders_table_component(restaurant: Restaurant) -> str:
     orders = (
-        Order.query.filter_by(restaurant=current_user.restaurant)
+        Order.query.filter_by(restaurant=restaurant)
         .order_by(
             case(
                 (Order.status == OrderStatus.PENDING, 0),

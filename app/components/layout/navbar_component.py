@@ -1,6 +1,7 @@
 from flask import render_template, url_for, request, flash
 from flask_login import current_user
 
+from app.models.Notification import Notification
 from app.enum.AccountType import AccountType
 from app.form.component.navbar.RestaurantsFilterForm import RestaurantsFilterForm
 
@@ -9,6 +10,8 @@ def navbar_component() -> str:
     restaurants_filter_form = RestaurantsFilterForm(request.args)
 
     validate_form(restaurants_filter_form)
+
+    notifications = get_notifications()
 
     attributes = {
         "logo": url_for("static", filename="images/logo.png"),
@@ -19,6 +22,8 @@ def navbar_component() -> str:
         "restaurants_filter_form": restaurants_filter_form,
         "dropdown_label": get_dropdown_label(),
         "dropdown_items": get_dropdown_items(),
+        "notifications": notifications,
+        "unread_notifications": count_unread_notifications(notifications),
     }
 
     return render_template("components/layout/navbar.html", attributes=attributes)
@@ -74,3 +79,19 @@ def get_dropdown_items() -> list[dict[str:str]]:
                 "text": "Logout",
             },
         ]
+
+
+def get_notifications():
+    return (
+        Notification.query.filter_by(account=current_user)
+        .order_by(
+            Notification.is_read.asc(),
+            Notification.created_at.desc(),
+        )
+        .limit(5)
+        .all()
+    )
+
+
+def count_unread_notifications(notifications: list[Notification]) -> int:
+    return sum(1 for notification in notifications if not notification.is_read)

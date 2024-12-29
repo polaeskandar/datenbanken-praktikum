@@ -1,5 +1,5 @@
 from flask import Blueprint, Response, redirect, url_for, flash, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from werkzeug.exceptions import HTTPException
 
 from app.components.admin.menu.add_menu_item_component import add_menu_item_component
@@ -33,22 +33,11 @@ admin_routes = Blueprint("admin", __name__)
 @admin_routes.route("/orders")
 @login_required
 def index() -> Response:
-    components = build_components([orders_table_component])
+    components = build_components(
+        [lambda: orders_table_component(current_user.restaurant)]
+    )
 
     return render_page("admin.html", "Admin", components)
-
-
-@admin_routes.route("/orders/<int:order_id>/update-status", methods=["POST"])
-@login_required
-def update_order_status(order_id: int) -> Response:
-    try:
-        order = Order.query.get_or_404(order_id)
-    except HTTPException:
-        flash("Order not found.", "danger")
-
-        return redirect(request.referrer or url_for("admin.index"))
-
-    return update_status(order)
 
 
 @admin_routes.route("/menu", methods=["GET", "POST"])
