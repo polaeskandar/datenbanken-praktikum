@@ -1,7 +1,9 @@
 from app import socketio, db
+from app.components.layout.notifications_component import notifications_component
 from app.enum.AccountType import AccountType
 from app.models.Account import Account
 from app.models.Notification import Notification
+from app.services.component_safe_renderer import safe_render_component
 
 
 def push_notification(
@@ -24,5 +26,20 @@ def push_notification(
         room = "/restaurant/" + str(to.restaurant.id)
 
     socketio.emit(
-        "flash", {"category": category, "title": title, "text": text}, to=room
+        "flash",
+        {
+            "category": category,
+            "title": title,
+            "text": text,
+            "type": "notification" if save_to_db else "flash",
+        },
+        to=room,
+    )
+
+    socketio.emit(
+        "refresh_notifications",
+        {
+            "notifications": safe_render_component(lambda: notifications_component(to)),
+        },
+        to=room,
     )

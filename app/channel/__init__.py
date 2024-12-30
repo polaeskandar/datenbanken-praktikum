@@ -42,7 +42,9 @@ def order_status_changed(data: dict[str, str]) -> None:
 def read_notifications(data) -> None:
     notification_ids = data.get("notificationIds")
 
-    notifications = Notification.query.filter(Notification.id.in_(notification_ids)).all()
+    notifications = Notification.query.filter(
+        Notification.id.in_(notification_ids)
+    ).all()
 
     for notification in notifications:
         notification.is_read = True

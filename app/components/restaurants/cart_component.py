@@ -145,7 +145,7 @@ def send_notifications(restaurant):
     )
 
     socketio.emit(
-        "refreshed_orders",
+        "refresh_orders",
         {
             "orders": safe_render_component(lambda: orders_table_component(restaurant)),
         },

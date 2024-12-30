@@ -22,6 +22,11 @@ const socketFlashBox = (socket) => {
     socketFlashElement.appendChild(hrElement);
     socketFlashElement.appendChild(textElement);
     flashBbox.append(socketFlashElement);
+
+    if (data.type === "notification") {
+        document.getElementById('notification-bell').classList.add("active");
+    }
+
     playNotificationSound();
   });
 }
@@ -33,7 +38,7 @@ const connectNotificationBell = (socket) => {
     const notifications = document.querySelectorAll('.notification[data-notification-id]');
 
     notifications.forEach(notification => {
-      setTimeout(() => notification.classList.remove('border-dark', 'bg-dark', 'text-white', 'active'), 1000);
+      setTimeout(() => notification.classList.remove('active', 'border-light', 'bg-light'), 10000);
     });
 
     const notificationIds = Array.from(notifications).reduce((ids, notification) => {
@@ -50,12 +55,26 @@ const connectNotificationBell = (socket) => {
   })
 }
 
+const connectNotificationsList = (socket) => {
+  socket.on("refresh_notifications", function (data) {
+    const refreshedNotifications = data.notifications;
+    const notificationsComponent = document.getElementById('notifications');
+
+    if (!notificationsComponent) {
+      return;
+    }
+
+    notificationsComponent.innerHTML = refreshedNotifications;
+    connectNotificationBell(socket);
+  });
+}
+
 // ORDERS TABLE
 const connectOrdersSection = (socket) => {
   // Initial registration when the page loads
   registerEventListenersForOrdersTable(socket);
 
-  socket.on("refreshed_orders", function (data) {
+  socket.on("refresh_orders", function (data) {
     const refreshedOrders = data.orders;
     const ordersSection = document.getElementById('orders');
 

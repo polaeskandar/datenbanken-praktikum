@@ -24,7 +24,7 @@ def update_status(order: Order, new_status_value: str | None) -> None:
     db.session.commit()
 
     socketio.emit(
-        "refreshed_orders",
+        "refresh_orders",
         {
             "orders": safe_render_component(
                 lambda: orders_table_component(order.restaurant)
