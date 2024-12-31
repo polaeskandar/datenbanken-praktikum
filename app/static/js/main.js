@@ -23,6 +23,10 @@ const socketFlashBox = (socket) => {
     socketFlashElement.appendChild(textElement);
     flashBbox.append(socketFlashElement);
 
+    setTimeout(() => {
+      socketFlashElement.remove();
+    }, 10000);
+
     if (data.type === "notification") {
         document.getElementById('notification-bell').classList.add("active");
     }
