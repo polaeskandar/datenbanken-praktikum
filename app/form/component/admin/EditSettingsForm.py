@@ -21,7 +21,12 @@ class EditSettingsForm(FileAttachedForm):
     address = StringField("Address", validators=[DataRequired()])
 
     postal_code = SelectField(
-        choices=[("", "Choose a postal code")], validators=[DataRequired()]
+        choices=[("", "Choose a postal code")],
+    )
+
+    new_postal_code = StringField(
+        "New Postal Code", validators=[Length(min=3, max=255)],
+        render_kw={"placeholder": "Fill if you didn't find your postal code in the select box above"},
     )
 
     restaurant_description = TextAreaField(
