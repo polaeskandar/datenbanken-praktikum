@@ -6,6 +6,7 @@ from app.form.component.auth.RegisterCustomerForm import RegisterCustomerForm
 from app.models.Account import Account
 from app.models.Customer import Customer
 from app.models.PostalCode import PostalCode
+from app.services.notification_service import push_notification
 from app.services.postal_code_service import get_or_create_postal_code
 
 
@@ -47,7 +48,12 @@ def handle_customer_creation(register_customer_form: RegisterCustomerForm) -> Re
 
         # Log the user in and redirect
         login_user(account)
-        flash("User created successfully!", category="success")
+        push_notification(
+            category="success",
+            title="Welcome!",
+            text=f"Good to see you here, {customer.first_name}",
+            to=account,
+        )
 
         return redirect(url_for("index.index"))
     except Exception as e:

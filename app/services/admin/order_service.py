@@ -1,26 +1,49 @@
-from flask import request, flash, redirect, url_for
-
-from app import db
+from app import db, socketio
+from app.components.admin.orders_table_component import orders_table_component
 from app.models.Order import Order
 from app.enum.OrderStatus import OrderStatus
+from app.services.component_safe_renderer import safe_render_component
+from app.services.notification_service import push_notification
 
 
-def update_status(order: Order):
-    new_status_value = request.form.get("status").lower().capitalize()
-
-    if not new_status_value:
-        flash("No status selected.", "danger")
-
-        return redirect(url_for("admin.index"))
+def update_status(order: Order, new_status_value: str | None) -> None:
+    new_status_value = new_status_value.lower().capitalize()
 
     if new_status_value not in [status.value for status in OrderStatus]:
-        flash("Invalid status.", "danger")
+        push_notification(
+            category="danger",
+            title="Invalid Status!",
+            text="Please choose a valid status.",
+            to=order.restaurant.account,
+            save_to_db=False,
+        )
 
-        return redirect(url_for("admin.index"))
+        return
 
     order.status = OrderStatus(new_status_value)
-
     db.session.commit()
-    flash(f'Order status updated to "{new_status_value}".', "success")
 
-    return redirect(url_for("admin.index"))
+    socketio.emit(
+        "refresh_orders",
+        {
+            "orders": safe_render_component(
+                lambda: orders_table_component(order.restaurant)
+            ),
+        },
+        to="/restaurant/" + str(order.restaurant.id),
+    )
+
+    push_notification(
+        category="success",
+        title="Order Update!",
+        text=f'Order status successfully updated to "{new_status_value}".',
+        to=order.restaurant.account,
+        save_to_db=False,
+    )
+
+    push_notification(
+        category="success",
+        title="Order Update!",
+        text=f"Your order's at ({order.restaurant.name}) status has been updated to {new_status_value}.",
+        to=order.customer.account,
+    )

@@ -13,10 +13,12 @@
       <script defer src="{{ url_for('static', filename="vendor/masonry.min.js") }}"></script>
       <script defer src="{{ url_for('static', filename="vendor/popper.js") }}"></script>
       <script defer src="{{ url_for('static', filename="vendor/bootstrap.js") }}"></script>
+      <script src="{{ url_for('static', filename="vendor/socket-io.js") }}"></script>
+      <script src="{{ url_for('static', filename="js/main.js") }}"></script>
     {% endblock %}
   </head>
   <body id="admin-dashboard">
-    <div class="flash-box">
+    <div id="flash-box" class="flash-box">
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, message in messages %}
           <div class="alert alert-{{ category }} mb-0" role="alert">
@@ -48,5 +50,19 @@
         {% for component in components['footer'] %} {{ component|safe }} {% endfor %}
       {% endblock %}
     </footer>
+
+    <script>
+
+      const socket = io();
+
+      socket.on('connect', function () {
+        socket.emit('join', {room: '/restaurant/' + '{{ current_user.restaurant.id }}'});
+      });
+
+      socketFlashBox(socket);
+      connectOrdersSection(socket);
+      connectNotificationBell(socket);
+      connectNotificationsList(socket);
+    </script>
   </body>
 </html>

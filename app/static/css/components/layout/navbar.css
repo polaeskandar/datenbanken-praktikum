@@ -5,3 +5,21 @@
 .navbar .search-input {
     width: fit-content;
 }
+
+.navbar .notification-bell::after {
+    content: "";
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    right: -3px;
+    background: var(--bs-danger);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(var(--bs-tertiary-bg-rgb),var(--bs-bg-opacity));
+}
+
+.navbar .notification-bell.active::after {
+    opacity: 100%;
+    transition: opacity 0.3s;
+}

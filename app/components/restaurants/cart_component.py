@@ -10,7 +10,8 @@ from flask import (
 )
 from flask_login import current_user
 
-from app import db
+from app import db, socketio
+from app.components.admin.orders_table_component import orders_table_component
 from app.enum.OrderStatus import OrderStatus
 from app.form.component.restaurant.PlaceOrderForm import PlaceOrderForm
 from app.models.Cart import Cart
@@ -18,6 +19,8 @@ from app.models.CartItem import CartItem
 from app.models.Order import Order
 from app.models.OrderItem import OrderItem
 from app.models.Restaurant import Restaurant
+from app.services.component_safe_renderer import safe_render_component
+from app.services.notification_service import push_notification
 
 
 def cart_component(restaurant: Restaurant) -> str | Response:
@@ -88,6 +91,8 @@ def place_order(
         db.session.delete(cart)
         db.session.add(order)
         db.session.commit()
+
+        send_notifications(restaurant)
     except Exception as e:
         db.session.rollback()
 
@@ -129,3 +134,20 @@ def calculate_total_price(cart_items: list[CartItem]) -> Decimal:
 
     # Round to two decimal places using a standard rounding mode
     return total.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+
+def send_notifications(restaurant):
+    push_notification(
+        category="primary",
+        title="New order has been placed!",
+        text="You have a new order. Check it out!",
+        to=restaurant.account,
+    )
+
+    socketio.emit(
+        "refresh_orders",
+        {
+            "orders": safe_render_component(lambda: orders_table_component(restaurant)),
+        },
+        to=f"/restaurant/{restaurant.id}",
+    )

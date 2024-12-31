@@ -1,8 +1,10 @@
 from flask import render_template, url_for, request, flash
 from flask_login import current_user
 
+from app.components.layout.notifications_component import notifications_component
 from app.enum.AccountType import AccountType
 from app.form.component.navbar.RestaurantsFilterForm import RestaurantsFilterForm
+from app.services.component_safe_renderer import safe_render_component
 
 
 def navbar_component() -> str:
@@ -19,6 +21,9 @@ def navbar_component() -> str:
         "restaurants_filter_form": restaurants_filter_form,
         "dropdown_label": get_dropdown_label(),
         "dropdown_items": get_dropdown_items(),
+        "notifications_component": safe_render_component(
+            lambda: notifications_component(current_user)
+        ),
     }
 
     return render_template("components/layout/navbar.html", attributes=attributes)

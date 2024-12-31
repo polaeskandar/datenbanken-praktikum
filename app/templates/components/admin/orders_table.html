@@ -1,43 +1,47 @@
-<h1 class="mb-3">Orders</h1>
+<section id="orders">
+  <h1 class="mb-3">Orders</h1>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Ordered Items</th>
-      <th scope="col">Notes</th>
-      <th scope="col">Customer's Address</th>
-      <th scope="col">Customer's Name</th>
-      <th scope="col">Price</th>
-      <th scope="col">Status</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody class="orders-table">
-    {% for order in attributes.orders %}
+  <table class="table">
+    <thead>
       <tr>
-        <th scope="row">{{ order.id }}</th>
-        <td>
-          {% for item in order.order_items %}
-            <p class="m-0">{{ item.quantity }}x {{ item.item.name }}</p>
-          {% endfor %}
-        </td>
-        <td>{{ order.wishes_text }}</td>
-        <td>{{ order.customer.account.address }}</td>
-        <td>{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
-        <td>{{ order.price }}€</td>
-        <td>
-          {% if order.status == attributes.OrderStatus.PENDING %}
-            <span class="badge text-bg-primary">Pending</span>
-          {% elif order.status == attributes.OrderStatus.COMPLETED %}
-            <span class="badge text-bg-success">Done</span>
-          {% elif order.status == attributes.OrderStatus.CANCELLED %}
-            <span class="badge text-bg-danger">Cancelled</span>
-          {% endif %}
-        </td>
-        <td>
-          <form method="POST" action="{{ url_for('admin.update_order_status', order_id=order.id) }}">
-            <select class="change-status-select-box form-select" name="status">
+        <th scope="col">#</th>
+        <th scope="col">Ordered Items</th>
+        <th scope="col">Notes</th>
+        <th scope="col">Customer's Address</th>
+        <th scope="col">Customer's Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="orders-table-body">
+      {% for order in attributes.orders %}
+        <tr>
+          <th scope="row">{{ order.id }}</th>
+          <td>
+            {% for item in order.order_items %}
+              <p class="m-0">{{ item.quantity }}x {{ item.item.name }}</p>
+            {% endfor %}
+          </td>
+          <td>{{ order.wishes_text }}</td>
+          <td>{{ order.customer.account.address }}</td>
+          <td>{{ order.customer.first_name }} {{ order.customer.last_name }}</td>
+          <td>{{ "%.2f" % order.price }}€</td>
+          <td>
+            {% if order.status == attributes.OrderStatus.PENDING %}
+              <span class="badge text-bg-primary">Pending</span>
+            {% elif order.status == attributes.OrderStatus.COMPLETED %}
+              <span class="badge text-bg-success">Done</span>
+            {% elif order.status == attributes.OrderStatus.CANCELLED %}
+              <span class="badge text-bg-danger">Cancelled</span>
+            {% endif %}
+          </td>
+          <td>
+            <select
+                data-order-id="{{ order.id }}"
+                data-customer-id="{{ order.customer_id }}"
+                class="change-status-select-box form-select"
+            >
               <option>Change status</option>
               {% for status in attributes.OrderStatus %}
                 <option value="{{ status.name }}" {{ 'selected' if order.status == status }}>
@@ -45,17 +49,15 @@
                 </option>
               {% endfor %}
             </select>
-          </form>
-        </td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
-<script>
-    (function () {
-        document.querySelectorAll('.orders-table select.change-status-select-box').forEach(select => {
-            select.addEventListener('change', () => select.closest('form').submit());
-        });
-    })();
-</script>
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="8" class="text-center bg-secondary-subtle">
+            No made orders yet!
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
