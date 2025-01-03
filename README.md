@@ -13,12 +13,12 @@ Follow these steps to boot up the application:
    cd datenbank-praktikum && docker-compose up -d --build
    ```
 
-3. **Import the sample data**
-   Run the following command to run the SQL scripts in data.sql:
+3. **Running the fixtures**
+   Run the following command in your terminal:
 
-   ```bash
-   sqlite3 instance/restaurant.db < data.sql
-   ```
+    ```bash
+    docker exec -it app python3 -m fixtures
+    ```
 
 4. Access the Application
    Once the project is running, open your browser and navigate to:

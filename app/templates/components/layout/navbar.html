@@ -27,6 +27,17 @@
                 </div>
               </li>
             {% endif %}
+            {% if current_user.is_restaurant() %}
+              <li class="nav-item ms-auto d-flex align-items-center gap-2 text-success">
+                <i class="fa-solid fa-coins"></i>{{ "%.2f" % current_user.balance }}€
+              </li>
+            {% elif current_user.is_customer() %}
+              <li class="nav-item ms-2">
+                <a class="d-flex align-items-center gap-2 text-decoration-none text-success" href="{{ url_for('index.balance_recharge') }}">
+                  <i class="fa-solid fa-coins"></i>{{ "%.2f" % current_user.balance }}€
+                </a>
+              </li>
+            {% endif %}
           </ul>
         </form>
       {% endif %}

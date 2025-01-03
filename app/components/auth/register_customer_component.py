@@ -2,6 +2,7 @@ from flask import render_template, flash, redirect, url_for, Response
 from flask_login import login_user
 
 from app import app, db
+from app.enum.AccountType import AccountType
 from app.form.component.auth.RegisterCustomerForm import RegisterCustomerForm
 from app.models.Account import Account
 from app.models.Customer import Customer
@@ -65,6 +66,7 @@ def handle_customer_creation(register_customer_form: RegisterCustomerForm) -> Re
 def create_account(form: RegisterCustomerForm, postal_code: PostalCode) -> Account:
     return Account(
         email=form.email.data,
+        type=AccountType.CUSTOMER,
         hashed_password=form.password.data,
         address=form.address.data,
         postal_code=postal_code,

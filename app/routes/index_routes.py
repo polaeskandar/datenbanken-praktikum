@@ -3,6 +3,9 @@ from flask_login import login_required, current_user
 from werkzeug.exceptions import HTTPException
 
 from app import db
+from app.components.customer.recharge_balance_component import (
+    recharge_balance_component,
+)
 from app.components.restaurants.restaurant_menu_component import (
     restaurant_menu_component,
 )
@@ -23,6 +26,7 @@ from app.components.search.search_heading_carousel_component import (
 )
 from app.dto.RestaurantSearchContext import RestaurantSearchContext
 from app.routes import render_page
+from app.services.balance_service import start_checkout_session, fill_balance
 from app.services.component_safe_renderer import safe_render_component
 from app.services.search.restaurant_search_service import RestaurantSearchService
 from app.services.restaurant.cart_service import (
@@ -60,6 +64,34 @@ def index() -> Response:
     )
 
     return render_page("layout.html", "Home", components)
+
+
+@index_routes.route("/balance/recharge", methods=["GET"])
+def balance_recharge() -> Response:
+    components = build_components(
+        [
+            recharge_balance_component,
+        ]
+    )
+
+    return render_page("layout.html", "Recharge Account's Balance", components)
+
+
+@index_routes.route("/balance/checkout/<string:product_id>", methods=["GET"])
+def checkout(product_id: str) -> Response:
+    return start_checkout_session(product_id)
+
+
+@index_routes.route("/balance/checkout/success", methods=["GET"])
+def checkout_success() -> Response:
+    session_id = request.args.get("session_id")
+
+    return fill_balance(session_id)
+
+
+@index_routes.route("/balance/checkout/failure", methods=["GET"])
+def checkout_failure() -> Response:
+    raise Exception(request)
 
 
 @index_routes.route("/search/<int:restaurant_id>", methods=["GET", "POST"])
