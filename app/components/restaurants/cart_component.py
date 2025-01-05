@@ -19,6 +19,7 @@ from app.models.CartItem import CartItem
 from app.models.Order import Order
 from app.models.OrderItem import OrderItem
 from app.models.Restaurant import Restaurant
+from app.services.balance_service import charge_balance
 from app.services.component_safe_renderer import safe_render_component
 from app.services.notification_service import push_notification
 
@@ -88,6 +89,7 @@ def place_order(
 
             db.session.add(order_item)
 
+        charge_balance(order)
         db.session.delete(cart)
         db.session.add(order)
         db.session.commit()

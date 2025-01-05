@@ -1,28 +1,33 @@
 # Application Setup
 
-Follow these steps to boot up the application:
+## Follow these steps to get the application up and running:
 
-1. **Install Docker & SQLite**  
-   Download and install Docker on your system: [Docker - Homepage](https://www.docker.com/).
-   Download and install SQLite on your system: [SQLite - Homepage](https://www.sqlite.org/).
+### 1. Install Docker & SQLite
+- Download and install Docker on your system: [Docker - Homepage](https://www.docker.com/).
+- Download and install SQLite on your system: [SQLite - Homepage](https://www.sqlite.org/).
 
-2. **Start the Project**  
-   Run the following command in the project directory:
+### 2. Create Environment Variables
+- Copy the `.env.example` file and rename it to `.env`.
+- Fill in the required API keys and secret values in the `.env` file.
+
+### 3. Start the Project
+   Run the following command in the project directory to build and start the application:
 
    ```bash
    cd datenbank-praktikum && docker-compose up -d --build
    ```
 
-3. **Import the sample data**
-   Run the following command to run the SQL scripts in data.sql:
+### 4. **Running the fixtures**
+   Run the following command in your terminal to load the fixtures:
 
    ```bash
-   sqlite3 instance/restaurant.db < data.sql
+   docker exec -it app python3 -m fixtures
    ```
 
-4. Access the Application
-   Once the project is running, open your browser and navigate to:
-   http://127.0.0.1:8000/
+### 5. **Access the Application**
+   Once the project is running, open your browser and navigate to: http://127.0.0.1:8000/
+
+---
 
 # Important commands for development
 

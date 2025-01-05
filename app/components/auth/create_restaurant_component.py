@@ -2,6 +2,7 @@ from flask import render_template, url_for, Response, flash, redirect
 from flask_login import login_user
 
 from app import app, db
+from app.enum.AccountType import AccountType
 from app.form.component.auth.CreateRestaurantForm import CreateRestaurantForm
 from app.models.Account import Account
 from app.models.Restaurant import Restaurant
@@ -74,6 +75,7 @@ def handle_restaurant_creation(
 def create_account(form: CreateRestaurantForm, postal_code: PostalCode) -> Account:
     return Account(
         email=form.email.data,
+        type=AccountType.RESTAURANT,
         hashed_password=form.password.data,
         address=form.address.data,
         postal_code=postal_code,

@@ -6,6 +6,7 @@ from app.enum.AccountType import AccountType
 
 class Account(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.Enum(AccountType))
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     address = db.Column(db.String(255), nullable=True)
@@ -30,11 +31,19 @@ class Account(db.Model, UserMixin):
     def is_restaurant(self):
         return self.get_account_type() == AccountType.RESTAURANT
 
+    def is_platform(self):
+        return self.get_account_type() == AccountType.PLATFORM
+
     def get_account_type(self) -> AccountType:
-        if self.customer:
+        if self.type == AccountType.CUSTOMER:
             return AccountType.CUSTOMER
-        if self.restaurant:
+
+        if self.type == AccountType.RESTAURANT:
             return AccountType.RESTAURANT
+
+        if self.type == AccountType.PLATFORM:
+            return AccountType.PLATFORM
+
         raise Exception("Invalid account type, both customer and restaurant are None.")
 
     @property
