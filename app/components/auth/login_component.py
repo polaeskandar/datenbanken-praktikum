@@ -31,13 +31,21 @@ def handle_login(login_form: LoginForm) -> Response:
     account = Account.query.filter_by(email=login_form.email.data).first()
 
     # Check if account exists and password is correct
-    if account and account.verify_password(login_form.password.data) and account.type != AccountType.PLATFORM:
+    if (
+        account
+        and account.verify_password(login_form.password.data)
+        and account.type != AccountType.PLATFORM
+    ):
         login_user(account)
         flash(f"Welcome back, {account.email}!", category="success")
 
         return redirect(url_for("index.index"))
 
-    if account and account.verify_password(login_form.password.data) and account.type == AccountType.PLATFORM:
+    if (
+        account
+        and account.verify_password(login_form.password.data)
+        and account.type == AccountType.PLATFORM
+    ):
         flash(f"Unable to login into Platform account.", category="warning")
 
         return redirect(url_for("index.index"))

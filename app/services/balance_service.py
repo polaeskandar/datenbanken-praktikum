@@ -14,7 +14,7 @@ cached_products = {}
 
 
 def init_stripe() -> None:
-    stripe.api_key = getenv('STRIPE_SECRET_KEY')
+    stripe.api_key = getenv("STRIPE_SECRET_KEY")
 
 
 def start_checkout_session(product_id: str) -> Response:
@@ -85,7 +85,6 @@ def get_products_map() -> dict:
         processed_products[product.id] = {**product.metadata}
 
     return processed_products
-
 
 
 def get_product_key(key):

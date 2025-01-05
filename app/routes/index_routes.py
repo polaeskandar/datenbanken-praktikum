@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, request, Response, flash, abort
+from flask import Blueprint, redirect, url_for, request, Response, flash
 from flask_login import login_required, current_user
 from werkzeug.exceptions import HTTPException
 
@@ -6,11 +6,12 @@ from app import db
 from app.components.customer.recharge_balance_component import (
     recharge_balance_component,
 )
+from app.components.customer.recharge_balance_failure_component import (
+    recharge_balance_failure_component,
+)
 from app.components.restaurants.restaurant_menu_component import (
     restaurant_menu_component,
 )
-from app.models.Cart import Cart
-from app.models.CartItem import CartItem
 from app.models.Restaurant import Restaurant
 from app.models.MenuItem import MenuItem
 from app.components.layout.navbar_component import navbar_component
@@ -91,7 +92,13 @@ def checkout_success() -> Response:
 
 @index_routes.route("/balance/checkout/failure", methods=["GET"])
 def checkout_failure() -> Response:
-    raise Exception(request)
+    components = build_components(
+        [
+            recharge_balance_failure_component,
+        ]
+    )
+
+    return render_page("layout.html", "Failed Payment", components)
 
 
 @index_routes.route("/search/<int:restaurant_id>", methods=["GET", "POST"])
