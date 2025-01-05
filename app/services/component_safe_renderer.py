@@ -12,7 +12,6 @@ def safe_render_component(component_func: callable, *args, **kwargs) -> str | Re
 
         return redirect(request.referrer)
     except Exception as e:
-        raise e
         message = (
             "An error occurred while trying to render this component. "
             "We are alerted and our engineering team is working on it."

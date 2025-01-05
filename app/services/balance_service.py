@@ -1,3 +1,5 @@
+from os import getenv
+
 import stripe
 from flask import Response, flash, redirect, request, url_for
 from flask_login import current_user
@@ -8,9 +10,11 @@ from app.enum.AccountType import AccountType
 from app.models.Account import Account
 from app.models.Order import Order
 
+cached_products = {}
+
 
 def init_stripe() -> None:
-    stripe.api_key = ''
+    stripe.api_key = getenv('STRIPE_SECRET_KEY')
 
 
 def start_checkout_session(product_id: str) -> Response:
@@ -70,61 +74,18 @@ def charge_balance(order: Order) -> None:
 
 
 def get_products_map() -> dict:
-    products = stripe.Product.list()
+    global cached_products
+
+    if not cached_products:
+        cached_products = stripe.Product.list(active=True)
+
     processed_products = {}
 
-    for product in products['data']:
-        processed_products[product['id']] = {**product['metadata']}
+    for product in cached_products.data:
+        processed_products[product.id] = {**product.metadata}
 
-    raise Exception(products, processed_products)
+    return processed_products
 
-    return {
-        "prod_RV2fNK9aZTgDsW": {
-            "amount": 10,
-            "title": "Balance 10",
-            "text": "Recharge your account with €10.",
-        },
-        "prod_RV2fSUbGEPOjc1": {
-            "amount": 20,
-            "title": "Balance 20",
-            "text": "Recharge your account with €20.",
-        },
-        "prod_RV2h3bpFANu9Xn": {
-            "amount": 50,
-            "title": "Balance 50",
-            "text": "Recharge your account with €50.",
-        },
-        "prod_RV2hbvmWgwdQSM": {
-            "amount": 100,
-            "title": "Balance 100",
-            "text": "Recharge your account with €100.",
-        },
-    }
-
-
-def set_products_map() -> dict:
-    return {
-        "prod_RV2fNK9aZTgDsW": {
-            "amount": 10,
-            "title": "Balance 10",
-            "text": "Recharge your account with €10.",
-        },
-        "prod_RV2fSUbGEPOjc1": {
-            "amount": 20,
-            "title": "Balance 20",
-            "text": "Recharge your account with €20.",
-        },
-        "prod_RV2h3bpFANu9Xn": {
-            "amount": 50,
-            "title": "Balance 50",
-            "text": "Recharge your account with €50.",
-        },
-        "prod_RV2hbvmWgwdQSM": {
-            "amount": 100,
-            "title": "Balance 100",
-            "text": "Recharge your account with €100.",
-        },
-    }
 
 
 def get_product_key(key):

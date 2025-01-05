@@ -1,3 +1,6 @@
+from os import getenv
+
+from dotenv import load_dotenv
 from flask_humanize import Humanize
 from flask_socketio import SocketIO
 from flask import Flask
@@ -5,11 +8,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 
+load_dotenv()
+
 app = Flask(__name__)
 socketio = SocketIO(app, logger=True, engineio_logger=True)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///restaurant.db"
-app.config["SECRET_KEY"] = "543fc4a0c583435ade2e1ac8365bd132"
-app.config["UPLOAD_DIRECTORY"] = "app/static/uploads/images"
+app.config["SQLALCHEMY_DATABASE_URI"] = getenv("SQLALCHEMY_DATABASE_URI")
+app.config["SECRET_KEY"] = getenv("SECRET_KEY")
+app.config["UPLOAD_DIRECTORY"] = getenv("UPLOAD_DIRECTORY")
 
 # DB CONFIGURATION
 db = SQLAlchemy(app)
