@@ -56,7 +56,7 @@ def get_dropdown_items() -> list[dict[str:str]]:
         return [
             {
                 "icon": "fa-solid fa-user me-2",
-                "link": url_for("index.index"),
+                "link": url_for("index.customer_orders"),
                 "text": "View Profile",
             },
             {

@@ -1,9 +1,8 @@
-from flask import Blueprint, Response, redirect, url_for, flash, request
+from flask import Blueprint, Response, redirect, url_for, request
 from flask_login import login_required, current_user
-from werkzeug.exceptions import HTTPException
 
 from app.components.admin.menu.add_menu_item_component import add_menu_item_component
-from app.components.admin.aside_menu_component import aside_menu_component
+from app.components.layout.aside_menu_component import aside_menu_component
 from app.components.admin.menu.edit_menu_item_component import edit_menu_item_component
 from app.components.admin.edit_settings_component import edit_settings_component
 from app.components.admin.get_delivery_radius_component import (
@@ -20,10 +19,8 @@ from app.components.admin.set_delivery_radius_component import (
 from app.components.admin.set_opening_hours_component import set_opening_hours_component
 from app.components.layout.footer_component import footer_component
 from app.components.layout.navbar_component import navbar_component
-from app.models.Order import Order
 from app.routes import render_page
 from app.services.admin.menu_service import delete_item
-from app.services.admin.order_service import update_status
 from app.services.component_safe_renderer import safe_render_component
 
 admin_routes = Blueprint("admin", __name__)
@@ -107,7 +104,53 @@ def settings() -> Response:
 def build_components(main_components: list) -> dict:
     return {
         "header": [safe_render_component(navbar_component)],
-        "aside": [safe_render_component(aside_menu_component)],
+        "aside": [
+            safe_render_component(
+                lambda: aside_menu_component(
+                    [
+                        {
+                            "icon": "fa-solid fa-receipt me-2",
+                            "text": "Orders",
+                            "href": url_for("admin.index"),
+                            "is_active": request.path
+                            in [
+                                url_for("admin.index"),
+                                "/admin/",
+                            ],
+                        },
+                        {
+                            "icon": "fa-solid fa-utensils me-2",
+                            "text": "Menu",
+                            "href": url_for("admin.menu_overview"),
+                            "is_active": request.path
+                            in [
+                                url_for("admin.menu_overview"),
+                                url_for("admin.add_menu_item"),
+                            ],
+                        },
+                        {
+                            "icon": "fa-solid fa-clock me-2",
+                            "text": "Opening Hours",
+                            "href": url_for("admin.opening_hours"),
+                            "is_active": request.path == url_for("admin.opening_hours"),
+                        },
+                        {
+                            "icon": "fa-solid fa-truck me-2",
+                            "text": "Delivery Radius",
+                            "href": url_for("admin.delivery_radius"),
+                            "is_active": request.path
+                            == url_for("admin.delivery_radius"),
+                        },
+                        {
+                            "icon": "fa-solid fa-gears me-2",
+                            "text": "Settings",
+                            "href": url_for("admin.settings"),
+                            "is_active": request.path == url_for("admin.settings"),
+                        },
+                    ]
+                )
+            )
+        ],
         "main": [safe_render_component(mc) for mc in main_components],
         "footer": [safe_render_component(footer_component)],
     }

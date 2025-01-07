@@ -1,14 +1,14 @@
 from flask import render_template
+from flask_login import current_user
 from sqlalchemy import case, asc
 
-from app.models.Restaurant import Restaurant
 from app.enum.OrderStatus import OrderStatus
 from app.models.Order import Order
 
 
-def orders_table_component(restaurant: Restaurant) -> str:
+def customer_order_component():
     orders = (
-        Order.query.filter_by(restaurant=restaurant)
+        Order.query.filter_by(customer_id=current_user.customer.id)
         .order_by(
             case(
                 (Order.status == OrderStatus.PENDING, 0),
@@ -22,6 +22,11 @@ def orders_table_component(restaurant: Restaurant) -> str:
         .all()
     )
 
-    attributes = {"orders": orders, "OrderStatus": OrderStatus}
+    attributes = {
+        "orders": orders,
+        "OrderStatus": OrderStatus,
+    }
 
-    return render_template("components/admin/orders_table.html", attributes=attributes)
+    return render_template(
+        "components/profile/customer_order.html", attributes=attributes
+    )

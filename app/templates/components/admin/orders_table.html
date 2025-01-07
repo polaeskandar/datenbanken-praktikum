@@ -30,6 +30,8 @@
           <td>
             {% if order.status == attributes.OrderStatus.PENDING %}
               <span class="badge text-bg-primary">Pending</span>
+            {% elif order.status == attributes.OrderStatus.ACCEPTED %}
+              <span class="badge text-bg-secondary">In Progress</span>
             {% elif order.status == attributes.OrderStatus.COMPLETED %}
               <span class="badge text-bg-success">Done</span>
             {% elif order.status == attributes.OrderStatus.CANCELLED %}
