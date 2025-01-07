@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from werkzeug.exceptions import HTTPException
 
 from app import db
+from app.components.customer.customer_order_component import customer_order_component
 from app.components.customer.recharge_balance_component import (
     recharge_balance_component,
 )
@@ -65,40 +66,6 @@ def index() -> Response:
     )
 
     return render_page("layout.html", "Home", components)
-
-
-@index_routes.route("/balance/recharge", methods=["GET"])
-def balance_recharge() -> Response:
-    components = build_components(
-        [
-            recharge_balance_component,
-        ]
-    )
-
-    return render_page("layout.html", "Recharge Account's Balance", components)
-
-
-@index_routes.route("/balance/checkout/<string:product_id>", methods=["GET"])
-def checkout(product_id: str) -> Response:
-    return start_checkout_session(product_id)
-
-
-@index_routes.route("/balance/checkout/success", methods=["GET"])
-def checkout_success() -> Response:
-    session_id = request.args.get("session_id")
-
-    return fill_balance(session_id)
-
-
-@index_routes.route("/balance/checkout/failure", methods=["GET"])
-def checkout_failure() -> Response:
-    components = build_components(
-        [
-            recharge_balance_failure_component,
-        ]
-    )
-
-    return render_page("layout.html", "Failed Payment", components)
 
 
 @index_routes.route("/search/<int:restaurant_id>", methods=["GET", "POST"])
@@ -176,6 +143,51 @@ def decrement_item_quantity(restaurant_id: int, cart_id: int, item_id: int) -> R
     return decrement_item_quantity_in_cart(
         restaurant=restaurant, item=item, cart_id=cart_id
     )
+
+
+@index_routes.route("/balance/recharge", methods=["GET"])
+def balance_recharge() -> Response:
+    components = build_components(
+        [
+            recharge_balance_component,
+        ]
+    )
+
+    return render_page("layout.html", "Recharge Account's Balance", components)
+
+
+@index_routes.route("/profile/orders")
+def customer_orders() -> Response:
+    components = build_components(
+        [
+            customer_order_component,
+        ]
+    )
+
+    return render_page("layout.html", "Recharge Account's Balance", components)
+
+
+@index_routes.route("/balance/checkout/<string:product_id>", methods=["GET"])
+def checkout(product_id: str) -> Response:
+    return start_checkout_session(product_id)
+
+
+@index_routes.route("/balance/checkout/success", methods=["GET"])
+def checkout_success() -> Response:
+    session_id = request.args.get("session_id")
+
+    return fill_balance(session_id)
+
+
+@index_routes.route("/balance/checkout/failure", methods=["GET"])
+def checkout_failure() -> Response:
+    components = build_components(
+        [
+            recharge_balance_failure_component,
+        ]
+    )
+
+    return render_page("layout.html", "Failed Payment", components)
 
 
 def build_components(main_components: list) -> dict:
