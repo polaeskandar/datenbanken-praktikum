@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, Response
 from flask_login import login_user
 
-from app import app, db
+from app import db
 from app.enum.AccountType import AccountType
 from app.form.component.auth.RegisterCustomerForm import RegisterCustomerForm
 from app.models.Account import Account

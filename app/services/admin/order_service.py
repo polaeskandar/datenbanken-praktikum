@@ -2,7 +2,6 @@ from app import db, socketio
 from app.components.admin.orders_table_component import orders_table_component
 from app.models.Order import Order
 from app.enum.OrderStatus import OrderStatus
-from app.services.component_safe_renderer import safe_render_component
 from app.services.notification_service import push_notification
 
 
@@ -25,11 +24,7 @@ def update_status(order: Order, new_status_value: str | None) -> None:
 
     socketio.emit(
         "refresh_orders",
-        {
-            "orders": safe_render_component(
-                lambda: orders_table_component(order.restaurant)
-            ),
-        },
+        {"orders": orders_table_component(order.restaurant)},
         to="/restaurant/" + str(order.restaurant.id),
     )
 

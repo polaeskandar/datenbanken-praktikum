@@ -12,7 +12,7 @@
         <div class="card-body">
           <h1 class="card-title pricing-card-title">€{{ plan_details.amount }}</h1>
           <p class="mt-3 lead">{{ plan_details.text }}</p>
-          <a href="{{ url_for('index.checkout', product_id=plan_id) }}" class="w-100 btn btn-lg btn-outline-dark">To Checkout</a>
+          <a href="{{ url_for('balance.checkout', product_id=plan_id) }}" class="w-100 btn btn-lg btn-outline-dark">To Checkout</a>
         </div>
       </div>
     </div>

@@ -33,7 +33,7 @@
               </li>
             {% elif current_user.is_customer() %}
               <li class="nav-item ms-2">
-                <a class="d-flex align-items-center gap-2 text-decoration-none text-success" href="{{ url_for('index.balance_recharge') }}">
+                <a class="d-flex align-items-center gap-2 text-decoration-none text-success" href="{{ url_for('balance.balance_recharge') }}">
                   <i class="fa-solid fa-coins"></i>{{ "%.2f" % current_user.balance }}€
                 </a>
               </li>

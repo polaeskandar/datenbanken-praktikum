@@ -4,7 +4,6 @@ from flask_login import current_user
 from app.components.layout.notifications_component import notifications_component
 from app.enum.AccountType import AccountType
 from app.form.component.navbar.RestaurantsFilterForm import RestaurantsFilterForm
-from app.services.component_safe_renderer import safe_render_component
 
 
 def navbar_component() -> str:
@@ -21,9 +20,7 @@ def navbar_component() -> str:
         "restaurants_filter_form": restaurants_filter_form,
         "dropdown_label": get_dropdown_label(),
         "dropdown_items": get_dropdown_items(),
-        "notifications_component": safe_render_component(
-            lambda: notifications_component(current_user)
-        ),
+        "notifications_component": notifications_component(current_user),
     }
 
     return render_template("components/layout/navbar.html", attributes=attributes)
@@ -56,7 +53,7 @@ def get_dropdown_items() -> list[dict[str:str]]:
         return [
             {
                 "icon": "fa-solid fa-user me-2",
-                "link": url_for("index.customer_orders"),
+                "link": url_for("profile.customer_orders"),
                 "text": "View Profile",
             },
             {

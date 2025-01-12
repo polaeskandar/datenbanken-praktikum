@@ -20,7 +20,6 @@ from app.models.Order import Order
 from app.models.OrderItem import OrderItem
 from app.models.Restaurant import Restaurant
 from app.services.balance_service import charge_balance
-from app.services.component_safe_renderer import safe_render_component
 from app.services.notification_service import push_notification
 
 
@@ -149,7 +148,7 @@ def send_notifications(restaurant):
     socketio.emit(
         "refresh_orders",
         {
-            "orders": safe_render_component(lambda: orders_table_component(restaurant)),
+            "orders": orders_table_component(restaurant),
         },
         to=f"/restaurant/{restaurant.id}",
     )

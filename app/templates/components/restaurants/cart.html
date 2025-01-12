@@ -13,8 +13,8 @@
                     </div>
                     <div class="item-quantity input-group">
                         <div class="d-flex align-items-center justify-content-center px-3 bg-dark text-white rounded-start">{{ cart_item.quantity }}</div>
-                        <a href="{{ url_for('index.decrement_item_quantity', restaurant_id=attributes.restaurant.id, cart_id=attributes.cart.id, item_id=cart_item.item.id) }}" class="btn btn-outline-dark" type="button">-</a>
-                        <a href="{{ url_for('index.increment_item_quantity', restaurant_id=attributes.restaurant.id, cart_id=attributes.cart.id, item_id=cart_item.item.id) }}" class="btn btn-outline-dark" type="button">+</a>
+                        <a href="{{ url_for('cart.decrement_item_quantity', restaurant_id=attributes.restaurant.id, cart_id=attributes.cart.id, item_id=cart_item.item.id) }}" class="btn btn-outline-dark" type="button">-</a>
+                        <a href="{{ url_for('cart.increment_item_quantity', restaurant_id=attributes.restaurant.id, cart_id=attributes.cart.id, item_id=cart_item.item.id) }}" class="btn btn-outline-dark" type="button">+</a>
                     </div>
                 </li>
             {% else %}
