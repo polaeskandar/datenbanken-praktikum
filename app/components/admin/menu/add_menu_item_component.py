@@ -1,10 +1,10 @@
 from flask import render_template, flash, Response, redirect, url_for
 from flask_login import current_user
 
-from app import app, db
+from app import db
 from app.form.component.admin.MenuItemForm import MenuItemForm
 from app.models.MenuItem import MenuItem
-from app.services.upload_image_service import upload_required_file
+from app.services.upload_image_service import upload_file
 
 
 def add_menu_item_component() -> str | Response:
@@ -29,10 +29,7 @@ def add_menu_item_component() -> str | Response:
 def handle_menu_item_creation(menu_item_form: MenuItemForm) -> Response:
     try:
         # Upload image and validate
-        image_path = upload_required_file(
-            form=menu_item_form,
-            err="An image for the item has to be provided.",
-        )
+        image_path = upload_file(form=menu_item_form)
 
         # Create and save the menu item
         menu_item = MenuItem(
