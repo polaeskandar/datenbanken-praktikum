@@ -1,4 +1,3 @@
-from wtforms.fields.choices import SelectField
 from wtforms.fields.simple import StringField, TextAreaField
 from wtforms.validators import DataRequired, Length
 
@@ -20,9 +19,7 @@ class EditSettingsForm(FileAttachedForm):
 
     address = StringField("Address", validators=[DataRequired()])
 
-    postal_code = SelectField(
-        choices=[("", "Choose a postal code")], validators=[DataRequired()]
-    )
+    postal_code = StringField("Postal code", validators=[DataRequired()])
 
     restaurant_description = TextAreaField(
         "Restaurant's description",
