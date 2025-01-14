@@ -1,7 +1,8 @@
 <h1 class="mb-3">Edit settings</h1>
 
 <div class="card">
-  <form method="POST" class="card-body">
+  <form method="POST" class="card-body" enctype=multipart/form-data>
+    {{ attributes.edit_settings_form.hidden_tag() }}
     <div class="row">
       <div class="col-9">
         <div class="mb-3">
@@ -15,10 +16,6 @@
         <div class="mb-3">
           {{ attributes.edit_settings_form.postal_code.label(class="form-label", for="postal_code") }}
           {{ attributes.edit_settings_form.postal_code(id="postal_code", class="form-select") }}
-        </div>
-        <div class="mb-3">
-          {{ attributes.edit_settings_form.new_postal_code.label(class="form-label", for="new_postal_code") }}
-          {{ attributes.edit_settings_form.new_postal_code(id="new_postal_code", class="form-control") }}
         </div>
         <div class="mb-3">
           {{ attributes.edit_settings_form.restaurant_description.label(class="form-label", for="restaurant_description") }}

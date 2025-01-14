@@ -1,62 +1,43 @@
-from flask import render_template, redirect, url_for, flash, current_app, Response
-from werkzeug.utils import secure_filename
-from app.form.component.admin.EditSettingsForm import EditSettingsForm
 import os
+
+from flask import render_template, redirect, url_for, flash, Response
+from flask_login import current_user
+from werkzeug.utils import secure_filename
+
+from app import db
+from app.form.component.admin.EditSettingsForm import EditSettingsForm
+from app.models.Restaurant import Restaurant
+from app.services.postal_code_service import get_or_create_postal_code
+from app.services.upload_image_service import upload_file
 
 
 def edit_settings_component() -> str | Response:
-    edit_settings_form = EditSettingsForm()
+    edit_settings_form = EditSettingsForm(
+        restaurant_name=current_user.restaurant.name,
+        address=current_user.address,
+        postal_code=current_user.postal_code.postal_code,
+        restaurant_description=current_user.restaurant.description,
+    )
 
     if edit_settings_form.validate_on_submit():
+        current_user.restaurant.name = edit_settings_form.restaurant_name.data
+        current_user.address = edit_settings_form.address.data
+        current_user.postal_code = get_or_create_postal_code(
+            edit_settings_form.postal_code.data
+        )
+        current_user.restaurant.description = (
+            edit_settings_form.restaurant_description.data
+        )
+        current_user.restaurant.image = upload_file(edit_settings_form)
 
-        restaurant_details = get_restaurant_details(edit_settings_form)
-
-        image = edit_settings_form.image.data
-        filename = upload_file(edit_settings_form)
-
-        if not filename and image:
-            flash("Invalid file format. Please upload a .jpg or .png image.", "danger")
-            return render_template(
-                "components/admin/edit_settings.html", attributes={"edit_settings_form": edit_settings_form}
-            )
-
-        settings = {
-            **restaurant_details,
-            "image": filename,
-        }
-
+        db.session.commit()
         flash("Settings updated successfully!", "success")
+
         return redirect(url_for("admin.settings"))
 
+    for error in edit_settings_form.errors.values():
+        flash(error[0], category="danger")
+
     attributes = {"edit_settings_form": edit_settings_form}
+
     return render_template("components/admin/edit_settings.html", attributes=attributes)
-
-
-def upload_file(form: EditSettingsForm, upload_directory: str = None) -> str | None:
-
-    try:
-        image = form.image.data
-        if not image:
-            return None
-
-        upload_folder = upload_directory or os.path.join(current_app.root_path, "static/uploads")
-        os.makedirs(upload_folder, exist_ok=True)
-
-        if allowed_file(image.filename):
-            filename = secure_filename(image.filename)
-            image.save(os.path.join(upload_folder, filename))
-            return filename
-        return None
-
-    except BadRequest:
-        return None
-
-
-def get_restaurant_details(form: EditSettingsForm) -> dict:
-
-    return {
-        "restaurant_name": form.restaurant_name.data,
-        "address": form.address.data,
-        "postal_code": form.postal_code.data,
-        "restaurant_description": form.restaurant_description.data,
-    }
