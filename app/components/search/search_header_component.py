@@ -1,6 +1,6 @@
 from flask import render_template, url_for
 
-from app.services.search.restaurant_search_service import RestaurantSearchService
+from app.services.restaurant_search_service import RestaurantSearchService
 
 
 def search_header_component(
@@ -43,15 +43,6 @@ def build_link(restaurant_search_service: RestaurantSearchService, without: str)
         for term in (restaurant_search_service.get_restaurant_names_as_list() or [])
         if term.strip().lower() != without.strip().lower()
     ]
-
-    postal_codes_as_list = restaurant_search_service.get_postal_codes_as_list() or []
-
-    if len(postal_codes_as_list) > 0:
-        return url_for(
-            "index.index",
-            search_terms=",".join(filtered_terms),
-            postal_codes=",".join(postal_codes_as_list),
-        )
 
     return url_for(
         "index.index",

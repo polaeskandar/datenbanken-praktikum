@@ -3,7 +3,6 @@ from app.components.layout.notifications_component import notifications_componen
 from app.enum.AccountType import AccountType
 from app.models.Account import Account
 from app.models.Notification import Notification
-from app.services.component_safe_renderer import safe_render_component
 
 
 def push_notification(
@@ -39,7 +38,7 @@ def push_notification(
     socketio.emit(
         "refresh_notifications",
         {
-            "notifications": safe_render_component(lambda: notifications_component(to)),
+            "notifications": notifications_component(to),
         },
         to=room,
     )

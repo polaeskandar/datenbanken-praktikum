@@ -5,7 +5,7 @@ from app import socketio, db
 from app.models.Notification import Notification
 from app.models.Customer import Customer
 from app.models.Order import Order
-from app.services.admin.order_service import update_status
+from app.services.order_service import update_status
 from app.services.notification_service import push_notification
 
 

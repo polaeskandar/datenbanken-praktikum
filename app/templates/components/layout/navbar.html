@@ -12,7 +12,7 @@
         id="navbar-controls"
     >
       {% if current_user.is_authenticated %}
-        <form method="GET" class="w-100 me-2 mb-2 mb-lg-0">
+        <form action="{{ url_for('index.index') }}" method="GET" class="w-100 me-2 mb-2 mb-lg-0">
           <ul class="navbar-nav d-flex align-items-center gap-3">
             <li class="nav-item">
               <i class="fa-solid fa-map-pin me-1"></i> {{ current_user.address }}, {{ current_user.postal_code.postal_code }}
@@ -33,7 +33,7 @@
               </li>
             {% elif current_user.is_customer() %}
               <li class="nav-item ms-2">
-                <a class="d-flex align-items-center gap-2 text-decoration-none text-success" href="{{ url_for('index.balance_recharge') }}">
+                <a class="d-flex align-items-center gap-2 text-decoration-none text-success" href="{{ url_for('balance.balance_recharge') }}">
                   <i class="fa-solid fa-coins"></i>{{ "%.2f" % current_user.balance }}€
                 </a>
               </li>

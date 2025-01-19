@@ -1,12 +1,13 @@
 from flask import render_template, flash, redirect, url_for, Response
 from flask_login import login_user
 
-from app import app, db
+from app import db
 from app.enum.AccountType import AccountType
-from app.form.component.auth.RegisterCustomerForm import RegisterCustomerForm
+from app.form.auth.RegisterCustomerForm import RegisterCustomerForm
 from app.models.Account import Account
 from app.models.Customer import Customer
 from app.models.PostalCode import PostalCode
+from app.services.component_service import flash_errors
 from app.services.notification_service import push_notification
 from app.services.postal_code_service import get_or_create_postal_code
 
@@ -17,8 +18,7 @@ def register_customer_component() -> Response | str:
     if register_customer_form.validate_on_submit():
         return handle_customer_creation(register_customer_form)
 
-    for error in register_customer_form.errors.values():
-        flash(error[0], category="danger")
+    flash_errors(register_customer_form)
 
     attributes = {
         "register_customer_form": register_customer_form,

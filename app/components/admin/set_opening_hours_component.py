@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, Response
 
 from app.enum.DayOfWeek import DayOfWeek
-from app.form.component.admin.SetOpeningHoursForm import SetOpeningHoursForm
+from app.form.admin.SetOpeningHoursForm import SetOpeningHoursForm
 
 
 def set_opening_hours_component() -> str | Response:

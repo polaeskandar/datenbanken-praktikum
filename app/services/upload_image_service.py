@@ -7,7 +7,7 @@ from werkzeug.exceptions import BadRequest
 from werkzeug.utils import secure_filename
 
 from app import app
-from app.form.component.FileAttachedForm import FileAttachedForm
+from app.form.FileAttachedForm import FileAttachedForm
 
 
 def upload_file(

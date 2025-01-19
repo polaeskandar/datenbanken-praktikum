@@ -1,0 +1,39 @@
+<div class="row mb-5" data-masonry='{"percentPosition": true }'>
+    {% for item in attributes.menu_items %}
+
+    <div class="col-4 mb-3">
+        <div class="card">
+          {% if item.image %}
+            <img
+                src="{{ url_for('static', filename="uploads/images/" + item.image) }}"
+                alt="{{ item.item_name }}"
+                class="card-img-top"
+            />
+          {% else %}
+            <img
+                src="{{ url_for('static', filename="images/no-image.jpg") }}"
+                class="img-fluid rounded-start w-100"
+                alt="No image available"
+            />
+          {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ item.name }}</h5>
+                <p class="card-text">{{ item.description }}</p>
+                <div class="d-flex align-items-center justify-content-end mt-4">
+                    <span class="fs-3 text-success me-3">{{ "%.2f" % item.price }}€</span>
+                    <a href="{{ url_for('cart.add_to_cart', restaurant_id=attributes.restaurant.id, item_id=item.id) }}" class="btn btn-dark">
+                        <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-dark">
+        The restaurant does not have any items in the menu for the time being...
+    </div>
+
+    {% endfor %}
+</div>
