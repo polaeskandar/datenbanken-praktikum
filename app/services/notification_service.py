@@ -38,7 +38,7 @@ def push_notification(
     socketio.emit(
         "refresh_notifications",
         {
-            "notifications": lambda: notifications_component(to),
+            "notifications": notifications_component(to),
         },
         to=room,
     )

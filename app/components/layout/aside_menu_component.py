@@ -6,4 +6,4 @@ def aside_menu_component(links: list[dict[str, str]]) -> str:
         "links": links,
     }
 
-    return render_template("components/admin/aside_menu.html", attributes=attributes)
+    return render_template("components/layout/aside_menu.html", attributes=attributes)

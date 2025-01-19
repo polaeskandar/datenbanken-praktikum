@@ -6,7 +6,7 @@ from app.components.auth.login_component import login_component
 from app.components.auth.register_customer_component import register_customer_component
 from app.enum.Layout import Layout
 from app.middleware.logout_required import logout_required
-from app.services.component_safe_renderer import (
+from app.services.component_service import (
     render_page,
     build_components,
 )

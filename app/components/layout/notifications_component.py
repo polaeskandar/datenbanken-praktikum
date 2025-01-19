@@ -4,7 +4,10 @@ from app.models.Account import Account
 from app.models.Notification import Notification
 
 
-def notifications_component(account: Account | None):
+def notifications_component(account: Account | None) -> str | None:
+    if account is None:
+        return None
+
     notifications = get_latest_notifications(account)
 
     attributes = {

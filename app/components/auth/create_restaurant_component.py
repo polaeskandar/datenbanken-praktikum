@@ -1,13 +1,14 @@
 from flask import render_template, url_for, Response, flash, redirect
 from flask_login import login_user
 
-from app import app, db
+from app import db
 from app.enum.AccountType import AccountType
-from app.form.component.auth.CreateRestaurantForm import CreateRestaurantForm
+from app.form.auth.CreateRestaurantForm import CreateRestaurantForm
 from app.models.Account import Account
 from app.models.Restaurant import Restaurant
 from app.models.PostalCode import PostalCode
 from app.models.Menu import Menu
+from app.services.component_service import flash_errors
 from app.services.postal_code_service import get_or_create_postal_code
 from app.services.upload_image_service import upload_file
 
@@ -18,8 +19,7 @@ def create_restaurant_component() -> str | Response:
     if create_restaurant_form.validate_on_submit():
         return handle_restaurant_creation(create_restaurant_form)
 
-    for error in create_restaurant_form.errors.values():
-        flash(error[0], category="danger")
+    flash_errors(create_restaurant_form)
 
     attributes = {
         "create_restaurant_form": create_restaurant_form,

@@ -1,14 +1,14 @@
 from flask import Blueprint, Response, request
 
-from app.components.customer.recharge_balance_component import (
+from app.components.balance.recharge_balance_component import (
     recharge_balance_component,
 )
-from app.components.customer.recharge_balance_failure_component import (
+from app.components.balance.recharge_balance_failure_component import (
     recharge_balance_failure_component,
 )
 from app.enum.Layout import Layout
 from app.services.balance_service import start_checkout_session, fill_balance
-from app.services.component_safe_renderer import render_page, build_components
+from app.services.component_service import render_page, build_components
 
 balance_routes = Blueprint("balance", __name__)
 

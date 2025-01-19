@@ -1,11 +1,11 @@
 from flask import render_template, url_for, request
 
 
-def menu_page_navigation_component():
+def menu_page_navigation_component() -> str:
     attributes = {"links": get_links()}
 
     return render_template(
-        "components/admin/menu_page_navigation.html", attributes=attributes
+        "components/admin/menu/menu_page_navigation.html", attributes=attributes
     )
 
 

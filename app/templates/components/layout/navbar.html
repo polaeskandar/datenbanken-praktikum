@@ -12,7 +12,7 @@
         id="navbar-controls"
     >
       {% if current_user.is_authenticated %}
-        <form method="GET" class="w-100 me-2 mb-2 mb-lg-0">
+        <form action="{{ url_for('index.index') }}" method="GET" class="w-100 me-2 mb-2 mb-lg-0">
           <ul class="navbar-nav d-flex align-items-center gap-3">
             <li class="nav-item">
               <i class="fa-solid fa-map-pin me-1"></i> {{ current_user.address }}, {{ current_user.postal_code.postal_code }}

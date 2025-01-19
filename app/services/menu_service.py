@@ -1,7 +1,7 @@
 from flask import abort, flash
 from flask_login import current_user
 
-from app import app, db
+from app import db
 
 from app.models.MenuItem import MenuItem
 

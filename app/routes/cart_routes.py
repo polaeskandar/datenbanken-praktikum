@@ -2,7 +2,7 @@ from flask import Blueprint, Response, flash, redirect, url_for, request
 from werkzeug.exceptions import HTTPException
 
 from app.models import Restaurant, MenuItem
-from app.services.restaurant.cart_service import (
+from app.services.cart_service import (
     add_item_to_cart,
     increment_item_quantity_in_cart,
     decrement_item_quantity_in_cart,

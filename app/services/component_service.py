@@ -1,4 +1,5 @@
 from flask import redirect, flash, Response, render_template, request
+from flask_wtf import FlaskForm
 
 from werkzeug.exceptions import BadRequest
 
@@ -6,6 +7,11 @@ from app.components.layout.error_component import error_component
 from app.components.layout.footer_component import footer_component
 from app.components.layout.navbar_component import navbar_component
 from app.enum.Layout import Layout
+
+
+def flash_errors(form: FlaskForm) -> None:
+    for error in form.errors.values():
+        flash(error[0], category="danger")
 
 
 def build_components(

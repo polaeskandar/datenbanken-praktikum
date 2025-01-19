@@ -2,7 +2,7 @@ from wtforms.fields.choices import SelectField
 from wtforms.fields.simple import StringField, TextAreaField
 from wtforms.validators import DataRequired, Length
 
-from app.form.component.FileAttachedForm import FileAttachedForm
+from app.form.FileAttachedForm import FileAttachedForm
 
 
 class EditSettingsForm(FileAttachedForm):

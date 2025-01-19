@@ -6,7 +6,7 @@ from app.enum.OrderStatus import OrderStatus
 from app.models.Order import Order
 
 
-def customer_order_component():
+def customer_order_component() -> str:
     orders = (
         Order.query.filter_by(customer_id=current_user.customer.id)
         .order_by(

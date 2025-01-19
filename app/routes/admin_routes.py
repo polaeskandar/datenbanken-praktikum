@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from app.components.admin.menu.add_menu_item_component import add_menu_item_component
 from app.components.admin.menu.edit_menu_item_component import edit_menu_item_component
 from app.components.admin.edit_settings_component import edit_settings_component
-from app.components.admin.get_delivery_radius_component import (
+from app.components.admin.delivery_radius.get_delivery_radius_component import (
     get_delivery_radius_component,
 )
 from app.components.admin.menu.menu_overview_component import menu_overview_component
@@ -12,14 +12,14 @@ from app.components.admin.menu.menu_page_navigation_component import (
     menu_page_navigation_component,
 )
 from app.components.admin.orders_table_component import orders_table_component
-from app.components.admin.set_delivery_radius_component import (
+from app.components.admin.delivery_radius.set_delivery_radius_component import (
     set_delivery_radius_component,
 )
 from app.components.admin.set_opening_hours_component import set_opening_hours_component
 from app.enum.Layout import Layout
-from app.services.admin.menu_service import delete_item
+from app.services.menu_service import delete_item
 from app.services.aside_component_service import get_aside_component_for_admin_board
-from app.services.component_safe_renderer import render_page, build_components
+from app.services.component_service import render_page, build_components
 
 admin_routes = Blueprint("admin", __name__)
 
@@ -33,7 +33,7 @@ def index() -> Response:
         aside_components=[get_aside_component_for_admin_board],
     )
 
-    return render_page(Layout.ADMIN, "Admin", components)
+    return render_page(Layout.SPLIT, "Admin", components)
 
 
 @admin_routes.route("/menu", methods=["GET", "POST"])
@@ -44,7 +44,7 @@ def menu_overview() -> Response:
         aside_components=[get_aside_component_for_admin_board],
     )
 
-    return render_page(Layout.ADMIN, "Menu", components)
+    return render_page(Layout.SPLIT, "Menu", components)
 
 
 @admin_routes.route("/menu/add", methods=["GET", "POST"])
@@ -55,7 +55,7 @@ def add_menu_item() -> Response:
         aside_components=[get_aside_component_for_admin_board],
     )
 
-    return render_page(Layout.ADMIN, "Menu - Add Item", components)
+    return render_page(Layout.SPLIT, "Menu - Add Item", components)
 
 
 @admin_routes.route("/menu/<int:item_id>/edit", methods=["GET", "POST"])
@@ -69,7 +69,7 @@ def edit_menu_item(item_id: int) -> Response:
         aside_components=[get_aside_component_for_admin_board],
     )
 
-    return render_page(Layout.ADMIN, "Menu - Edit Item", components)
+    return render_page(Layout.SPLIT, "Menu - Edit Item", components)
 
 
 @admin_routes.route("/menu/<int:item_id>/delete", methods=["GET"])
@@ -88,7 +88,7 @@ def opening_hours() -> Response:
         aside_components=[get_aside_component_for_admin_board],
     )
 
-    return render_page(Layout.ADMIN, "Opening Hours", components)
+    return render_page(Layout.SPLIT, "Opening Hours", components)
 
 
 @admin_routes.route("/delivery_radius", methods=["GET", "POST"])
@@ -99,7 +99,7 @@ def delivery_radius() -> Response:
         aside_components=[get_aside_component_for_admin_board],
     )
 
-    return render_page(Layout.ADMIN, "Delivery Radius", components)
+    return render_page(Layout.SPLIT, "Delivery Radius", components)
 
 
 @admin_routes.route("/settings", methods=["GET", "POST"])
@@ -110,4 +110,4 @@ def settings() -> Response:
         aside_components=[get_aside_component_for_admin_board],
     )
 
-    return render_page(Layout.ADMIN, "Settings", components)
+    return render_page(Layout.SPLIT, "Settings", components)

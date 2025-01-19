@@ -13,13 +13,14 @@ from flask_login import current_user
 from app import db, socketio
 from app.components.admin.orders_table_component import orders_table_component
 from app.enum.OrderStatus import OrderStatus
-from app.form.component.restaurant.PlaceOrderForm import PlaceOrderForm
+from app.form.search.PlaceOrderForm import PlaceOrderForm
 from app.models.Cart import Cart
 from app.models.CartItem import CartItem
 from app.models.Order import Order
 from app.models.OrderItem import OrderItem
 from app.models.Restaurant import Restaurant
 from app.services.balance_service import charge_balance
+from app.services.component_service import flash_errors
 from app.services.notification_service import push_notification
 
 
@@ -38,8 +39,7 @@ def cart_component(restaurant: Restaurant) -> str | Response:
             cart_items=cart_items,
         )
 
-    for error in place_order_form.errors.values():
-        flash(error[0], category="danger")
+    flash_errors(place_order_form)
 
     attributes = {
         "restaurant": restaurant,
@@ -49,7 +49,7 @@ def cart_component(restaurant: Restaurant) -> str | Response:
         "place_order_form": place_order_form,
     }
 
-    return render_template("components/restaurants/cart.html", attributes=attributes)
+    return render_template("components/cart/cart.html", attributes=attributes)
 
 
 def place_order(
@@ -124,7 +124,6 @@ def calculate_total_price(cart_items: list[CartItem]) -> Decimal:
     """
     Sums up the price * quantity for each cart item using precise Decimal arithmetic.
     """
-
     total = Decimal("0.00")
 
     for cart_item in cart_items:

@@ -3,7 +3,7 @@ from wtforms.fields.numeric import DecimalField
 from wtforms.fields.simple import StringField, TextAreaField
 from wtforms.validators import DataRequired, Length, ValidationError
 
-from app.form.component.FileAttachedForm import FileAttachedForm
+from app.form.FileAttachedForm import FileAttachedForm
 from app.models.MenuItem import MenuItem
 
 
@@ -33,7 +33,6 @@ class MenuItemForm(FileAttachedForm):
         Ensures that no other item in the same menu has the same name,
         except for the current item being edited.
         """
-
         item = MenuItem.query.filter_by(
             name=item_name.data, menu_id=current_user.restaurant.menu.id
         ).first()

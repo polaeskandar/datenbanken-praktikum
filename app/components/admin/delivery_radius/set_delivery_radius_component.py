@@ -1,7 +1,8 @@
 from flask import render_template, url_for, redirect, Response
 
-from app.form.component.admin.SetDeliveryRadiusForm import SetDeliveryRadiusForm
+from app.form.admin.SetDeliveryRadiusForm import SetDeliveryRadiusForm
 from app.models.PostalCode import PostalCode
+from app.services.component_service import flash_errors
 
 
 def set_delivery_radius_component() -> str | Response:
@@ -15,8 +16,11 @@ def set_delivery_radius_component() -> str | Response:
         # TODO Implement
         return redirect(url_for("admin.delivery_radius"))
 
+    flash_errors(set_delivery_radius_form)
+
     attributes = {"set_delivery_radius_form": set_delivery_radius_form}
 
     return render_template(
-        "components/admin/set_delivery_radius.html", attributes=attributes
+        "components/admin/delivery_radius/set_delivery_radius.html",
+        attributes=attributes,
     )

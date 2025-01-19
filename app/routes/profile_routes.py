@@ -1,8 +1,8 @@
 from flask import Blueprint, Response
 
-from app.components.customer.customer_order_component import customer_order_component
+from app.components.profile.customer_order_component import customer_order_component
 from app.enum.Layout import Layout
-from app.services.component_safe_renderer import render_page, build_components
+from app.services.component_service import render_page, build_components
 
 profile_routes = Blueprint("profile", __name__)
 

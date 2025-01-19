@@ -2,13 +2,13 @@ from flask import Blueprint, redirect, url_for, request, Response, flash
 from flask_login import login_required, current_user
 from werkzeug.exceptions import HTTPException
 
-from app.components.restaurants.restaurant_menu_component import (
+from app.components.search.restaurant_menu_component import (
     restaurant_menu_component,
 )
 from app.enum.Layout import Layout
 from app.models.Restaurant import Restaurant
-from app.components.restaurants.cart_component import cart_component
-from app.components.restaurants.restaurant_header_component import (
+from app.components.cart.cart_component import cart_component
+from app.components.search.restaurant_header_component import (
     restaurant_header_component,
 )
 from app.components.search.restaurants_list_component import restaurants_list_component
@@ -17,8 +17,8 @@ from app.components.search.search_heading_carousel_component import (
     search_heading_carousel,
 )
 from app.dto.RestaurantSearchContext import RestaurantSearchContext
-from app.services.component_safe_renderer import render_page, build_components
-from app.services.search.restaurant_search_service import RestaurantSearchService
+from app.services.component_service import render_page, build_components
+from app.services.restaurant_search_service import RestaurantSearchService
 
 index_routes = Blueprint("index", __name__)
 
@@ -32,7 +32,6 @@ def index() -> Response:
 
     restaurant_search_context = RestaurantSearchContext(
         restaurant_names=request.args.get("search_terms"),
-        postal_codes=request.args.get("postal_codes"),
     )
 
     restaurant_search_service = RestaurantSearchService(restaurant_search_context)

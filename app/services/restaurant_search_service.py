@@ -12,7 +12,7 @@ class RestaurantSearchService:
     def __init__(self, context: RestaurantSearchContext):
         self.context = context
 
-    def fetch_restaurants(self):
+    def fetch_restaurants(self) -> list[Restaurant]:
         query = Restaurant.query
         search_conditions = self.get_search_terms_conditions()
 
@@ -52,7 +52,7 @@ class RestaurantSearchService:
     # with a match come first), then by distance ascending if there
     # is a distance.
     # --------------------------------------------------------------
-    def apply_postal_code_sort(self, query: Query):
+    def apply_postal_code_sort(self, query: Query) -> Query:
         user_postal_code = current_user.postal_code.postal_code or None
 
         if not user_postal_code:
@@ -85,15 +85,3 @@ class RestaurantSearchService:
         }
 
         return list(names)
-
-    def get_postal_codes_as_list(self) -> list[str]:
-        if not self.context.postal_codes:
-            return []
-
-        codes = {
-            code.strip().lower()
-            for code in self.context.postal_codes.split(",")
-            if code.strip()
-        }
-
-        return list(codes)

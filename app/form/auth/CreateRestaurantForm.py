@@ -1,7 +1,7 @@
-from wtforms.fields.simple import StringField, PasswordField, TextAreaField, FileField
+from wtforms.fields.simple import StringField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 
-from app.form.component.FileAttachedForm import FileAttachedForm
+from app.form.FileAttachedForm import FileAttachedForm
 from app.models.Account import Account
 
 
