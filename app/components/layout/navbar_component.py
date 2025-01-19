@@ -1,8 +1,9 @@
 from flask import render_template, url_for, request, flash
 from flask_login import current_user
 
+from app.components.layout.notifications_component import notifications_component
 from app.enum.AccountType import AccountType
-from app.form.component.navbar.RestaurantsFilterForm import RestaurantsFilterForm
+from app.form.layout.RestaurantsFilterForm import RestaurantsFilterForm
 
 
 def navbar_component() -> str:
@@ -19,15 +20,22 @@ def navbar_component() -> str:
         "restaurants_filter_form": restaurants_filter_form,
         "dropdown_label": get_dropdown_label(),
         "dropdown_items": get_dropdown_items(),
+        "notifications_component": (
+            notifications_component(current_user)
+            if not current_user.is_anonymous
+            else None
+        ),
     }
 
     return render_template("components/layout/navbar.html", attributes=attributes)
 
 
 def validate_form(restaurants_filter_form) -> None:
-    if not restaurants_filter_form.validate():
-        for error in restaurants_filter_form.errors.values():
-            flash(error[0], category="danger")
+    if restaurants_filter_form.validate():
+        return
+
+    for error in restaurants_filter_form.errors.values():
+        flash(error[0], category="danger")
 
 
 def get_dropdown_label() -> str | None:
@@ -51,7 +59,7 @@ def get_dropdown_items() -> list[dict[str:str]]:
         return [
             {
                 "icon": "fa-solid fa-user me-2",
-                "link": url_for("index.index"),
+                "link": url_for("profile.customer_orders"),
                 "text": "View Profile",
             },
             {
@@ -74,3 +82,5 @@ def get_dropdown_items() -> list[dict[str:str]]:
                 "text": "Logout",
             },
         ]
+
+    return []

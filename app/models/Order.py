@@ -8,6 +8,7 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.Enum(OrderStatus), nullable=False)
     price = db.Column(db.Float, nullable=False)
+    wishes_text = db.Column(db.Text, nullable=True)
     ordered_at = db.Column(db.DateTime, nullable=False, default=datetime.now(UTC))
     customer_id = db.Column(db.Integer, db.ForeignKey("customer.id"), nullable=False)
     restaurant_id = db.Column(
@@ -17,4 +18,9 @@ class Order(db.Model):
     # Relationships
     customer = db.relationship("Customer", back_populates="orders", uselist=False)
     restaurant = db.relationship("Restaurant", back_populates="orders", uselist=False)
-    items = db.relationship("OrderMenuItem", back_populates="orders")
+    order_items = db.relationship(
+        "OrderItem",
+        back_populates="order",
+        lazy="dynamic",
+        cascade="all, delete-orphan",
+    )

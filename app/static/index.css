@@ -1,10 +1,21 @@
-@import "components/navbar.css";
-@import "components/footer.css";
-@import "components/admin/dashboard.css";
-@import "components/admin/aside.css";
-@import "components/admin/menu_page_navigation.css";
+@import "css/components/layout/navbar.css";
+@import "css/components/layout/footer.css";
+@import "css/components/admin/dashboard.css";
+@import "css/components/admin/aside.css";
+@import "css/components/admin/menu_page_navigation.css";
+@import "css/components/search/search_header.css";
+@import "css/components/restaurant/restaurant_page.css";
+@import "css/components/restaurant/cart.css";
+@import "css/components/restaurant/restaurant_header.css";
 
 /** GLOBALS **/
 .flash-box .alert {
     border-radius: 0;
+}
+
+aside {
+    border-style: solid;
+    border-width: 0 2px;
+    border-color: rgb(226 232 240);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }

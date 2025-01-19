@@ -1,0 +1,7 @@
+#admin-dashboard aside#aside {
+    flex: 1;
+}
+
+#admin-dashboard main#content {
+    flex: 3;
+}

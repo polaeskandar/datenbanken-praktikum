@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% block head %}
+      <meta charset="UTF-8">
+      <meta name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Lieferspatz - {{ page_title }}</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='vendor/fontawesome.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+      <script defer src="{{ url_for('static', filename="vendor/masonry.min.js") }}"></script>
+      <script defer src="{{ url_for('static', filename="vendor/popper.js") }}"></script>
+      <script defer src="{{ url_for('static', filename="vendor/bootstrap.js") }}"></script>
+      <script src="{{ url_for('static', filename="vendor/socket-io.js") }}"></script>
+      <script src="{{ url_for('static', filename="js/main.js") }}"></script>
+    {% endblock %}
+  </head>
+  <body id="admin-dashboard">
+    <div id="flash-box" class="flash-box">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} mb-0" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endwith %}
+    </div>
+
+    <header id="header">
+      {% block header_content %}
+        {% for component in components['header'] %} {{ component|safe }} {% endfor %}
+      {% endblock %}
+    </header>
+    <section class="d-flex justify-content-between">
+      <aside id="aside" class="d-flex flex-column container-fluid min-vh-100">
+        {% block aside_content %}
+          {% for component in components['aside'] %} {{ component|safe }} {% endfor %}
+        {% endblock %}
+      </aside>
+      <main id="content" class="d-flex flex-column container-fluid min-vh-100 p-5">
+        {% block main_content %}
+          {% for component in components['main'] %} {{ component|safe }} {% endfor %}
+        {% endblock %}
+      </main>
+    </section>
+    <footer>
+      {% block footer_content %}
+        {% for component in components['footer'] %} {{ component|safe }} {% endfor %}
+      {% endblock %}
+    </footer>
+
+    <script>
+
+      const socket = io();
+
+      socket.on('connect', function () {
+        socket.emit('join', {room: '/restaurant/' + '{{ current_user.restaurant.id }}'});
+      });
+
+      socketFlashBox(socket);
+      connectOrdersSection(socket);
+      connectNotificationBell(socket);
+      connectNotificationsList(socket);
+    </script>
+  </body>
+</html>

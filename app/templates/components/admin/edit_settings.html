@@ -1,7 +1,8 @@
 <h1 class="mb-3">Edit settings</h1>
 
 <div class="card">
-  <form method="POST" class="card-body">
+  <form method="POST" class="card-body" enctype=multipart/form-data>
+    {{ attributes.edit_settings_form.hidden_tag() }}
     <div class="row">
       <div class="col-9">
         <div class="mb-3">

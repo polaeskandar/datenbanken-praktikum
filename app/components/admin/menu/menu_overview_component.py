@@ -4,7 +4,7 @@ from flask_login import current_user
 from app.models.MenuItem import MenuItem
 
 
-def menu_overview_component():
+def menu_overview_component() -> str:
     menu_id = current_user.restaurant.menu.id
     menu_items = MenuItem.query.filter_by(menu_id=menu_id).all()
 
@@ -13,5 +13,5 @@ def menu_overview_component():
     }
 
     return render_template(
-        "components/admin/menu_overview_component.html", attributes=attributes
+        "components/admin/menu/menu_overview_component.html", attributes=attributes
     )

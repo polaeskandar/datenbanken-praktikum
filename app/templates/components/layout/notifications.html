@@ -1,0 +1,24 @@
+<li id="notifications" class="nav-item dropdown">
+    <a class="nav-link" href="#" data-bs-toggle="dropdown">
+        <i id="notification-bell"
+           class="fa-solid fa-bell fs-4 notification-bell position-relative {{ 'active' if attributes.unread_notifications > 0 }}"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-lg-end p-0" style="min-width: 500px">
+        <li class="list-group">
+            {% for notification in attributes.notifications %}
+                <div
+                        class="notification list-group-item list-group-item-action text-black {{ 'border-light bg-light active' if not notification.is_read }}"
+                        data-notification-id="{{ notification.id }}"
+                >
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ notification.title }}</h5>
+                        <small>{{ notification.created_at|humanize }}</small>
+                    </div>
+                    <p class="mb-1">{{ notification.text }}</p>
+                </div>
+            {% else %}
+                <div class="p-3">All quiet. No notifications to disturb the peace...</div>
+            {% endfor %}
+        </li>
+    </ul>
+</li>

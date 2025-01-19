@@ -1,11 +1,14 @@
 from flask import render_template, flash, redirect, url_for, Response
 from flask_login import login_user
 
-from app import app, db
-from app.form.component.auth.RegisterCustomerForm import RegisterCustomerForm
+from app import db
+from app.enum.AccountType import AccountType
+from app.form.auth.RegisterCustomerForm import RegisterCustomerForm
 from app.models.Account import Account
 from app.models.Customer import Customer
 from app.models.PostalCode import PostalCode
+from app.services.component_service import flash_errors
+from app.services.notification_service import push_notification
 from app.services.postal_code_service import get_or_create_postal_code
 
 
@@ -15,8 +18,7 @@ def register_customer_component() -> Response | str:
     if register_customer_form.validate_on_submit():
         return handle_customer_creation(register_customer_form)
 
-    for error in register_customer_form.errors.values():
-        flash(error[0], category="danger")
+    flash_errors(register_customer_form)
 
     attributes = {
         "register_customer_form": register_customer_form,
@@ -31,37 +33,40 @@ def register_customer_component() -> Response | str:
 
 
 def handle_customer_creation(register_customer_form: RegisterCustomerForm) -> Response:
-    with app.app_context():
-        try:
-            # Ensure the postal code exists or create it
-            postal_code = get_or_create_postal_code(
-                register_customer_form.postal_code.data
-            )
+    try:
+        # Ensure the postal code exists or create it
+        postal_code = get_or_create_postal_code(register_customer_form.postal_code.data)
 
-            # Create the account
-            account = create_account(register_customer_form, postal_code)
+        # Create the account
+        account = create_account(register_customer_form, postal_code)
 
-            # Create the customer
-            customer = create_customer_entity(register_customer_form, account)
+        # Create the customer
+        customer = create_customer_entity(register_customer_form, account)
 
-            # Save all entities to the database
-            db.session.add_all([account, customer])
-            db.session.commit()
+        # Save all entities to the database
+        db.session.add_all([account, customer])
+        db.session.commit()
 
-            # Log the user in and redirect
-            login_user(account)
-            flash("User created successfully!", category="success")
+        # Log the user in and redirect
+        login_user(account)
+        push_notification(
+            category="success",
+            title="Welcome!",
+            text=f"Good to see you here, {customer.first_name}",
+            to=account,
+        )
 
-            return redirect(url_for("index.index"))
-        except Exception as e:
-            db.session.rollback()
+        return redirect(url_for("index.index"))
+    except Exception as e:
+        db.session.rollback()
 
-            raise e
+        raise e
 
 
 def create_account(form: RegisterCustomerForm, postal_code: PostalCode) -> Account:
     return Account(
         email=form.email.data,
+        type=AccountType.CUSTOMER,
         hashed_password=form.password.data,
         address=form.address.data,
         postal_code=postal_code,

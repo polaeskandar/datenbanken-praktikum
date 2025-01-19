@@ -1,0 +1,7 @@
+.restaurant-aside .cart .item-quantity {
+    width: fit-content;
+}
+
+.restaurant-aside .cart .item-quantity a:hover {
+    color: #fff;
+}

@@ -1,0 +1,50 @@
+<section class="cart h-100 d-flex flex-column align-items-stretch justify-content-between">
+    <div class="cart-start">
+        <h2 class="text-uppercase mt-3">
+            Cart
+        </h2>
+
+        <ul class="list-group list-group-flush">
+            {% for cart_item in attributes.cart_items %}
+                <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                    <div class="flex-1 d-flex flex-column">
+                        <span class="fs-5 fw-semibold">{{ cart_item.item.name }}</span>
+                        <span class="text-success">{{ "%.2f" % (cart_item.item.price * cart_item.quantity) }}€</span>
+                    </div>
+                    <div class="item-quantity input-group">
+                        <div class="d-flex align-items-center justify-content-center px-3 bg-dark text-white rounded-start">{{ cart_item.quantity }}</div>
+                        <a href="{{ url_for('cart.decrement_item_quantity', restaurant_id=attributes.restaurant.id, cart_id=attributes.cart.id, item_id=cart_item.item.id) }}" class="btn btn-outline-dark" type="button">-</a>
+                        <a href="{{ url_for('cart.increment_item_quantity', restaurant_id=attributes.restaurant.id, cart_id=attributes.cart.id, item_id=cart_item.item.id) }}" class="btn btn-outline-dark" type="button">+</a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="list-group-item">
+                    Your cart is so empty, it’s starting to question its existence—let’s fix that!
+                </li>
+            {% endfor %}
+        </ul>
+
+        <hr />
+
+        {% if attributes.cart_items|length > 0 %}
+            <div class="d-flex align-items-center justify-content-between">
+                <p>Total</p>
+                <span class="text-success">{{ attributes.total_price }}€</span>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="justify-self-end">
+        <form method="POST">
+            {{ attributes.place_order_form.hidden_tag() }}
+            {{ attributes.place_order_form.wishes_text.label(class="form-label", for="wishes_text") }}
+            {{ attributes.place_order_form.wishes_text(id="wishes_text", class="form-control") }}
+
+            <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-dark">
+                    <i class="fa-solid fa-credit-card me-2"></i>Place Order
+                </button>
+            </div>
+        </form>
+    </div>
+</section>

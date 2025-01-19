@@ -1,0 +1,55 @@
+<section id="search-header" class="search-header d-flex flex-column align-items-stretch my-4">
+  <div class="border-bottom pb-3">
+    <h1 class="d-flex align-items-center gap-2 fs-4">Top Results found for your search criteria...</h1>
+    <span class="text-secondary">{{ attributes.restaurants_count }} restaurants</span>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <div class="d-flex flex-wrap gap-1">
+      {% for term in attributes.terms_list %}
+        <span class="badge text-bg-dark">
+          {{ term.label }}
+          <a class="ms-2 text-white" href="{{ term.link }}"><i class="fa-solid fa-xmark"></i></a>
+        </span>
+      {% endfor %}
+    </div>
+
+    <form class="sort-results-select-box" method="GET">
+      <select class="form-select" name="sort_by">
+        <option value="none">Sort Results By</option>
+        <option value="alphabetically">Alphabetically</option>
+        <option value="distance">Distance (Nearest to me)</option>
+        <option value="top_ordered">Top Ordered</option>
+        <option value="rating">Rating</option>
+        <option value="newest">Newest</option>
+      </select>
+    </form>
+  </div>
+</section>
+
+<script>
+    (function () {
+        const selectElement = document.querySelector('#search-header .sort-results-select-box select');
+
+        if (!selectElement) {
+            throw new Error("Select element for sorting options is not found");
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const sortByValue = urlParams.get('sort_by');
+
+        if (sortByValue) {
+            selectElement.value = sortByValue;
+        }
+
+        selectElement.addEventListener('change', (e) => {
+            const newSortValue = e.target.value;
+            const updatedParams = new URLSearchParams(window.location.search);
+
+            if (newSortValue === 'none') updatedParams.delete('sort_by');
+            else updatedParams.set('sort_by', newSortValue);
+
+            window.location.search = updatedParams.toString();
+        });
+    })();
+</script>
