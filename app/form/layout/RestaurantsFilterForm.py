@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField
-from wtforms.validators import Regexp, Optional
+from wtforms.validators import Optional
 
 
 class RestaurantsFilterForm(FlaskForm):

@@ -1,12 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField, DecimalField, SubmitField
+from wtforms import DecimalField, StringField
 from wtforms.validators import DataRequired, NumberRange
 
 
 class SetDeliveryRadiusForm(FlaskForm):
-    postal_code = SelectField(
-        choices=[("", "Choose a postal code")], validators=[DataRequired()]
-    )
+    postal_code = StringField("Postal code", validators=[DataRequired()])
 
     distance = DecimalField(
         validators=[

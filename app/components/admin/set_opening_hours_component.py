@@ -23,4 +23,6 @@ def set_opening_hours_component():
 
     attributes = {"days": days, "opening_hours_form": opening_hours_form}
 
-    return render_template("components/admin/set_opening_hours.html",attributes = attributes )
+    return render_template(
+        "components/admin/set_opening_hours.html", attributes=attributes
+    )

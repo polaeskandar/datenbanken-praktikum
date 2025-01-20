@@ -7,8 +7,8 @@ class PostalCode(db.Model):
 
     # Relationships
     accounts = db.relationship("Account", back_populates="postal_code")
-    restaurants = db.relationship(
+    postal_code_restaurants = db.relationship(
         "PostalCodeRestaurant",
-        back_populates="postal_codes",
+        back_populates="postal_code",
         cascade="all, delete-orphan",
     )

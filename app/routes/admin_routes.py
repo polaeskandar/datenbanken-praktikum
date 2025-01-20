@@ -1,6 +1,7 @@
-from flask import Blueprint, Response, redirect, url_for
+from flask import Blueprint, Response, redirect, url_for, flash, abort
 from flask_login import login_required, current_user
 
+from app import db
 from app.components.admin.menu.add_menu_item_component import add_menu_item_component
 from app.components.admin.menu.edit_menu_item_component import edit_menu_item_component
 from app.components.admin.edit_settings_component import edit_settings_component
@@ -17,6 +18,7 @@ from app.components.admin.delivery_radius.set_delivery_radius_component import (
 )
 from app.components.admin.set_opening_hours_component import set_opening_hours_component
 from app.enum.Layout import Layout
+from app.models.PostalCodeRestaurant import PostalCodeRestaurant
 from app.services.menu_service import delete_item
 from app.services.aside_component_service import get_aside_component_for_admin_board
 from app.services.component_service import render_page, build_components
@@ -100,6 +102,24 @@ def delivery_radius() -> Response:
     )
 
     return render_page(Layout.SPLIT, "Delivery Radius", components)
+
+
+@admin_routes.route(
+    "/delivery_radius/<int:postal_code_restaurant_id>/delete", methods=["GET"]
+)
+@login_required
+def delete_delivery_radius(postal_code_restaurant_id: int) -> Response:
+    postal_code = PostalCodeRestaurant.query.get_or_404(postal_code_restaurant_id)
+
+    if postal_code.restaurant != current_user.restaurant:
+        abort(403)
+
+    db.session.delete(postal_code)
+    db.session.commit()
+
+    flash("Postal code removed successfully.", "success")
+
+    return redirect(url_for("admin.delivery_radius"))
 
 
 @admin_routes.route("/settings", methods=["GET", "POST"])

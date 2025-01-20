@@ -27,7 +27,7 @@ class Restaurant(db.Model):
     )
     postal_codes = db.relationship(
         "PostalCodeRestaurant",
-        back_populates="restaurants",
+        back_populates="restaurant",
         cascade="all, delete-orphan",
     )
     carts = db.relationship(
