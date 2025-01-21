@@ -8,7 +8,6 @@ class SetDeliveryRadiusForm(FlaskForm):
 
     distance = DecimalField(
         validators=[
-            DataRequired(),
             NumberRange(min=0, message="Distance must be positive."),
         ],
         places=2,

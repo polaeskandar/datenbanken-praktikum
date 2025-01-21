@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask_login import current_user
+from flask_sqlalchemy.pagination import Pagination
 from flask_sqlalchemy.query import Query
 from sqlalchemy import or_, case, asc, func, cast, Integer
 
@@ -9,13 +10,14 @@ from app.models.OpeningHour import OpeningHour
 from app.models.PostalCode import PostalCode
 from app.models.PostalCodeRestaurant import PostalCodeRestaurant
 from app.models.Restaurant import Restaurant
+from app.services.pagination_service import paginate_query
 
 
 class RestaurantSearchService:
     def __init__(self, context: RestaurantSearchContext):
         self.context = context
 
-    def fetch_restaurants(self) -> list[Restaurant]:
+    def fetch_restaurants(self) -> Pagination:
         query = Restaurant.query
         search_conditions = self.get_search_terms_conditions()
 
@@ -29,7 +31,10 @@ class RestaurantSearchService:
         # 3. Sort by distance to user's district
         query = self.apply_postal_code_sort(query)
 
-        return query.all()
+        # 4. Ensure distinct results
+        query = query.distinct(Restaurant.id)
+
+        return paginate_query(query)
 
     # --------------------------------------------------------------
     # Filtering by Name/Description

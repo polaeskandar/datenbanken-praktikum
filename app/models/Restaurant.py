@@ -1,4 +1,5 @@
 from datetime import datetime
+from platform import android_ver
 
 from app import db
 
@@ -38,6 +39,13 @@ class Restaurant(db.Model):
         lazy="dynamic",
         cascade="all, delete-orphan",
     )
+
+    def is_available(self):
+        return (
+            self.is_currently_open()
+            and self.opening_hours.count() == 7
+            and self.menu.items.count() > 0
+        )
 
     def is_currently_open(self) -> bool:
         now = datetime.now()

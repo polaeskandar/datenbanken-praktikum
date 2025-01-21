@@ -39,18 +39,20 @@
             {% endif %}
           </td>
           <td>
-            <select
-                data-order-id="{{ order.id }}"
-                data-customer-id="{{ order.customer_id }}"
-                class="change-status-select-box form-select"
-            >
-              <option>Change status</option>
-              {% for status in attributes.OrderStatus %}
-                <option value="{{ status.name }}" {{ 'selected' if order.status == status }}>
-                  {{ status.value }}
-                </option>
-              {% endfor %}
-            </select>
+            {% if attributes.transitions[order.status]|length > 0 %}
+              <select
+                  data-order-id="{{ order.id }}"
+                  data-customer-id="{{ order.customer_id }}"
+                  class="change-status-select-box form-select"
+              >
+                <option>Change status</option>
+                {% for status in attributes.transitions[order.status] %}
+                  <option value="{{ status.name }}">{{ status.value }}</option>
+                {% endfor %}
+              </select>
+            {% else %}
+              <div class="text-muted">No transitions available</div>
+            {% endif %}
           </td>
         </tr>
       {% else %}
@@ -62,4 +64,6 @@
       {% endfor %}
     </tbody>
   </table>
+
+  {{ attributes.pagination_component|safe }}
 </section>
