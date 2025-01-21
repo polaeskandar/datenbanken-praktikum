@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from app import db
 
 
@@ -36,3 +38,19 @@ class Restaurant(db.Model):
         lazy="dynamic",
         cascade="all, delete-orphan",
     )
+
+    def is_currently_open(self) -> bool:
+        now = datetime.now()
+        current_day = now.strftime("%A").upper()  # e.g. "MONDAY"
+        current_time_str = now.strftime("%H:%M")  # e.g. "09:35"
+
+        for opening_hour in self.opening_hours.all():
+            if opening_hour.day_of_week.name == current_day:
+                if (
+                    opening_hour.opening_time
+                    <= current_time_str
+                    <= opening_hour.closing_time
+                ):
+                    return True
+
+        return False

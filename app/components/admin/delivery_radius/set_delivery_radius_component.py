@@ -8,7 +8,7 @@ from app.services.component_service import flash_errors
 from app.services.postal_code_service import get_or_create_postal_code
 
 
-def set_delivery_radius_component():
+def set_delivery_radius_component() -> str | Response:
     set_delivery_radius_form = SetDeliveryRadiusForm()
 
     if set_delivery_radius_form.validate_on_submit():
