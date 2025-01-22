@@ -22,6 +22,7 @@ from app.models.PostalCodeRestaurant import PostalCodeRestaurant
 from app.services.menu_service import delete_item
 from app.services.aside_component_service import get_aside_component_for_admin_board
 from app.services.component_service import render_page, build_components
+from app.services.restaurants_service import display_warning
 
 admin_routes = Blueprint("admin", __name__)
 
@@ -30,6 +31,8 @@ admin_routes = Blueprint("admin", __name__)
 @admin_routes.route("/orders")
 @login_required
 def index() -> Response:
+    display_warning()
+
     components = build_components(
         main_components=[lambda: orders_table_component(current_user.restaurant)],
         aside_components=[get_aside_component_for_admin_board],
