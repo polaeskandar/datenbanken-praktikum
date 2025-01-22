@@ -40,7 +40,7 @@ class Restaurant(db.Model):
         cascade="all, delete-orphan",
     )
 
-    def is_available(self):
+    def is_available(self) -> bool:
         return (
             self.is_currently_open()
             and self.opening_hours.count() == 7
@@ -62,3 +62,11 @@ class Restaurant(db.Model):
                     return True
 
         return False
+
+    def get_average_rating(self) -> float:
+        ratings = [order.rating for order in self.orders if order.rating is not None]
+
+        return sum(ratings) / len(ratings) if ratings else 0.0
+
+    def get_ratings_count(self) -> int:
+        return len([order.rating for order in self.orders if order.rating is not None])

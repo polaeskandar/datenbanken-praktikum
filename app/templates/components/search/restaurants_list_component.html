@@ -28,13 +28,20 @@
             <i class="fa-regular fa-clock"></i>Closed
           </p>
         {% endif %}
-        <p class="card-text align-self-end mt-auto">
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-regular fa-star-half"></i>
-          <small class="mt-auto text-body-secondary">4k Ratings</small>
+        <p class="d-flex align-items-center align-self-end gap-1 card-text mt-auto">
+          <small class="me-1 text-body-secondary">
+            ({{ restaurant.get_average_rating() }})
+          </small>
+          {% set rounded_rating = restaurant.get_average_rating() | round | int %}
+          {% for star in range(rounded_rating) %}
+            <i class="fa-solid fa-star"></i>
+          {% endfor %}
+          {% for star in range(5 - rounded_rating) %}
+            <i class="fa-regular fa-star"></i>
+          {% endfor %}
+          <small class="ms-1 text-body-secondary">
+            {{ restaurant.get_ratings_count() }} Rating(s)
+          </small>
         </p>
       </div>
     </div>
@@ -53,7 +60,6 @@
         {{ restaurant_card(restaurant) }}
       </div>
     {% endif %}
-
     {% if not loop.last %}
       <hr/>
     {% endif %}
@@ -62,6 +68,5 @@
       No restaurants were found for your search criteria.
     </div>
   {% endfor %}
-
   {{ attributes.pagination_component|safe }}
 </section>

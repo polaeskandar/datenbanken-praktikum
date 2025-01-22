@@ -10,6 +10,7 @@ class Order(db.Model):
     price = db.Column(db.Float, nullable=False)
     wishes_text = db.Column(db.Text, nullable=True)
     ordered_at = db.Column(db.DateTime, nullable=False, default=datetime.now(UTC))
+    rating = db.Column(db.Float, nullable=True)
     customer_id = db.Column(db.Integer, db.ForeignKey("customer.id"), nullable=False)
     restaurant_id = db.Column(
         db.Integer, db.ForeignKey("restaurant.id"), nullable=False
