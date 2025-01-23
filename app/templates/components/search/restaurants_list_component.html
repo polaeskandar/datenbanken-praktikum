@@ -1,7 +1,13 @@
 {% macro restaurant_card(restaurant) %}
   <div class="row g-0">
     <div class="col-md-4">
-      {% if restaurant.image %}
+      {% if restaurant.image and restaurant.image.startswith('https') %}
+        <img
+            src="{{ restaurant.image }}"
+            class="img-fluid rounded-start"
+            alt="{{ restaurant.name }}"
+        />
+      {% elif restaurant.image %}
         <img
             src="{{ url_for('static', filename="uploads/images/" + restaurant.image) }}"
             class="img-fluid rounded-start"
