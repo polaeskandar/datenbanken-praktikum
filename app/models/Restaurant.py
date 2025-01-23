@@ -1,5 +1,4 @@
-from datetime import datetime
-from platform import android_ver
+from datetime import datetime, UTC
 
 from app import db
 
@@ -9,6 +8,7 @@ class Restaurant(db.Model):
     name = db.Column(db.String(60), nullable=False)
     image = db.Column(db.String(255), nullable=True)
     description = db.Column(db.Text, nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(UTC))
     account_id = db.Column(db.Integer, db.ForeignKey("account.id"), unique=True)
 
     # Relationships

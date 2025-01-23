@@ -3,11 +3,13 @@ from datetime import datetime
 from flask_login import current_user
 from flask_sqlalchemy.pagination import Pagination
 from flask_sqlalchemy.query import Query
-from sqlalchemy import or_, case, asc, func, cast, Integer
+from sqlalchemy import or_, case, asc, desc, func
 
 from app.dto.RestaurantSearchContext import RestaurantSearchContext
+from app.enum.QuerySort import QuerySort
 from app.models.OpeningHour import OpeningHour
 from app.models.PostalCode import PostalCode
+from app.models.Order import Order
 from app.models.PostalCodeRestaurant import PostalCodeRestaurant
 from app.models.Restaurant import Restaurant
 from app.services.pagination_service import paginate_query
@@ -31,7 +33,10 @@ class RestaurantSearchService:
         # 3. Sort by distance to user's district
         query = self.apply_postal_code_sort(query)
 
-        # 4. Ensure distinct results
+        # 4. Query sorting options.
+        query = self.apply_query_sorting(query)
+
+        # Finally, ensure distinct results
         query = query.distinct(Restaurant.id)
 
         return paginate_query(query)
@@ -85,31 +90,23 @@ class RestaurantSearchService:
     # --------------------------------------------------------------
     # Sorting by Numerical Difference in Postal Codes
     # --------------------------------------------------------------
-    # We convert the user's postal code to an integer, and do the same
-    # for each restaurant's postal code (assuming it is stored as a string).
-    # We then compute the absolute difference between the two.
-    #
-    # The result is that restaurants with the same postal code
-    # (difference = 0) will appear first, and others follow in ascending
-    # order of how close their postal code is numerically to the user's.
+    # Sort restaurants so that those serving the user's postal code come first,
+    # ordered by ascending distance. Restaurants that do not serve the user's code
+    # are listed afterwards.
     # --------------------------------------------------------------
     def apply_postal_code_sort(self, query: Query) -> Query:
-        user_postal_code = current_user.postal_code.postal_code
-
-        if not user_postal_code:
+        if not (current_user.postal_code and current_user.postal_code.postal_code):
             return query
 
-        user_postal_code = int(user_postal_code)
+        user_postal_code = current_user.postal_code.postal_code
 
-        query = query.join(PostalCodeRestaurant, isouter=True).join(
-            PostalCode, isouter=True
-        )
+        query = query.outerjoin(
+            PostalCodeRestaurant, PostalCodeRestaurant.restaurant_id == Restaurant.id
+        ).outerjoin(PostalCode, PostalCodeRestaurant.postal_code_id == PostalCode.id)
 
-        pc_difference = func.abs(
-            cast(PostalCode.postal_code, Integer) - user_postal_code
-        )
+        is_serving_case = case((PostalCode.postal_code == user_postal_code, 0), else_=1)
 
-        query = query.order_by(pc_difference.asc())
+        query = query.order_by(is_serving_case, PostalCodeRestaurant.distance.asc())
 
         return query
 
@@ -129,3 +126,34 @@ class RestaurantSearchService:
         }
 
         return list(names)
+
+    # --------------------------------------------------------------
+    # Applying Query Sorting
+    # - Alphabetically by name (A–Z)
+    # - By the most ordered (descending count of orders)
+    # - By average rating (descending)
+    # - By newest (most recently created first)
+    # --------------------------------------------------------------
+    def apply_query_sorting(self, query):
+        # 1) Alphabetically by name
+        if self.context.query_sort == QuerySort.alphabetically.name:
+            return query.order_by(asc(Restaurant.name))
+
+        # 2) By top-ordered (descending count of Orders)
+        if self.context.query_sort == QuerySort.top_ordered.name:
+            query = query.outerjoin(Order, Order.restaurant_id == Restaurant.id)
+            query = query.group_by(Restaurant.id)
+            return query.order_by(desc(func.count(Order.id)))
+
+        # 3) By average rating (using the rating field on Order)
+        if self.context.query_sort == QuerySort.rating.name:
+            query = query.outerjoin(Order, Order.restaurant_id == Restaurant.id)
+            query = query.group_by(Restaurant.id)
+            average_rating = func.coalesce(func.avg(Order.rating), 0)
+            return query.order_by(desc(average_rating))
+
+        # 4) By newest
+        if self.context.query_sort == QuerySort.newest.name:
+            return query.order_by(desc(Restaurant.created_at))
+
+        return query

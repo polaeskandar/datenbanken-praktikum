@@ -32,6 +32,7 @@ def index() -> Response:
 
     restaurant_search_context = RestaurantSearchContext(
         restaurant_names=request.args.get("search_terms"),
+        query_sort=request.args.get("sort_by"),
     )
 
     restaurant_search_service = RestaurantSearchService(restaurant_search_context)
