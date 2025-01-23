@@ -3,6 +3,7 @@ from faker import Faker
 from app import db, app
 from app.enum.AccountType import AccountType
 from app.models.Account import Account
+from app.models.Menu import Menu
 from app.models.Restaurant import Restaurant
 
 fake = Faker()
@@ -21,6 +22,7 @@ def load_restaurant_fixtures():
 
         # Generate 10 restaurants
         restaurants = []
+        menus = []
 
         for i in range(10):
             restaurant = Restaurant(
@@ -31,10 +33,16 @@ def load_restaurant_fixtures():
                 created_at=fake.date_time(),
             )
 
+            menu = Menu(
+                restaurant=restaurant,
+            )
+
             restaurants.append(restaurant)
+            menus.append(menu)
 
         # Add to the database
         db.session.add_all(restaurants)
+        db.session.add_all(menus)
         db.session.commit()
 
         print("10 restaurant fixtures loaded successfully.")

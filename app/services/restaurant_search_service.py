@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from flask_login import current_user
-from flask_sqlalchemy.pagination import Pagination
 from flask_sqlalchemy.query import Query
 from sqlalchemy import or_, case, asc, desc, func
 
@@ -12,14 +11,13 @@ from app.models.PostalCode import PostalCode
 from app.models.Order import Order
 from app.models.PostalCodeRestaurant import PostalCodeRestaurant
 from app.models.Restaurant import Restaurant
-from app.services.pagination_service import paginate_query
 
 
 class RestaurantSearchService:
     def __init__(self, context: RestaurantSearchContext):
         self.context = context
 
-    def fetch_restaurants(self) -> Pagination:
+    def fetch_restaurants(self) -> list[Restaurant]:
         query = Restaurant.query
         search_conditions = self.get_search_terms_conditions()
 
@@ -27,19 +25,16 @@ class RestaurantSearchService:
         if search_conditions:
             query = query.filter(or_(*search_conditions))
 
-        # 2. Sort by opening hours to be implemented
+        # 2. Sort by "currently open" first
         query = self.apply_opening_hours_sort(query)
 
-        # 3. Sort by distance to user's district
+        # 3. Sort by distance to user's district (secondary sort)
         query = self.apply_postal_code_sort(query)
 
-        # 4. Query sorting options.
+        # 4. Query sorting options (e.g., alphabetically, by rating, etc.)
         query = self.apply_query_sorting(query)
 
-        # Finally, ensure distinct results
-        query = query.distinct(Restaurant.id)
-
-        return paginate_query(query)
+        return query.all()
 
     # --------------------------------------------------------------
     # Filtering by Name/Description
@@ -82,7 +77,7 @@ class RestaurantSearchService:
         # 3) Outer-join to OpeningHour.
         query = query.outerjoin(OpeningHour, OpeningHour.restaurant_id == Restaurant.id)
 
-        # 4) Sort by:
+        # 4) Add primary sorting by whether the restaurant is open (ascending by `is_open_case`)
         query = query.order_by(asc(is_open_case))
 
         return query

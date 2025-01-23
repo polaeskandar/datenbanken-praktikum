@@ -46,8 +46,8 @@ def populate_form_from_db(opening_hours_form, restaurant):
             ).time()
         else:
             # Provide default times
-            day_form.opening_hour.data = datetime.strptime("09:00", "%H:%M").time()
-            day_form.closing_hour.data = datetime.strptime("17:00", "%H:%M").time()
+            day_form.opening_hour.data = datetime.strptime("00:00", "%H:%M").time()
+            day_form.closing_hour.data = datetime.strptime("00:00", "%H:%M").time()
 
 
 def set_opening_hours(

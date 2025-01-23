@@ -41,7 +41,7 @@ def index() -> Response:
     components = build_components(
         main_components=[
             lambda: search_header_component(
-                restaurant_search_service, restaurants.total
+                restaurant_search_service, len(restaurants)
             ),
             search_heading_carousel,
             lambda: restaurants_list_component(restaurants),
