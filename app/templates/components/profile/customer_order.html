@@ -1,7 +1,7 @@
 <h1 class="text-center my-5 text-muted text-uppercase">Orders</h1>
 
 <div class="card">
-  <div class="card-body">
+  <div class="card-body d-flex flex-column">
     <ul class="list-group list-group-flush">
       {% for order in attributes.orders %}
         <li class="list-group-item d-flex align-items-start justify-content-between py-4 rounded-0">
@@ -11,19 +11,39 @@
             {% for item in order.order_items %}
               <p class="my-1">{{ item.quantity }}x {{ item.item.name }}</p>
             {% endfor %}
-          </div>
-          <div class="d-flex align-items-center gap-2">
-            {% if order.status == attributes.OrderStatus.PENDING %}
-              <span class="badge text-bg-primary rounded-pill">Pending</span>
-            {% elif order.status == attributes.OrderStatus.ACCEPTED %}
-              <span class="badge text-bg-secondary rounded-pill">In Progress</span>
-            {% elif order.status == attributes.OrderStatus.COMPLETED %}
-              <span class="badge text-bg-success rounded-pill">Done</span>
-            {% elif order.status == attributes.OrderStatus.CANCELLED %}
-              <span class="badge text-bg-danger rounded-pill">Cancelled</span>
+            {% if order.status == attributes.OrderStatus.COMPLETED and not order.rating %}
+              <a class="d-block text-decoration-none text-primary mt-1"
+                 href="{{ url_for('profile.rate_order', order_id=order.id) }}">
+                Leave a rating!
+              </a>
             {% endif %}
-            <span class="badge text-bg-dark rounded-pill"
-                  title="{{ order.ordered_at }}">{{ order.ordered_at|humanize }}</span>
+          </div>
+          <div class="d-flex flex-column align-items-end">
+            <div class="d-flex align-items-center gap-2">
+              {% if order.status == attributes.OrderStatus.PENDING %}
+                <span class="badge text-bg-primary rounded-pill">Pending</span>
+              {% elif order.status == attributes.OrderStatus.ACCEPTED %}
+                <span class="badge text-bg-secondary rounded-pill">In Progress</span>
+              {% elif order.status == attributes.OrderStatus.COMPLETED %}
+                <span class="badge text-bg-success rounded-pill">Done</span>
+              {% elif order.status == attributes.OrderStatus.CANCELLED %}
+                <span class="badge text-bg-danger rounded-pill">Cancelled</span>
+              {% endif %}
+              <span class="badge text-bg-dark rounded-pill"
+                    title="{{ order.ordered_at }}">{{ order.ordered_at|humanize }}</span>
+            </div>
+            {% if order.rating %}
+              <p class="d-flex align-items-center gap-1 card-text mt-2">
+                {% set rounded_rating = order.rating | round | int %}
+                {% for star in range(rounded_rating) %}
+                  <i class="fa-solid fa-star"></i>
+                {% endfor %}
+                {% for star in range(5 - rounded_rating) %}
+                  <i class="fa-regular fa-star"></i>
+                {% endfor %}
+                <small class="mt-auto text-body-secondary">({{ "%.1f" % order.rating }})</small>
+              </p>
+            {% endif %}
           </div>
         </li>
       {% else %}
@@ -35,5 +55,7 @@
         </li>
       {% endfor %}
     </ul>
+
+    {{ attributes.pagination_component|safe }}
   </div>
 </div>

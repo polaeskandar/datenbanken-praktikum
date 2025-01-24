@@ -1,3 +1,4 @@
+from datetime import datetime, UTC
 from decimal import Decimal, ROUND_HALF_UP
 
 from flask import (
@@ -78,6 +79,7 @@ def place_order(
             customer=current_user.customer,
             restaurant=restaurant,
             wishes_text=wishes_text,
+            ordered_at=datetime.now(UTC),
         )
 
         # Create OrderItems for each CartItem, capturing quantity

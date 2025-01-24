@@ -1,5 +1,6 @@
 from flask import render_template, url_for
 
+from app.enum.QuerySort import QuerySort
 from app.services.restaurant_search_service import RestaurantSearchService
 
 
@@ -14,6 +15,7 @@ def search_header_component(
     attributes = {
         "terms_list": terms_list,
         "restaurants_count": restaurants_count,
+        "QuerySort": QuerySort,
     }
 
     return render_template(

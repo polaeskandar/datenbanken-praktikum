@@ -17,39 +17,37 @@
     <form class="sort-results-select-box" method="GET">
       <select class="form-select" name="sort_by">
         <option value="none">Sort Results By</option>
-        <option value="alphabetically">Alphabetically</option>
-        <option value="distance">Distance (Nearest to me)</option>
-        <option value="top_ordered">Top Ordered</option>
-        <option value="rating">Rating</option>
-        <option value="newest">Newest</option>
+        {% for query_sort in attributes.QuerySort %}
+          <option value="{{ query_sort.name }}">{{ query_sort.value }}</option>
+        {% endfor %}
       </select>
     </form>
   </div>
 </section>
 
 <script>
-    (function () {
-        const selectElement = document.querySelector('#search-header .sort-results-select-box select');
+  (function () {
+    const selectElement = document.querySelector('#search-header .sort-results-select-box select');
 
-        if (!selectElement) {
-            throw new Error("Select element for sorting options is not found");
-        }
+    if (!selectElement) {
+      throw new Error("Select element for sorting options is not found");
+    }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const sortByValue = urlParams.get('sort_by');
+    const urlParams = new URLSearchParams(window.location.search);
+    const sortByValue = urlParams.get('sort_by');
 
-        if (sortByValue) {
-            selectElement.value = sortByValue;
-        }
+    if (sortByValue) {
+      selectElement.value = sortByValue;
+    }
 
-        selectElement.addEventListener('change', (e) => {
-            const newSortValue = e.target.value;
-            const updatedParams = new URLSearchParams(window.location.search);
+    selectElement.addEventListener('change', (e) => {
+      const newSortValue = e.target.value;
+      const updatedParams = new URLSearchParams(window.location.search);
 
-            if (newSortValue === 'none') updatedParams.delete('sort_by');
-            else updatedParams.set('sort_by', newSortValue);
+      if (newSortValue === 'none') updatedParams.delete('sort_by');
+      else updatedParams.set('sort_by', newSortValue);
 
-            window.location.search = updatedParams.toString();
-        });
-    })();
+      window.location.search = updatedParams.toString();
+    });
+  })();
 </script>

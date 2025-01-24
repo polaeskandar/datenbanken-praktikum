@@ -2,19 +2,25 @@
   {% for item in attributes.menu_items %}
     <div class="col-4 mb-3">
       <div class="card">
-        {% if item.image %}
-            <img
-                src="{{ url_for('static', filename="uploads/images/" + item.image) }}"
-                alt="{{ item.item_name }}"
-                class="card-img-top"
-            />
-          {% else %}
-            <img
-                src="{{ url_for('static', filename="images/no-image.jpg") }}"
-                class="img-fluid rounded-start w-100"
-                alt="No image available"
-            />
-          {% endif %}
+        {% if item.image and item.image.startswith('https') %}
+          <img
+              src="{{ item.image }}"
+              alt="{{ item.name }}"
+              class="card-img-top"
+          />
+        {% elif item.image %}
+          <img
+              src="{{ url_for('static', filename="uploads/images/" + item.image) }}"
+              alt="{{ item.name }}"
+              class="card-img-top"
+          />
+        {% else %}
+          <img
+              src="{{ url_for('static', filename="images/no-image.jpg") }}"
+              class="img-fluid rounded-start w-100"
+              alt="No image available"
+          />
+        {% endif %}
         <div class="card-body">
           <div class="d-flex align-items-baseline justify-content-between text-center">
             <h5 class="card-title">{{ item.name }}</h5>

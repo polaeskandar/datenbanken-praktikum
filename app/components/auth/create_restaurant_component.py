@@ -1,3 +1,5 @@
+from datetime import datetime, UTC
+
 from flask import render_template, url_for, Response, flash, redirect
 from flask_login import login_user
 
@@ -52,6 +54,7 @@ def handle_restaurant_creation(
             description=create_restaurant_form.description.data,
             account=account,
             image=image_path,
+            created_at=datetime.now(UTC),
         )
 
         # Create the associated menu

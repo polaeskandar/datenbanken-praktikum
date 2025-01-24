@@ -1,5 +1,7 @@
 from app import db, socketio
 from app.components.admin.orders_table_component import orders_table_component
+from app.enum.AccountType import AccountType
+from app.models.Account import Account
 from app.models.Order import Order
 from app.enum.OrderStatus import OrderStatus
 from app.services.notification_service import push_notification
@@ -20,6 +22,15 @@ def update_status(order: Order, new_status_value: str | None) -> None:
         return
 
     order.status = OrderStatus(new_status_value)
+
+    # Refunding in case of cancellation
+    if order.status == OrderStatus.CANCELLED:
+        Account.query.filter_by(
+            type=AccountType.PLATFORM
+        ).one_or_none().balance -= round(order.price * (85 / 100), 2)
+        order.restaurant.account.balance -= order.price
+        order.customer.account.balance += order.price
+
     db.session.commit()
 
     socketio.emit(
@@ -36,9 +47,14 @@ def update_status(order: Order, new_status_value: str | None) -> None:
         save_to_db=False,
     )
 
+    customer_text = f"Your order's at ({order.restaurant.name}) status has been updated to {new_status_value}."
+
+    if order.status == OrderStatus.CANCELLED:
+        customer_text += "\nA refund has been issued as balance in your account."
+
     push_notification(
-        category="success",
+        category="primary",
         title="Order Update!",
-        text=f"Your order's at ({order.restaurant.name}) status has been updated to {new_status_value}.",
+        text=customer_text,
         to=order.customer.account,
     )

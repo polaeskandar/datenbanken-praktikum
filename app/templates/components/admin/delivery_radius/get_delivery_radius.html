@@ -1,17 +1,21 @@
 <h2 class="my-3">Currently delivering to</h2>
 
-<div class="card mb-3">
-  <form method="POST" class="d-flex gap-3 card-body align-items-center">
-    <input type="hidden" value="some-id-2">
-    <input type="text" class="form-control" readonly value="47896">
-    <i class="fa-solid fa-x text-danger"></i>
-  </form>
-</div>
-
-<div class="card mb-3">
-  <form method="POST" class="d-flex gap-3 card-body align-items-center">
-    <input type="hidden" value="some-id-2">
-    <input type="text" class="form-control" readonly value="47249">
-    <i class="fa-solid fa-x text-danger"></i>
-  </form>
-</div>
+<ul class="list-group list-group-flush">
+  {% for postal_code in attributes.postal_codes %}
+    <li class="list-group-item d-flex align-items-center justify-content-between">
+      <p class="d-flex align-items-center gap-2">
+        <span>{{ postal_code.postal_code.postal_code }}</span>
+        {% if postal_code.distance != 0 %}
+          <span class="badge text-bg-success">{{ postal_code.distance }} KM</span>
+        {% else %}
+          <span class="badge text-bg-success">Same district</span>
+        {% endif %}
+      </p>
+      <a href="{{ url_for('admin.delete_delivery_radius', postal_code_restaurant_id=postal_code.id) }}">
+        <i class="fa-solid fa-x text-danger"></i>
+      </a>
+    </li>
+  {% else %}
+    <li class="list-group-item">The list seems to be empty. Add more postal code above.</li>
+  {% endfor %}
+</ul>

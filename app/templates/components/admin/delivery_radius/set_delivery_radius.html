@@ -4,13 +4,13 @@
   {{ attributes.set_delivery_radius_form.hidden_tag() }}
 
   <div class="row card-body">
-    <div class="col-6">
-      {{ attributes.set_delivery_radius_form.postal_code(class="form-select") }}
+    <div class="col-5">
+      {{ attributes.set_delivery_radius_form.postal_code(class="form-control", placeholder="Enter the postal code...") }}
     </div>
     <div class="col-5">
       {{ attributes.set_delivery_radius_form.distance(class="form-control", placeholder="Enter the distance in kilometers...") }}
     </div>
-    <div class="col-1">
+    <div class="col-2">
       <div class="d-grid">
         <button class="btn btn-dark"><i class="fa-solid fa-plus me-2"></i>Add</button>
       </div>
